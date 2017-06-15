@@ -1,0 +1,77 @@
+clc
+close all
+clear all
+% all data come
+sim('SplineGeneratorTest.slx') 
+
+y1 = f1.Data(1,:)/pi*180;
+dydx1 = d1.Data(1,:)/pi*180;
+d2ydx21 = s1.Data(1,:)/pi*180;
+
+y2 = f2.Data(1,:)/pi*180;
+dydx2 = d2.Data(1,:)/pi*180;
+d2ydx22 = s2.Data(1,:)/pi*180;
+
+x = x.Data(1,:);
+y = y.Data(1,:);
+phase = 0:0.1:99.9;
+time = (0:0.1:99.9)/100*4;
+
+gaitFigure = figure('Position',[200,0,1000,800]);
+title('Gait results')
+subplot(3,2,1)
+plot(phase,y1)
+hold on
+p1 = plot(phase,y2);
+xlabel('Phase [%]')
+ylabel('Angle [degree]')
+grid on
+
+subplot(3,2,2)
+plot(phase,x)
+hold on
+p2 = plot(phase,y);
+legend('x','y')
+xlabel('Phase [%]')
+ylabel('position [m]')
+grid on
+
+subplot(3,2,3)
+title('x vs y')
+p3 = plot(x,y,'Linewidth',2);
+xlabel('x [m]')
+ylabel('y [m]')
+grid on
+
+subplot(3,2,4)
+title('Hip and Knee Velocity')
+plot(time,dydx1,'Linewidth',2);
+hold on
+plot(time,dydx2,'Linewidth',2);
+xlabel('Time [s]')
+ylabel('Velocity [RPM]')
+grid on
+
+subplot(3,2,5)
+title('Hip and Knee Acceleration')
+plot(time,d2ydx21*pi/180,'Linewidth',2);
+hold on
+plot(time,d2ydx22*pi/180,'Linewidth',2);
+xlabel('Time [s]')
+ylabel('Acceleration [rad/s^2]')
+grid on
+
+subplot(3,2,6)
+title('Hip and Knee Acceleration')
+plot(y1,dydx1,'Linewidth',2);
+hold on
+plot(y1,dydx1,'Linewidth',2);
+xlabel('Angle [rad]')
+ylabel('Acceleration [RPM]')
+grid on
+
+%// modified jet-colormap
+cd = [uint8(jet(1000)*255) uint8(ones(1000,1))]'; 
+drawnow
+set(p3.Edge, 'ColorBinding','interpolated', 'ColorData',cd)
+%saveas(gaitFigure,'GaitResults.jpg')
