@@ -22,7 +22,7 @@ function varargout = GUIDEKeyEventGen(varargin)
 
 % Edit the above text to modify the response to help GUIDEKeyEventGen
 
-% Last Modified by GUIDE v2.5 14-Jun-2017 20:05:07
+% Last Modified by GUIDE v2.5 16-Jun-2017 09:44:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -58,18 +58,30 @@ handles.output = hObject;
 % Update handles structure
 guidata(hObject, handles);
 
-x=str2num(get(handles.KeyEventPhaseHip,'String'));
-y=str2num(get(handles.KeyEventQHip,'String'));
-    for n=1:length(x);
-    h(n) = impoint(handles.GraphQHip,x(n), y(n))
-    %setPositionContraintFcn(h(n)
-    end
+KneeXLim=[0 100];
+KneeYLim=[0 120];
+XXLim=[0 100];
+XYLim=[-10 60];
 
+handles.KneeXLim=KneeXLim;
+handles.KneeYLim=KneeYLim;
+handles.XXLim=XXLim;
+handles.XYLim=XYLim;
 
-    
+%Draw Graphs at initialization
+%DrawPoints(hObject, eventdata, handles, inputtype, XLim, YLim);
+%inputtype: Defines the graph to draw ('Knee' or 'X')
+%XLim: X Axis limit in the form [Xmin Xmax]
+%YLim: Same as XLim
+DrawPoints(handles.GraphQKnee, eventdata, handles);
+DrawPoints(handles.GraphX, eventdata, handles);
+
+% Update handles structure
+%guidata(hObject, handles);
 
 % UIWAIT makes GUIDEKeyEventGen wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
+
 
 
 % --- Outputs from this function are returned to the command line.
@@ -84,19 +96,21 @@ varargout{1} = handles.output;
 
 
 
-function KeyEventPhaseHip_Callback(hObject, eventdata, handles)
-% hObject    handle to KeyEventPhaseHip (see GCBO)
+function KeyEventPhaseKnee_Callback(hObject, eventdata, handles)
+% hObject    handle to KeyEventPhaseKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+% Hints: get(hObject,'String') returns contents of KeyEventPhaseKnee as text
+%        str2double(get(hObject,'String')) returns contents of KeyEventPhaseKnee as a double
 
-% Hints: get(hObject,'String') returns contents of KeyEventPhaseHip as text
-%        str2double(get(hObject,'String')) returns contents of KeyEventPhaseHip as a double
+DrawPoints(handles.GraphQKnee, eventdata, handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
-function KeyEventPhaseHip_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to KeyEventPhaseHip (see GCBO)
+function KeyEventPhaseKnee_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to KeyEventPhaseKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -107,20 +121,18 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-
-
-function KeyEventQHip_Callback(hObject, eventdata, handles)
-% hObject    handle to KeyEventQHip (see GCBO)
+function KeyEventQKnee_Callback(hObject, eventdata, handles)
+% hObject    handle to KeyEventQKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of KeyEventQHip as text
-%        str2double(get(hObject,'String')) returns contents of KeyEventQHip as a double
-
+% Hints: get(hObject,'String') returns contents of KeyEventQKnee as text
+%        str2double(get(hObject,'String')) returns contents of KeyEventQKnee as a double
+DrawPoints(handles.GraphQKnee, eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
-function KeyEventQHip_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to KeyEventQHip (see GCBO)
+function KeyEventQKnee_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to KeyEventQKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -130,48 +142,129 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-
-function KeyEventdQHip_Callback(hObject, eventdata, handles)
-% hObject    handle to KeyEventdQHip (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of KeyEventdQHip as text
-%        str2double(get(hObject,'String')) returns contents of KeyEventdQHip as a double
-
-
 % --- Executes during object creation, after setting all properties.
-function KeyEventdQHip_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to KeyEventdQHip (see GCBO)
+function GraphQKnee_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to GraphQKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function GraphQHip_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to GraphQHip (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-% Hint: place code in OpeningFcn to populate GraphQHip
+% Hint: place code in OpeningFcn to populate GraphQKnee
 
 
 
 % --- Executes on mouse press over axes background.
-function GraphQHip_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to GraphQHip (see GCBO)
+function GraphQKnee_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to GraphQKnee (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles = guihandles;
+pointMoved = gco;
+pos = getPosition(pointMoved);
+
+guidata(hObject, handles);
+
+
+
+% --- Executes during object deletion, before destroying properties.
+function GraphQKnee_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to GraphQKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes during object deletion, before destroying properties.
-function GraphQHip_DeleteFcn(hObject, eventdata, handles)
-% hObject    handle to GraphQHip (see GCBO)
+function KeyEventPhaseX_Callback(hObject, eventdata, handles)
+% hObject    handle to KeyEventPhaseX (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of KeyEventPhaseX as text
+%        str2double(get(hObject,'String')) returns contents of KeyEventPhaseX as a double
+DrawPoints(handles.GraphX, eventdata, handles);
+
+% --- Executes during object creation, after setting all properties.
+function KeyEventPhaseX_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to KeyEventPhaseX (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function KeyEventX_Callback(hObject, eventdata, handles)
+% hObject    handle to KeyEventX (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of KeyEventX as text
+%        str2double(get(hObject,'String')) returns contents of KeyEventX as a double
+DrawPoints(handles.GraphX, eventdata, handles);
+
+% --- Executes during object creation, after setting all properties.
+function KeyEventX_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to KeyEventX (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function edit6_Callback(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit6 as text
+%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit6_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function KeyEventdQKnee_Callback(hObject, eventdata, handles)
+% hObject    handle to KeyEventdQKnee (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of KeyEventdQKnee as text
+%        str2double(get(hObject,'String')) returns contents of KeyEventdQKnee as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function KeyEventdQKnee_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to KeyEventdQKnee (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on key press with focus on KeyEventPhaseKnee and none of its controls.
+function KeyEventPhaseKnee_KeyPressFcn(hObject, eventdata, handles)
+% hObject    handle to KeyEventPhaseKnee (see GCBO)
+% eventdata  structure with the following fields (see MATLAB.UI.CONTROL.UICONTROL)
+%	Key: name of the key that was pressed, in lower case
+%	Character: character interpretation of the key(s) that was pressed
+%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
 % handles    structure with handles and user data (see GUIDATA)
