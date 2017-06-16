@@ -94,8 +94,6 @@ function varargout = GUIDEKeyEventGen_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-
-
 function KeyEventPhaseKnee_Callback(hObject, eventdata, handles)
 % hObject    handle to KeyEventPhaseKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -103,7 +101,6 @@ function KeyEventPhaseKnee_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of KeyEventPhaseKnee as text
 %        str2double(get(hObject,'String')) returns contents of KeyEventPhaseKnee as a double
-
 DrawPoints(handles.GraphQKnee, eventdata, handles);
 
 
@@ -156,10 +153,6 @@ function GraphQKnee_ButtonDownFcn(hObject, eventdata, handles)
 % hObject    handle to GraphQKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles = guihandles;
-pointMoved = gco;
-pos = getPosition(pointMoved);
-
 guidata(hObject, handles);
 
 
