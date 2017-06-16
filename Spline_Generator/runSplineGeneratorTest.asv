@@ -17,9 +17,6 @@ knee_rads2 = knee.ddknee.Data(1,:); %[rad/s^2]
 %Foot
 x = x.x.Data(1,:);
 y = y.y.Data(1,:);
-foot_m = foot.foot.Data(1,:);
-foot_v = foot.dfoot.Data(1,:);
-foot_a = foot.ddfoot.Data(1,:);
 
 
 %Phase and time
@@ -92,8 +89,8 @@ set(p3.Edge, 'ColorBinding','interpolated', 'ColorData',cd)
 
 figure
 subplot(3,1,1)
-plot(foot_m)
+plot(generatedSplines.p.Data(1,:))
 subplot(3,1,2)
-plot(foot_v)
+plot(generatedSplines.dpdx.Data(1,:))
 subplot(3,1,3)
-plot(foot_a)
+plot(generatedSplines.d2pdx2.Data(1,:))
