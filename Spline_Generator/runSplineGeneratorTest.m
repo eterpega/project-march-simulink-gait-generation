@@ -2,6 +2,7 @@ clc
 close all
 clear all
 % all data comes in as [rad], [rad/s] etc.
+
 sim('SplineGeneratorTest.slx') 
 %%
 %Hip
