@@ -33,9 +33,8 @@ else
     fcn=makeConstrainToRectFcn('impoint',GraphHandle.XLim,GraphHandle.YLim);
         for n=1:length(x);
         h = impoint(GraphHandle,x(n),y(n));
+        set(h, 'Tag', strcat('h',num2str(n)));
         setPositionConstraintFcn(h,fcn);
-        %pos = getPosition(h);
-        %setString(h,[num2str(pos(1)) ', ' num2str(pos(2))]);
         addNewPositionCallback(h,@(varargin)UpdatePosText(h));
         end
 end
