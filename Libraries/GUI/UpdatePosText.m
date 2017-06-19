@@ -50,6 +50,11 @@ YString=strcat('[',YString,']');
 set(PhaseHandle,'String',PhaseString);
 set(YHandle,'String',YString);
 
+set_param([bdroot '/keyEventPhase'],'Value',strcat('[',num2str(position(1,:)),']'));
+set_param([bdroot '/keyEventy'],'Value',strcat('[',num2str(position(2,:)),']'));
+set_param([bdroot '/keyEventdy'],'Value',strcat('[',num2str(position(2,:)),']'));
+set_param([bdroot '/keyEventAmount'],'Value',num2str(length(position(1,:))));
+
 %Update Handles
 guidata(graph,handles);
 end
