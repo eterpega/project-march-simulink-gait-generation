@@ -53,20 +53,16 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to GUIDEKeyEventGen (see VARARGIN)
 
 % Choose default command line output for GUIDEKeyEventGen
+
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-KneeXLim=[0 100];
-KneeYLim=[0 120];
-XXLim=[0 100];
-XYLim=[-10 60];
-
-handles.KneeXLim=KneeXLim;
-handles.KneeYLim=KneeYLim;
-handles.XXLim=XXLim;
-handles.XYLim=XYLim;
+handles.KneeXLim=[0 100];
+handles.KneeYLim=[0 120];
+handles.XXLim=[0 100];
+handles.XYLim=[-10 60];
 
 %Draw Graphs at initialization
 %DrawPoints(hObject, eventdata, handles, inputtype, XLim, YLim);
@@ -76,8 +72,10 @@ handles.XYLim=XYLim;
 DrawPoints(handles.GraphQKnee, eventdata, handles);
 DrawPoints(handles.GraphX, eventdata, handles);
 
+
 % Update handles structure
-%guidata(hObject, handles);
+guidata(hObject, handles);
+
 
 % UIWAIT makes GUIDEKeyEventGen wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
