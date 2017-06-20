@@ -53,8 +53,12 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to GUIDEKeyEventGen (see VARARGIN)
 
 % Choose default command line output for GUIDEKeyEventGen
-myfile = '../Complete_Model/SplineGeneratorTest.slx';
-load_system(myfile);
+
+%myfile = '../../Complete_Model/SplineGeneratorTest';
+%cd('../../Complete_Model')
+%load_system('SplineGeneratorTest')
+%cd('../Libraries/GUI')
+%mh=get_param(SplineGeneratorTest,'handle')
 
 handles.output = hObject;
 

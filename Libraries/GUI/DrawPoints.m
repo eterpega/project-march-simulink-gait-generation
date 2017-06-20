@@ -52,8 +52,8 @@ position = position';
 guidata(hObject,handles);
 
 %Define name string of Simulink blocks to update
-%TopLevelSyst='/SplineGeneratorTest';
-SubsystemName1='KeyEventGeneratorRefMod';
+%TopLevelSyst='SplineGeneratorTest';
+SubsystemName1='/KeyEventGeneratorRefMod';
 SubsystemName2='/Subsystem1';
 CompleteBlockName=[SubsystemName1 SubsystemName2];
 PhaseBlock=[CompleteBlockName '/keyEventPhase' type];
