@@ -1,4 +1,15 @@
+work/*
 */slprj/*
 slprj/*
 *.autosave
 *.original
+*.dlm
+*_rtw/
+ecat_config_xml_*.c
+build/
+*.asv
+*_sfun.mexw64
+*bio.m
+*pt.m
+*ref.m
+*_slrt_rtw/
