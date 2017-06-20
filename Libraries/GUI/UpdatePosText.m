@@ -7,16 +7,12 @@ switch get(graphhandle,'Tag')
         PhaseHandle=handles.KeyEventPhaseKnee;
         YHandle=handles.KeyEventQKnee;
         dYHandle=handles.KeyEventdQKnee;
-        GraphHandle.XLim=handles.KneeXLim;
-        GraphHandle.YLim=handles.KneeYLim;
         type='1';
     case 'GraphX'
         GraphHandle=handles.GraphX;
         PhaseHandle=handles.KeyEventPhaseX;
         YHandle=handles.KeyEventX;
         dYHandle=handles.KeyEventdYX;
-        GraphHandle.XLim=handles.XXLim;
-        GraphHandle.YLim=handles.XYLim;
         type='2';
     otherwise 
         error('ERROR: Inputtype not allowed')
@@ -33,27 +29,9 @@ position = sortrows(position,1);
 %Transpose position matrix
 position = position';
 
-%initialise strings
-PhaseString='';
-YString='';
+setguistring(position(1,:),PhaseHandle,'String','%2.1f');
+setguistring(position(2,:),YHandle,'String','%2.1f');
 dY=str2num(get(dYHandle,'String'));
-
-%write coordinates to strings
-for n=1:length(position(1,:))
-    PhaseString=[PhaseString,num2str(position(1,n),'%2.1f'),', '];
-    YString=[YString,num2str(position(2,n),'%2.1f'),', '];
-end
-
-%%String formatting
-%Remove last comma
-PhaseString=PhaseString(1:end-2);
-YString=YString(1:end-2);
-%Put brackets around
-PhaseString=strcat('[',PhaseString,']');
-YString=strcat('[',YString,']');
-%Set property equal to string
-set(PhaseHandle,'String',PhaseString);
-set(YHandle,'String',YString);
 
 %Define name string of Simulink blocks to update
 SubsystemName='/Subsystem1';
