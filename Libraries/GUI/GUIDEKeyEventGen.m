@@ -76,11 +76,8 @@ DrawPoints(handles.GraphX, eventdata, handles);
 % Update handles structure
 guidata(hObject, handles);
 
-
 % UIWAIT makes GUIDEKeyEventGen wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
-
-
 
 % --- Outputs from this function are returned to the command line.
 function varargout = GUIDEKeyEventGen_OutputFcn(hObject, eventdata, handles) 
@@ -214,7 +211,7 @@ function KeyEventdYX_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of KeyEventdYX as text
 %        str2double(get(hObject,'String')) returns contents of KeyEventdYX as a double
-
+DrawPoints(handles.GraphX, eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
 function KeyEventdYX_CreateFcn(hObject, eventdata, handles)
@@ -236,7 +233,7 @@ function KeyEventdQKnee_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of KeyEventdQKnee as text
 %        str2double(get(hObject,'String')) returns contents of KeyEventdQKnee as a double
-
+DrawPoints(handles.GraphQKnee, eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
 function KeyEventdQKnee_CreateFcn(hObject, eventdata, handles)
