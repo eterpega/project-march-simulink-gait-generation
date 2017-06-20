@@ -67,10 +67,10 @@ guidata(hObject, handles);
 
 %Default values at startup
 InitPhaseKnee   =	[0.0, 20.8, 45.4, 66.2, 84.6, 100.0];
-InitQKnee       =	[0.0, 31.1, 18.3, 37.0, 60.9, 30.0];
+InitQKnee       =	[0.0, 31.1, 18.3, 37.0, 60.9, 0.0];
 InitdQKnee      =	[0, 1, -1, 0, 1, 0];
 InitPhaseX      =   [0.0, 17.1, 38.9, 71.8, 100.0];
-InitYX          =   [18.3, 2.1, -10.0, 1.6 , 6.5];
+InitYX          =   [6.5, 2.1, 10.0, 20 , 30];
 InitdYX         =   [0, 1, -1, 0, 1];
 
 %Define graph limit values GUI
