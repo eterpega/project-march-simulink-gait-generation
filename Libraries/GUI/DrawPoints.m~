@@ -52,7 +52,7 @@ else
 position = sortrows(position,1);
 %Transpose position matrix
 position = position';
-dy=(get(dYHandle,'String'))
+dy=str2num(get(dYHandle,'String'))
 isstring(dy)
 
 guidata(hObject,handles);
