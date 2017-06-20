@@ -8,6 +8,7 @@ switch hObject
         GraphHandle=handles.GraphQKnee;
         PhaseHandle=handles.KeyEventPhaseKnee;
         YHandle=handles.KeyEventQKnee;
+        dYHandle=handles.KeyEventdQKnee;
         GraphHandle.XLim=handles.KneeXLim;
         GraphHandle.YLim=handles.KneeYLim;
     case handles.GraphX
@@ -15,6 +16,7 @@ switch hObject
         GraphHandle=handles.GraphX;
         PhaseHandle=handles.KeyEventPhaseX;
         YHandle=handles.KeyEventX;
+        dYHandle=handles.KeyEventdYX;
         GraphHandle.XLim=handles.XXLim;
         GraphHandle.YLim=handles.XYLim;
     otherwise 
@@ -52,14 +54,15 @@ end
 %Sort points on ascending X position
 position = sortrows(position,1);
 %Transpose position matrix
-position = position'
+position = position';
+dy=get(dYHandle,'String');
 
 guidata(hObject,handles);
 %get_param([bdroot '/keyEventPhase'],'ObjectParameters')
 %get_param([bdroot '/keyEventPhase'],'Name')
 set_param([bdroot '/keyEventPhase'],'Value',strcat('[',num2str(position(1,:)),']'));
 set_param([bdroot '/keyEventy'],'Value',strcat('[',num2str(position(2,:)),']'));
-set_param([bdroot '/keyEventdy'],'Value',strcat('[',num2str(position(2,:)),']'));
+set_param([bdroot '/keyEventdy'],'Value',strcat('[',dy,']'));
 set_param([bdroot '/keyEventAmount'],'Value',num2str(length(position(1,:))));
 %set_param([bdroot '/selection'],'Value',num2str());
 %set_param([bdroot '/nSP'],'Value',num2str(position(1,:)));
