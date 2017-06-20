@@ -1,9 +1,11 @@
-function []= RunSimulation()
-clear all
+function []= RunSimulation(fighandle)
+set(fighandle, 'HandleVisibility', 'off');
 close all
+set(fighandle, 'HandleVisibility', 'on');
+clear all
 clc
 
-sim('SplineGeneratorTest.slx') 
+sim('SplineGeneratorTest') 
 %%
 %Hip
 hip_deg = hip.hip.Data(1,:)/pi*180; %[deg]

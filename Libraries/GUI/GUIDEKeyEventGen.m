@@ -288,7 +288,7 @@ function RunSimpushbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to RunSimpushbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-RunSimulation()
+RunSimulation(gcf)
 
 
 % --- If Enable == 'on', executes on mouse press in 5 pixel border.

@@ -53,13 +53,15 @@ guidata(hObject,handles);
 
 %Define name string of Simulink blocks to update
 %TopLevelSyst='SplineGeneratorTest';
-SubsystemName1='/KeyEventGeneratorRefMod';
+SubsystemName1='KeyEventGeneratorRefMod';
 SubsystemName2='/Subsystem1';
 CompleteBlockName=[SubsystemName1 SubsystemName2];
+%CompleteBlockName=[ TopLevelSyst SubsystemName1 SubsystemName2];
 PhaseBlock=[CompleteBlockName '/keyEventPhase' type];
 YBlock=[CompleteBlockName '/keyEventy' type];
 dYBlock=[CompleteBlockName '/keyEventdY' type];
 AmountBlock=[CompleteBlockName '/keyEventAmount' type];
+%strcmp('KeyEventGeneratorRefMod/Subsystem1/keyEventPhase1',PhaseBlock)
 
 %Append NaN to reach dim of 20
 PhaseBlockString=Nanfill(position(1,:), 20);
