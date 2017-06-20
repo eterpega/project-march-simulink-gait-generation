@@ -34,7 +34,7 @@ position = position';
 %initialise strings
 PhaseString='';
 YString='';
-dY=str2num(get(dYHandle,'String'));
+dY=get(dYHandle,'String')
 
 %write coordinates to strings
 for n=1:length(position(1,:))
@@ -53,10 +53,10 @@ YString=strcat('[',YString,']');
 set(PhaseHandle,'String',PhaseString);
 set(YHandle,'String',YString);
 
-%%Update values in Simulink (use position() because no rounding)
+%%Update values in Simulink
 set_param([bdroot '/keyEventPhase'],'Value',strcat('[',num2str(position(1,:)),']'));
 set_param([bdroot '/keyEventy'],'Value',strcat('[',num2str(position(2,:)),']'));
-set_param([bdroot '/keyEventdY'],'Value',strcat('[',num2str(dY),']'));
+set_param([bdroot '/keyEventdY'],'Value',strcat('[',dY,']'));
 set_param([bdroot '/keyEventAmount'],'Value',num2str(length(position(1,:))));
 
 %Update Handles

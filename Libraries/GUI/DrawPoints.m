@@ -24,17 +24,18 @@ end
 %Clear figure of previous points
 cla(GraphHandle);
 %Get data from values in GUI, assign to x and y
-x=str2num(get(PhaseHandle,'String'));
-y=str2num(get(YHandle,'String'));
+X=str2num(get(PhaseHandle,'String'));
+Y=str2num(get(YHandle,'String'));
+dY=str2num(get(dYHandle,'String'));
 
 %Check same that x and y have same length
-if length(x)~=length(y)
+if length(X)~=length(Y)
     error('Phase and Y vector do not have same length')
 else
     %Set draggable points on figure and limit them to axis of figure
     fcn=makeConstrainToRectFcn('impoint',GraphHandle.XLim,GraphHandle.YLim);
-        for n=1:length(x);
-        h(n) = impoint(GraphHandle,x(n),y(n));
+        for n=1:length(X);
+        h(n) = impoint(GraphHandle,X(n),Y(n));
         setPositionConstraintFcn(h(n),fcn);
         %Write impoint handles and position to UserData field of Graph
         GraphHandle.UserData.Points{n}=h(n);
@@ -43,31 +44,19 @@ else
         addNewPositionCallback(h(n),@(varargin)UpdatePosText(h(n),handles));
         position(n,:)=getPosition(h(n));
         end       
-%for n=1:size(GraphHandle.UserData.Points,2)
-%    hother=GraphHandle.UserData.Points{n};
-%    position(n,:)=getPosition(hother);
-%end
 
 %Sort points on ascending X position
 position = sortrows(position,1);
 %Transpose position matrix
 position = position';
-dY=(get(dYHandle,'String'))
-%isstring(dY)
 
 %Update Handles
 guidata(hObject,handles);
 
-currentpath = cd('..');
-parentpath = pwd();
-modelpath=[parentpath];
-
-%Write parameters to Simulink
-%get_param([bdroot '/keyEventPhase'],'ObjectParameters')
-%get_param([bdroot '/keyEventPhase'],'Name')
-set_param([modelpath '/keyEventPhase'],'Value',strcat('[',num2str(position(1,:)),']'));
+%Write values in Simulink
+set_param([bdroot '/keyEventPhase'],'Value',strcat('[',num2str(position(1,:)),']'));
 set_param([bdroot '/keyEventy'],'Value',strcat('[',num2str(position(2,:)),']'));
-set_param([bdroot '/keyEventdY'],'Value',strcat('[',dY,']'));
+set_param([bdroot '/keyEventdY'],'Value',strcat('[',num2str(dY),']'));
 set_param([bdroot '/keyEventAmount'],'Value',num2str(length(position(1,:))));
 %set_param([bdroot '/selection'],'Value',num2str());
 %set_param([bdroot '/nSP'],'Value',num2str(position(1,:)));
