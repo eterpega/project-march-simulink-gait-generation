@@ -1,5 +1,5 @@
 function DrawPoints(hObject, eventdata, handles)
-guidata(hObject, handles);
+%guidata(hObject, handles);
 
 %Define Graph type
 switch hObject
@@ -8,16 +8,12 @@ switch hObject
         PhaseHandle=handles.KeyEventPhaseKnee;
         YHandle=handles.KeyEventQKnee;
         dYHandle=handles.KeyEventdQKnee;
-        GraphHandle.XLim=handles.KneeXLim;
-        GraphHandle.YLim=handles.KneeYLim;
         type='1';
     case handles.GraphX
         GraphHandle=handles.GraphX;
         PhaseHandle=handles.KeyEventPhaseX;
         YHandle=handles.KeyEventX;
         dYHandle=handles.KeyEventdYX;
-        GraphHandle.XLim=handles.XXLim;
-        GraphHandle.YLim=handles.XYLim;
         type='2';
     otherwise 
         error('ERROR: Inputtype not allowed')
@@ -63,7 +59,6 @@ dYBlock=[SubsystemName '/keyEventdY' type];
 AmountBlock=[SubsystemName '/keyEventAmount' type];
 
 %Append NaN to reach dim of 20
-%make function
 PhaseBlockString=Nanfill(position(1,:), 20);
 YBlockString=Nanfill(position(2,:), 20);
 dYBlockString=Nanfill(dY, 20);
@@ -73,7 +68,7 @@ set_param([bdroot PhaseBlock],'Value',PhaseBlockString);
 set_param([bdroot YBlock],'Value',YBlockString);
 set_param([bdroot dYBlock],'Value',dYBlockString);
 set_param([bdroot AmountBlock],'Value',num2str(length(position(1,:))));
-set_param([bdroot SubsystemName '/selection'],'Value','[1 1 0 0]');
+set_param([bdroot SubsystemName '/selection'],'Value','[0 1 1 0]');
 end
 
 
