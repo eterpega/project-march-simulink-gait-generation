@@ -10,6 +10,7 @@ switch hObject
         dYHandle=handles.KeyEventdQKnee;
         GraphHandle.XLim=handles.KneeXLim;
         GraphHandle.YLim=handles.KneeYLim;
+        type='1';
     case handles.GraphX
         GraphHandle=handles.GraphX;
         PhaseHandle=handles.KeyEventPhaseX;
@@ -17,6 +18,7 @@ switch hObject
         dYHandle=handles.KeyEventdYX;
         GraphHandle.XLim=handles.XXLim;
         GraphHandle.YLim=handles.XYLim;
+        type='2';
     otherwise 
         error('ERROR: Inputtype not allowed')
 end
@@ -53,12 +55,19 @@ position = position';
 %Update Handles
 guidata(hObject,handles);
 
+%Define name string of Simulink blocks to update
+SubsystemName='/Subsystem1';
+PhaseBlock=[SubsystemName '/keyEventPhase' type];
+YBlock=[SubsystemName '/keyEventy' type];
+dYBlock=[SubsystemName '/keyEventdY' type];
+AmountBlock=[SubsystemName '/keyEventAmount' type];
+
 %Write values in Simulink
-set_param([bdroot '/keyEventPhase'],'Value',strcat('[',num2str(position(1,:)),']'));
-set_param([bdroot '/keyEventy'],'Value',strcat('[',num2str(position(2,:)),']'));
-set_param([bdroot '/keyEventdY'],'Value',strcat('[',num2str(dY),']'));
-set_param([bdroot '/keyEventAmount'],'Value',num2str(length(position(1,:))));
-%set_param([bdroot '/selection'],'Value',num2str());
+set_param([bdroot PhaseBlock],'Value',strcat('[',num2str(position(1,:)),']'));
+set_param([bdroot YBlock],'Value',strcat('[',num2str(position(2,:)),']'));
+set_param([bdroot dYBlock],'Value',strcat('[',num2str(dY),']'));
+set_param([bdroot AmountBlock],'Value',num2str(length(position(1,:))));
+set_param([bdroot SubsystemName '/selection'],'Value','[1 1 0 0]');
 %set_param([bdroot '/nSP'],'Value',num2str(position(1,:)));
 end
 
