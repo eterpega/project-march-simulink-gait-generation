@@ -22,7 +22,7 @@ function varargout = GUIDEKeyEventGen(varargin)
 
 % Edit the above text to modify the response to help GUIDEKeyEventGen
 
-% Last Modified by GUIDE v2.5 19-Jun-2017 17:52:58
+% Last Modified by GUIDE v2.5 20-Jun-2017 17:13:59
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -53,6 +53,8 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to GUIDEKeyEventGen (see VARARGIN)
 
 % Choose default command line output for GUIDEKeyEventGen
+myfile = '../Complete_Model/SplineGeneratorTest.slx';
+load_system(myfile);
 
 handles.output = hObject;
 
@@ -274,4 +276,20 @@ function KeyEventPhaseKnee_KeyPressFcn(hObject, eventdata, handles)
 %	Key: name of the key that was pressed, in lower case
 %	Character: character interpretation of the key(s) that was pressed
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in RunSimpushbutton.
+function RunSimpushbutton_Callback(hObject, eventdata, handles)
+% hObject    handle to RunSimpushbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+RunSimulation()
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over RunSimpushbutton.
+function RunSimpushbutton_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to RunSimpushbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

@@ -1,7 +1,7 @@
-clc
-close all
+function []= RunSimulation()
 clear all
-% all data comes in as [rad], [rad/s] etc.
+close all
+clc
 
 sim('SplineGeneratorTest.slx') 
 %%
@@ -99,5 +99,4 @@ plot(foot_v)
 title('Foot Velocity (m/s)')
 subplot(3,1,3)
 plot(foot_a)
-title('Foot Acceleration')
-
+title('Foot Acceleration (m^2/s)')
