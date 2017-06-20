@@ -81,10 +81,11 @@ setguistring(InitPhaseX,handles.KeyEventPhaseX,'String','%2.1f');
 setguistring(InitYX,handles.KeyEventX,'String','%2.1f');
 setguistring(InitdYX,handles.KeyEventdYX,'String','%2.1f');
 
+%Set Graph Axis limits
 set(handles.GraphQKnee,'XLim',KneeXLim);
-set(handles.GraphQKnee,'XLim',KneeXLim);
+set(handles.GraphQKnee,'YLim',KneeYLim);
 set(handles.GraphX,'XLim',XXLim);
-set(handles.GraphX,'XLim',XYLim);
+set(handles.GraphX,'YLim',XYLim);
 
 %Draw Graphs at initialization
 %DrawPoints(hObject, eventdata, handles);

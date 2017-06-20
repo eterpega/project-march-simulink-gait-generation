@@ -52,11 +52,14 @@ position = position';
 guidata(hObject,handles);
 
 %Define name string of Simulink blocks to update
-SubsystemName='/Subsystem1';
-PhaseBlock=[SubsystemName '/keyEventPhase' type];
-YBlock=[SubsystemName '/keyEventy' type];
-dYBlock=[SubsystemName '/keyEventdY' type];
-AmountBlock=[SubsystemName '/keyEventAmount' type];
+%TopLevelSyst='/SplineGeneratorTest';
+SubsystemName1='KeyEventGeneratorRefMod';
+SubsystemName2='/Subsystem1';
+CompleteBlockName=[SubsystemName1 SubsystemName2];
+PhaseBlock=[CompleteBlockName '/keyEventPhase' type];
+YBlock=[CompleteBlockName '/keyEventy' type];
+dYBlock=[CompleteBlockName '/keyEventdY' type];
+AmountBlock=[CompleteBlockName '/keyEventAmount' type];
 
 %Append NaN to reach dim of 20
 PhaseBlockString=Nanfill(position(1,:), 20);
@@ -64,11 +67,12 @@ YBlockString=Nanfill(position(2,:), 20);
 dYBlockString=Nanfill(dY, 20);
 
 %Write values in Simulink
-set_param([bdroot PhaseBlock],'Value',PhaseBlockString);
-set_param([bdroot YBlock],'Value',YBlockString);
-set_param([bdroot dYBlock],'Value',dYBlockString);
-set_param([bdroot AmountBlock],'Value',num2str(length(position(1,:))));
-set_param([bdroot SubsystemName '/selection'],'Value','[0 1 1 0]');
+set_param(PhaseBlock,'Value',PhaseBlockString);
+set_param(PhaseBlock,'Value',PhaseBlockString);
+set_param(YBlock,'Value',YBlockString);
+set_param(dYBlock,'Value',dYBlockString);
+set_param(AmountBlock,'Value',num2str(length(position(1,:))));
+set_param([CompleteBlockName '/selection'],'Value','[0 1 1 0]');
 end
 
 

@@ -68,10 +68,10 @@ InitYX          =   [18.3, 2.1, -10.0, 1.6 , 6.5];
 InitdYX         =   [0, 1, -1, 0, 1];
 
 %Define graph limit values GUI
-handles.KneeXLim=[0 100];
-handles.KneeYLim=[0 120];
-handles.XXLim=[0 100];
-handles.XYLim=[-10 60];
+KneeXLim=[0 100];
+KneeYLim=[0 120];
+XXLim=[0 100];
+XYLim=[-10 60];
 
 %Write default values to GUI
 setguistring(InitPhaseKnee,handles.KeyEventPhaseKnee,'String','%2.1f');
@@ -81,16 +81,16 @@ setguistring(InitPhaseX,handles.KeyEventPhaseX,'String','%2.1f');
 setguistring(InitYX,handles.KeyEventX,'String','%2.1f');
 setguistring(InitdYX,handles.KeyEventdYX,'String','%2.1f');
 
-
+%Set Graph Axis limits
+set(handles.GraphQKnee,'XLim',KneeXLim);
+set(handles.GraphQKnee,'XLim',KneeXLim);
+set(handles.GraphX,'XLim',XXLim);
+set(handles.GraphX,'Lim',XYLim);
 
 %Draw Graphs at initialization
-%DrawPoints(hObject, eventdata, handles, inputtype, XLim, YLim);
-%inputtype: Defines the graph to draw ('Knee' or 'X')
-%XLim: X Axis limit in the form [Xmin Xmax]
-%YLim: Same as XLim
+%DrawPoints(hObject, eventdata, handles);
 DrawPoints(handles.GraphQKnee, eventdata, handles);
 DrawPoints(handles.GraphX, eventdata, handles);
-
 
 % Update handles structure
 guidata(hObject, handles);
