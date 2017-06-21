@@ -311,7 +311,7 @@ function savegaitpushbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to savegaitpushbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-%assignin('base','allData',get(handles));
-assignin('base','kneeData',get(handles.graphQKnee,'UserData'));
-assignin('base','xFootData',get(handles.graphX,'UserData'));
-evalin('base', 'save(''GaitData.mat'',''kneeData'',''xFootData'')');
+assignin('base','kneeData',get(handles.graphQKnee.UserData));
+assignin('base','xFootData',get(handles.graphX.UserData));
+evalin('base', 'save('FileName.mat',)');
+save('GaitData.mat','kneeData','xFootData');
