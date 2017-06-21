@@ -100,6 +100,7 @@ draw_points(handles.graphX, eventdata, handles);
 
 % Update handles structure
 guidata(hObject, handles);
+%[phaseEvent1, phaseEvent2, selected] = get_gait_data(handles)
 
 % UIWAIT makes GUIDEKeyEventGen wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -288,7 +289,7 @@ function RunSimpushbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to RunSimpushbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-run_simulation(gcf)
+%run_simulation(gcf)
 
 
 % --- If Enable == 'on', executes on mouse press in 5 pixel border.
