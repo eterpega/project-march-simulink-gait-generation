@@ -1,4 +1,8 @@
-function []= RunSimulation(fighandle)
+function []= run_simulation(fighandle)
+%%Runs simulation of model SplineGeneratorTest and plots important results.
+%Input: fighandle (of gui); Used to make sure the gui window is not closed
+%by the close all command
+
 %Close all figures except GUI
 set(fighandle, 'HandleVisibility', 'off');
 close all

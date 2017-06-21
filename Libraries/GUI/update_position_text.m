@@ -1,4 +1,11 @@
 function update_position_text(h,handles)
+%%update_position_text is added with the addNewPositionCallback of every
+%impoint added to the GUI Graphs. 
+%I.e this function is called everytime an impoint is dragged.
+%Input definition:
+%h: handle of impoint being dragged
+%handles: structure containing handles of all GUI objects
+
 graphHandle=get(h,'parent');
 
 switch get(graphHandle,'Tag')
@@ -18,7 +25,7 @@ switch get(graphHandle,'Tag')
         error('ERROR: Inputtype not allowed')
 end
 
-%Get point positions
+%Get point positions for UserData field within Graph object
 for n=1:size(graphHandle.UserData.Points,2)
     impoints=graphHandle.UserData.Points{n};
     position(n,:)=getPosition(impoints);
@@ -34,7 +41,6 @@ set_gui_string(position(2,:),yHandle,'String','%2.1f');
 dY=str2num(get(dYHandle,'String'));
 
 %Define name string of Simulink blocks to update
-%TopLevelSyst='/SplineGeneratorTest';
 subsystemName1='KeyEventGeneratorRefMod';
 subsystemName2='/Subsystem1';
 completeBlockName=[subsystemName1 subsystemName2];

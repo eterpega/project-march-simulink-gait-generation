@@ -1,5 +1,10 @@
 function draw_points(hObject, eventdata, handles)
-%guidata(hObject, handles);
+%%draw_points draws impoints on the graph hObject.
+%x and y position are obtained from corresponding editable 'String' field in
+%the GUI figure.
+%Adds impoint handles to graphHandle.UserData.Points{n}
+%Sets all phase, y, dY and key event number in Simulink
+
 
 %Define Graph type
 switch hObject
@@ -69,7 +74,6 @@ yBlockString=nan_fill(position(2,:), 20);
 dYBlockString=nan_fill(dY, 20);
 
 %Write values in Simulink
-set_param(phaseBlock,'Value',phaseBlockString);
 set_param(phaseBlock,'Value',phaseBlockString);
 set_param(yBlock,'Value',yBlockString);
 set_param(dYBlock,'Value',dYBlockString);
