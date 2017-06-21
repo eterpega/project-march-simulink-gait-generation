@@ -304,6 +304,7 @@ function loadgaitpushbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadgaitpushbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 startingFolder = './Libraries/GUI';
 % Get the name of the mat file that the user wants to use.
 defaultFileName = fullfile(startingFolder, '*.mat');
@@ -312,9 +313,27 @@ if baseFileName == 0
 	% User clicked the Cancel button.
 	return;
 end
-fullFileName = fullfile(folder, baseFileName)
-load('fullFileName')
-evalin('base', 'load(''fullFileName''')');
+fullFileName = fullfile(folder, baseFileName);
+evalin('base', sprintf('load(''%s'')', fullFileName));
+
+%Default values at startup
+initPhaseKnee   =	evalin('base','cell2mat(kneeData.Position)')
+initQKnee       =	[0.0, 31.1, 18.3, 37.0, 60.9, 0.0];
+initdQKnee      =	[0, 1, -1, 0, 1, 0];
+initPhaseX      =   [0.0, 17.1, 38.9, 71.8, 100.0];
+initYX          =   [6.5, 2.1, 10.0, 20 , 30];
+initdYX         =   [0, 1, -1, 0, 1];
+
+return
+
+%Write default values to GUI
+format='%2.1f';
+set_gui_string(initPhaseKnee,handles.keyEventPhaseKnee,'String',format);
+set_gui_string(initQKnee,handles.keyEventQKnee,'String',format);
+set_gui_string(initdQKnee,handles.keyEventdQKnee,'String',format);
+set_gui_string(initPhaseX,handles.keyEventPhaseX,'String',format);
+set_gui_string(initYX,handles.keyEventX,'String',format);
+set_gui_string(initdYX,handles.keyEventdYX,'String',format);
 
 % --- Executes on button press in savegaitpushbutton.
 function savegaitpushbutton_Callback(hObject, eventdata, handles)
@@ -324,4 +343,4 @@ function savegaitpushbutton_Callback(hObject, eventdata, handles)
 %assignin('base','allData',get(handles));
 assignin('base','kneeData',get(handles.graphQKnee,'UserData'));
 assignin('base','xFootData',get(handles.graphX,'UserData'));
-evalin('base', 'save(''GaitData.mat'',''kneeData'',''xFootData'')');
+evalin('base', 'save(''GaitData.mat'',''kneeData.Position'',''xFootData.Position'')');

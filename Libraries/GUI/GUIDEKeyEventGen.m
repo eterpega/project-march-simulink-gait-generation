@@ -304,6 +304,7 @@ function loadgaitpushbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadgaitpushbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 startingFolder = './Libraries/GUI';
 % Get the name of the mat file that the user wants to use.
 defaultFileName = fullfile(startingFolder, '*.mat');
@@ -314,6 +315,23 @@ if baseFileName == 0
 end
 fullFileName = fullfile(folder, baseFileName);
 evalin('base', sprintf('load(''%s'')', fullFileName));
+
+%Default values at startup
+initPhaseKnee   =	evalin('base','cell2mat(kneeData.Position)')
+initQKnee       =	evalin('base','cell2mat(kneeData.Position)');
+initdQKnee      =	evalin('base','cell2mat(kneeData.Position)')
+initPhaseX      =   evalin('base','cell2mat(xData.Position)');
+initYX          =   evalin('base','cell2mat(xData.Position)');
+initdYX         =   evalin('base','cell2mat(xData.Position)');
+
+%Write default values to GUI
+format='%2.1f';
+set_gui_string(initPhaseKnee,handles.keyEventPhaseKnee,'String',format);
+set_gui_string(initQKnee,handles.keyEventQKnee,'String',format);
+set_gui_string(initdQKnee,handles.keyEventdQKnee,'String',format);
+set_gui_string(initPhaseX,handles.keyEventPhaseX,'String',format);
+set_gui_string(initYX,handles.keyEventX,'String',format);
+set_gui_string(initdYX,handles.keyEventdYX,'String',format);
 
 % --- Executes on button press in savegaitpushbutton.
 function savegaitpushbutton_Callback(hObject, eventdata, handles)
