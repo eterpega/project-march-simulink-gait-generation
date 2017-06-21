@@ -72,7 +72,7 @@ keyEvent2 = [keyEvent2Phase;keyEvent2y;keyEvent2dy];
 
 %[keyEvent1, keyEvent2, selected] = get_gait_data(handles)
 
-[angleHip, angleKnee, x, y, foot] = drawspline(keyEvent1, keyEvent2, selected);
+[angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = drawspline(keyEvent1, keyEvent2, selected);
 
 %angleHip
 angleHip_deg = angleHip.angleHip/pi*180; %[deg]
@@ -170,3 +170,9 @@ subplot(3,1,3)
 plot(foot_a)
 title('Foot Acceleration (m^2/s)')
 
+figure 
+plot(stanceLegRight)
+hold on
+plot(stanceLegLeft)
+
+disp(stepLength);

@@ -1,4 +1,4 @@
-function [angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft] = drawspline(keyEvent1, keyEvent2, selected)
+function [angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = drawspline(keyEvent1, keyEvent2, selected)
 % This function takes certain key events and uses them to draw a line trough
 % them. the general concept is explained at:
 % https://confluence.projectmarch.nl:8443/display/05TECH/01-First+gait+generator
@@ -61,6 +61,9 @@ end
 [stanceLegRight, stanceLegLeft] = stance_leg(y.y);
 [y.y] =  transform_to_ground(y.y,angleHip.angleHip,angleKnee.angleKnee, stanceLegLeft);
 foot.foot = foot_position(x.x,y.y);
+
+%%Determine step length
+stepLength = step_length(x.x, stanceLegRight);
 
 %% Derivation
 % all velocities, accelerations, and jerks are determined to check if they

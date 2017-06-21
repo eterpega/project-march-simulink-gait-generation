@@ -66,8 +66,8 @@ initQKnee       =	[0, 15, 2, 60]/180*pi;
 initdQKnee      =	[0,0, 0 ,0];
 %xFoot
 initPhaseX      =   [0, 18, 45, 62];
-initYX          =   [0.15, 0.0, -0.1, -0.25];
-initdYX         =   [0, -0.0035, -0.0035, 0];
+initYX          =   [0.15, 0.0, -0.1, -0.25]*100;
+initdYX         =   [0, -0.0035, -0.0035, 0]*100;
 
 %Define graph limit values GUI
 kneeXLim=[0 100];
