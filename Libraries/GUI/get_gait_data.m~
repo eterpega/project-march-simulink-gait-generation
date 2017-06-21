@@ -1,0 +1,4 @@
+function [phaseEvent1, phaseEvent2, selected] = get_gait_data(handles,position, dY)
+
+phaseEvent1=[position; dY];
+selected=[0 1 1 0];
