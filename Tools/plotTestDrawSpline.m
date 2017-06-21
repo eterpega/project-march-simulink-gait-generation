@@ -1,10 +1,3 @@
-%clc
-%close all
-%clear all
-% all data comes in as [rad], [rad/s] etc.
-
-%sim('SplineGeneratorTest.slx') 
-%%
 %angleHip
 angleHip_deg = angleHip.angleHip/pi*180; %[deg]
 angleHip_RPM = angleHip.dangleHip/pi*60; %[RPM]

@@ -1,4 +1,10 @@
-function [x1, f1, d1, x2, f2, d2] = hermite_cubic_spline_value( keyEventAmount, keyEventPhase, keyEventy, keyEventdy, numberSamplePoints,plotPhase)
+function [spline] = hermite_cubic_spline_value( keyEvent,plotPhase)
+
+keyEventAmount = size(keyEvent,2);
+keyEventPhase = keyEvent(1,:);
+keyEventy = keyEvent(2,:);
+keyEventdy = keyEvent(3,:);
+
 %*****************************************************************************80
 %
 %% HERMITE_CUBIC_SPLINE_VALUE evaluates a Hermite cubic spline.
@@ -88,3 +94,5 @@ function [x1, f1, d1, x2, f2, d2] = hermite_cubic_spline_value( keyEventAmount, 
   x2 = keyEventPhase(i2);
   f2 = keyEventy(i2);
   d2 = keyEventdy(i2);
+  
+ [spline, ~, ~, ~ ] = hermite_cubic_value( x1, f1, d1, x2, f2, d2, keyEventAmount, plotPhase );
