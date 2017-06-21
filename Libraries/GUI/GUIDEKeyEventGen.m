@@ -54,22 +54,17 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for GUIDEKeyEventGen
 
-%myfile = '../../Complete_Model/SplineGeneratorTest';
-%cd('../../Complete_Model')
-%load_system('SplineGeneratorTest')
-%cd('../Libraries/GUI')
-%mh=get_param(SplineGeneratorTest,'handle')
-
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
 %Default values at startup
+%knee
 initPhaseKnee   =	[0.0, 20.8, 45.4, 66.2, 84.6, 100.0];
 initQKnee       =	[0.0, 31.1, 18.3, 37.0, 60.9, 0.0];
 initdQKnee      =	[0, 1, -1, 0, 1, 0];
-
+%xFoot
 initPhaseX      =   [0.0, 17.1, 38.9, 71.8, 100.0];
 initYX          =   [6.5, 2.1, 10.0, 20 , 6.5];
 initdYX         =   [0, 1, -1, 0, 1];
