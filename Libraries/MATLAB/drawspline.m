@@ -7,6 +7,9 @@ keyEvent2Amount = size(keyEvent2,2);
 plotPhase = (0:0.1:99.9)'; %[%] Phase goes from 0 to 99.9... %
 t = 0.1*4/100; %[s]
 
+keyEvent1
+keyEvent2
+
 keyEvent1 = add_last_key_event(keyEvent1);
 keyEvent2 = add_last_key_event(keyEvent2);
 

@@ -69,8 +69,9 @@ guidata(hObject, handles);
 initPhaseKnee   =	[0.0, 20.8, 45.4, 66.2, 84.6, 100.0];
 initQKnee       =	[0.0, 31.1, 18.3, 37.0, 60.9, 0.0];
 initdQKnee      =	[0, 1, -1, 0, 1, 0];
+
 initPhaseX      =   [0.0, 17.1, 38.9, 71.8, 100.0];
-initYX          =   [6.5, 2.1, 10.0, 20 , 30];
+initYX          =   [6.5, 2.1, 10.0, 20 , 6.5];
 initdYX         =   [0, 1, -1, 0, 1];
 
 %Define graph limit values GUI
@@ -80,12 +81,13 @@ xXLim=[0 100];
 xYLim=[-10 60];
 
 %Write default values to GUI
-set_gui_string(initPhaseKnee,handles.keyEventPhaseKnee,'String','%2.1f');
-set_gui_string(initQKnee,handles.keyEventQKnee,'String','%2.1f');
-set_gui_string(initdQKnee,handles.keyEventdQKnee,'String','%2.1f');
-set_gui_string(initPhaseX,handles.keyEventPhaseX,'String','%2.1f');
-set_gui_string(initYX,handles.keyEventX,'String','%2.1f');
-set_gui_string(initdYX,handles.keyEventdYX,'String','%2.1f');
+format='%2.2f';
+set_gui_string(initPhaseKnee,handles.keyEventPhaseKnee,'String',format);
+set_gui_string(initQKnee,handles.keyEventQKnee,'String',format);
+set_gui_string(initdQKnee,handles.keyEventdQKnee,'String',format);
+set_gui_string(initPhaseX,handles.keyEventPhaseX,'String',format);
+set_gui_string(initYX,handles.keyEventX,'String',format);
+set_gui_string(initdYX,handles.keyEventdYX,'String',format);
 
 %Set Graph Axis limits
 set(handles.graphQKnee,'XLim',kneeXLim);
@@ -100,6 +102,7 @@ draw_points(handles.graphX, eventdata, handles);
 
 % Update handles structure
 guidata(hObject, handles);
+luca_draws_splines(handles);
 %[phaseEvent1, phaseEvent2, selected] = get_gait_data(handles)
 
 % UIWAIT makes GUIDEKeyEventGen wait for user response (see UIRESUME)

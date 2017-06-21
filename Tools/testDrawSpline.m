@@ -2,71 +2,75 @@ close all
 clear all
 clc
 
-selected1 = [0 ,1, 0, 0]; %[Hip, Knee, x, y];
-selected2 = [0 ,0, 1, 0]; %[Hip, Knee, x, y];
+% selected1 = [0 ,1, 0, 0]; %[Hip, Knee, x, y];
+% selected2 = [0 ,0, 1, 0]; %[Hip, Knee, x, y];
+% 
+% selected = selected1 + selected2; %knee and x selected
+% 
+% keyEventHipPhase = [55, 85]; %hip angle: for test look_up_hip_y
+% keyEventHipAngle = [-7, 20]/180*pi; %hip angle: for test look_up_hip_y
+% keyEventHipdAngle = [0,0]; %hip angle: for test look_up_hip_y
+% 
+% keyEventKneePhase = [0, 18, 45, 78];   %knee angle: for test look_up_hip_y
+% keyEventKneeAngle = [0, 15, 2, 60]/180*pi;  %knee angle: for test look_up_hip_y 
+% keyEventKneedAngle = [0,0, 0 ,0]; %knee angle: for test look_up_hip_y
+% 
+% keyEventxPhase = [0, 18, 45, 62];
+% keyEventxPos = [0.15, 0.0, -0.1, -0.25]; %[m] x position: for test look_up_hip_y
+% keyEventxdPos = [0, -0.0035, -0.0035, 0]; % x position: for test look_up_hip_y
+% 
+% if selected1(1)
+%     keyEvent1Phase = keyEventHipPhase;
+%     keyEvent1y = keyEventHipAngle;
+%     keyEvent1dy = keyEventHipdAngle;
+% elseif selected1(2)
+%     keyEvent1Phase = keyEventKneePhase; 
+%     keyEvent1y = keyEventKneeAngle;
+%     keyEvent1dy = keyEventKneedAngle;
+% elseif selected1(3)  
+%     keyEvent1Phase = keyEventxPhase;
+%     keyEvent1y = keyEventxPos;
+%     keyEvent1dy = keyEventxdPos;
+% elseif selected1(4)    
+%     keyEvent1Phase = keyEventyPhase; 
+%     keyEvent1y = keyEventxPos;
+%     keyEvent1dy = keyEventxdAngle;
+% end
+% 
+% if selected2(1)
+%     keyEvent2Phase = keyEventHipPhase;
+%     keyEvent2y = keyEventHipAngle;
+%     keyEvent2dy = keyEventHipdAngle;
+% elseif selected2(2)
+%     keyEvent2Phase = keyEventKneePhase; 
+%     keyEvent2y = keyEventKneeAngle;
+%     keyEvent2dy = keyEventKneedAngle;
+% elseif selected2(3)  
+%     keyEvent2Phase = keyEventxPhase;
+%     keyEvent2y = keyEventxPos;
+%     keyEvent2dy = keyEventxdPos;
+% elseif selected2(4)    
+%     keyEvent2Phase = keyEventyPhase; 
+%     keyEvent2y = keyEventxPos;
+%     keyEvent2dy = keyEventxdAngle;
+% end
+% 
+% keyEvent1Number = length(keyEvent1Phase);
+% keyEvent1PhaseOut = [keyEvent1Phase, nan(1,20-keyEvent1Number)];
+% keyEvent1yOut = [keyEvent1y, nan(1,20-keyEvent1Number)];
+% keyEvent1dyOut = [keyEvent1dy, nan(1,20-keyEvent1Number)];
+% 
+% keyEvent2Number = length(keyEvent2Phase);
+% keyEvent2PhaseOut = [keyEvent2Phase, nan(1,20-keyEvent2Number)];
+% keyEvent2yOut = [keyEvent2y, nan(1,20-keyEvent2Number)];
+% keyEvent2dyOut = [keyEvent2dy, nan(1,20-keyEvent2Number)];
+% 
+% keyEvent1 = [keyEvent1Phase;keyEvent1y;keyEvent1dy];
+% keyEvent2 = [keyEvent2Phase;keyEvent2y;keyEvent2dy];
 
-selected = selected1 + selected2; %knee and x selected
+function luca_draws_splines(handles)
 
-keyEventHipPhase = [55, 85]; %hip angle: for test look_up_hip_y
-keyEventHipAngle = [-7, 20]/180*pi; %hip angle: for test look_up_hip_y
-keyEventHipdAngle = [0,0]; %hip angle: for test look_up_hip_y
-
-keyEventKneePhase = [0, 18, 45, 78];   %knee angle: for test look_up_hip_y
-keyEventKneeAngle = [0, 15, 2, 60]/180*pi;  %knee angle: for test look_up_hip_y 
-keyEventKneedAngle = [0,0, 0 ,0]; %knee angle: for test look_up_hip_y
-
-keyEventxPhase = [0, 18, 45, 62];
-keyEventxPos = [0.15, 0.0, -0.1, -0.25]; %[m] x position: for test look_up_hip_y
-keyEventxdPos = [0, -0.0035, -0.0035, 0]; % x position: for test look_up_hip_y
-
-if selected1(1)
-    keyEvent1Phase = keyEventHipPhase;
-    keyEvent1y = keyEventHipAngle;
-    keyEvent1dy = keyEventHipdAngle;
-elseif selected1(2)
-    keyEvent1Phase = keyEventKneePhase; 
-    keyEvent1y = keyEventKneeAngle;
-    keyEvent1dy = keyEventKneedAngle;
-elseif selected1(3)  
-    keyEvent1Phase = keyEventxPhase;
-    keyEvent1y = keyEventxPos;
-    keyEvent1dy = keyEventxdPos;
-elseif selected1(4)    
-    keyEvent1Phase = keyEventyPhase; 
-    keyEvent1y = keyEventxPos;
-    keyEvent1dy = keyEventxdAngle;
-end
-
-if selected2(1)
-    keyEvent2Phase = keyEventHipPhase;
-    keyEvent2y = keyEventHipAngle;
-    keyEvent2dy = keyEventHipdAngle;
-elseif selected2(2)
-    keyEvent2Phase = keyEventKneePhase; 
-    keyEvent2y = keyEventKneeAngle;
-    keyEvent2dy = keyEventKneedAngle;
-elseif selected2(3)  
-    keyEvent2Phase = keyEventxPhase;
-    keyEvent2y = keyEventxPos;
-    keyEvent2dy = keyEventxdPos;
-elseif selected2(4)    
-    keyEvent2Phase = keyEventyPhase; 
-    keyEvent2y = keyEventxPos;
-    keyEvent2dy = keyEventxdAngle;
-end
-
-keyEvent1Number = length(keyEvent1Phase);
-keyEvent1PhaseOut = [keyEvent1Phase, nan(1,20-keyEvent1Number)];
-keyEvent1yOut = [keyEvent1y, nan(1,20-keyEvent1Number)];
-keyEvent1dyOut = [keyEvent1dy, nan(1,20-keyEvent1Number)];
-
-keyEvent2Number = length(keyEvent2Phase);
-keyEvent2PhaseOut = [keyEvent2Phase, nan(1,20-keyEvent2Number)];
-keyEvent2yOut = [keyEvent2y, nan(1,20-keyEvent2Number)];
-keyEvent2dyOut = [keyEvent2dy, nan(1,20-keyEvent2Number)];
-
-keyEvent1 = [keyEvent1Phase;keyEvent1y;keyEvent1dy];
-keyEvent2 = [keyEvent2Phase;keyEvent2y;keyEvent2dy];
+[keyEvent1, keyEvent2, selected] = get_gait_data(handles)
 
 [angleHip, angleKnee, x, y, foot] = drawspline(keyEvent1, keyEvent2, selected);
 

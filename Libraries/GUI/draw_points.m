@@ -45,7 +45,7 @@ else
 position = sortrows(position,1);
 %Transpose position matrix
 position = position';
-%graphHandle.UserData.Position=position;
+%[phaseEvent1, phaseEvent2, selected] = get_gait_data(handles)
 
 %Update Handles
 guidata(hObject,handles);
