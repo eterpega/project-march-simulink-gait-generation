@@ -1,4 +1,5 @@
 function []= RunSimulation(fighandle)
+%Close all figures except GUI
 set(fighandle, 'HandleVisibility', 'off');
 close all
 set(fighandle, 'HandleVisibility', 'on');
