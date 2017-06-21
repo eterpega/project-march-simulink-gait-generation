@@ -1,4 +1,4 @@
-function [stanceLegRight, stanceLegLeft] = determineStanceLeg(y)
+function [stanceLegRight, stanceLegLeft] = stance_leg(y)
 %This function determines the stanceleg at every point in the gait
 %A leg is a stance leg if the y position of that leg is higher than the y
 %position of the other leg.
