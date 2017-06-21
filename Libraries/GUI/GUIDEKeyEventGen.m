@@ -304,7 +304,16 @@ function loadgaitpushbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadgaitpushbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+startingFolder = './Libraries/GUI';
+% Get the name of the mat file that the user wants to use.
+defaultFileName = fullfile(startingFolder, '*.mat');
+[baseFileName, folder] = uigetfile(defaultFileName, 'Select a mat file');
+if baseFileName == 0
+	% User clicked the Cancel button.
+	return;
+end
+fullFileName = fullfile(folder, baseFileName);
+evalin('base', sprintf('load(''%s'')', fullFileName));
 
 % --- Executes on button press in savegaitpushbutton.
 function savegaitpushbutton_Callback(hObject, eventdata, handles)
