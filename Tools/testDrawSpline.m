@@ -63,13 +63,13 @@ time = phase*strideTime/100; %[s] Time vector
 
 %% Process data
 %angleHip
-angleHip_deg = angleHip.angleHip/pi*180; %[deg]
-angleHip_RPM = angleHip.dangleHip/pi*60; %[RPM]
+angleHip_deg = angleHip.angleHip/(2*pi)*360; %[deg]
+angleHip_RPM = angleHip.dangleHip/(2*pi)*60; %[RPM]
 angleHip_rads2 = angleHip.ddangleHip; %[rad/s^2]
 
 %angleKnee
-angleKnee_deg = angleKnee.angleKnee/pi*180; %[deg]
-angleKnee_RPM = angleKnee.dangleKnee/pi*180; %[RPM]
+angleKnee_deg = angleKnee.angleKnee/(2*pi)*360; %[deg]
+angleKnee_RPM = angleKnee.dangleKnee/(2*pi)*60; %[RPM]
 angleKnee_rads2 = angleKnee.ddangleKnee; %[rad/s^2]
 
 %Foot
@@ -83,11 +83,11 @@ foot_a = foot.ddfoot;
 %% Plot results
 gaitFigure = figure('Position',[200,0,1000,800]);
 subplot(3,2,1)
-plot(phase,angleHip_deg,'Linewidth',2)
+plot(time,angleHip_deg,'Linewidth',2)
 hold on
-plot(phase,angleKnee_deg,'Linewidth',2);
+plot(time,angleKnee_deg,'Linewidth',2);
 title('Joint angles')
-xlabel('Stride [%]')
+xlabel('Time [s]')
 ylabel('Angle [degree]')
 legend('angleHip','angleKnee')
 grid on
@@ -98,18 +98,11 @@ hold on
 plot(phase,y,'Linewidth',2)
 title('Foot Positions')
 legend('x','y')
-xlabel('Phase [%]')
+xlabel('Time [s]')
 ylabel('position [m]')
 grid on
 
 subplot(3,2,3)
-p3 = plot(x,y,'Linewidth',2);
-title('Foot Position Side View')
-xlabel('x [m]')
-ylabel('y [m]')
-grid on
-
-subplot(3,2,4)
 plot(time,angleHip_RPM,'Linewidth',2);
 hold on
 plot(time,angleKnee_RPM,'Linewidth',2);
@@ -117,6 +110,13 @@ title('Hip and Knee Angular Velocity')
 xlabel('Time [s]')
 ylabel('Velocity [RPM]')
 legend('angleHip','angleKnee')
+grid on
+
+subplot(3,2,4)
+p3 = plot(x,y,'Linewidth',2);
+title('Foot Position Side View')
+xlabel('x [m]')
+ylabel('y [m]')
 grid on
 
 subplot(3,2,5)
@@ -178,3 +178,4 @@ axis([0, max(time), -0.2, 1.2])
 grid on
 
 disp(stepLength/stepTime);
+
