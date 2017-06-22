@@ -14,11 +14,11 @@ keyEventHipAngle = [-7, 20]/180*pi; %[rad]
 keyEventHipdAngle = [0,0]; %[rad/%] 
 
 keyEventKneePhase = [0, 18, 45, 78];   %[%]
-keyEventKneeAngle = [0, 15, 2, 60]/180*pi;  %[rad]
+keyEventKneeAngle = [0, 15, 2, 60]/180*pi;  %[rad] 
 keyEventKneedAngle = [0,0, 0 ,0]; %[rad/%]
 
 keyEventXPhase = [0, 18, 45, 62]; %[%]
-keyEventXPos = [0.15, 0.0, -0.1, -0.25]; %[m]
+keyEventXPos = [0.15, 0.0, -0.1, -0.25]; %[m] 
 keyEventXdPos = [0, -0.0035, -0.0035, 0]; %[m/%]
 
 keyEventHip = [keyEventHipPhase;keyEventHipAngle;keyEventHipdAngle];
@@ -198,3 +198,47 @@ grid on
 
 disp(stepLength/stepTime);
 
+
+%%
+i = 1:samplePointAmount;
+phaseRight = i;
+phaseLeft = mod(i+0.5*samplePointAmount-1,3000)+1;
+xFootRight = x;
+yFootRight = y;
+xFootLeft = x(phaseLeft);
+yFootLeft = y(phaseLeft);   
+
+[~, yHipRight] = forwardKinematics(hip.angleHip(phaseRight),knee.angleKnee(phaseRight),0.4,0.4);
+[~, yHipLeft] = forwardKinematics(hip.angleHip(phaseLeft),knee.angleKnee(phaseLeft),0.4,0.4);
+yHip = stanceLegRight .* yHipRight + stanceLegLeft .* yHipLeft; 
+xHip = zeros(1,samplePointAmount);
+
+xKneeRight = xHip + 0.4*sin(hip.angleHip(phaseRight));
+yKneeRight = yHip -0.4*cos(hip.angleHip(phaseRight));
+xKneeLeft = xHip + 0.4*sin(hip.angleHip(phaseLeft));
+yKneeLeft = yHip -0.4*cos(hip.angleHip(phaseLeft));
+
+legLengthRightUL = determine_length(xKneeRight, yKneeRight, xHip, yHip);
+legLengthLeftLL = determine_length(xKneeLeft, yKneeLeft, xHip, yHip);
+legLengthRightUL = determine_length(xFootRight, yFootRight, xKneeRight, yKneeRight);
+legLengthLeftLL = determine_length(xFootLeft, yFootLeft, xKneeLeft, yKneeLeft);
+
+figure
+i = 1;
+while true
+    if (i < (samplePointAmount-20))
+        i = i + 20;
+    else
+        i = 1;
+    end
+    Right = plot([xFootRight(i),xKneeRight(i) xHip(i)],[yFootRight(i), yKneeRight(i), yHip(i)],'Color','g');
+    hold on
+    Left = plot([xFootLeft(i),xKneeLeft(i) xHip(i)],[yFootLeft(i), yKneeLeft(i), yHip(i)],'Color','r');
+    %addpoints(footRight,xFootRight(i),yFootRight(i));
+    %addpoints(footLeft,xFootLeft(i),yFootLeft(i));
+    axis([-1 1, 0 , 1])
+    drawnow 
+    delete(Right)
+    delete(Left)
+end
+    
