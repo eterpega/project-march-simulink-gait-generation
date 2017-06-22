@@ -2,78 +2,66 @@ close all
 clear all
 clc
 
+%% First give an input which design spline has bee slected
 selected1 = [0 ,1, 0, 0]; %[Hip, Knee, x, y];
 selected2 = [0 ,0, 1, 0]; %[Hip, Knee, x, y];
 
-selected = selected1 + selected2; %knee and x selected
+selected = selected1 + selected2; %this vecotr contains both selected
 
-keyEventHipPhase = [55, 85]; %hip angle: for test look_up_hip_y
-keyEventHipAngle = [-7, 20]/180*pi; %hip angle: for test look_up_hip_y
-keyEventHipdAngle = [0,0]; %hip angle: for test look_up_hip_y
+%% We create some key venet vectors based on some data from a reasearch
+keyEventHipPhase = [55, 85]; %[%]
+keyEventHipAngle = [-7, 20]/180*pi; %[rad]
+keyEventHipdAngle = [0,0]; %[rad/%] 
 
-keyEventKneePhase = [0, 18, 45, 78];   %knee angle: for test look_up_hip_y
-keyEventKneeAngle = [0, 15, 2, 60]/180*pi;  %knee angle: for test look_up_hip_y 
-keyEventKneedAngle = [0,0, 0 ,0]; %knee angle: for test look_up_hip_y
+keyEventKneePhase = [0, 18, 45, 78];   %[%]
+keyEventKneeAngle = [0, 15, 2, 60]/180*pi;  %[rad]
+keyEventKneedAngle = [0,0, 0 ,0]; %[rad/%]
 
-keyEventxPhase = [0, 18, 45, 62];
-keyEventxPos = [0.15, 0.0, -0.1, -0.25]; %[m] x position: for test look_up_hip_y
-keyEventxdPos = [0, -0.0035, -0.0035, 0]; % x position: for test look_up_hip_y
+keyEventXPhase = [0, 18, 45, 62]; %[%]
+keyEventXPos = [0.15, 0.0, -0.1, -0.25]; %[m]
+keyEventXdPos = [0, -0.0035, -0.0035, 0]; %[m/%]
 
+keyEventHip = [keyEventHipPhase;keyEventHipAngle;keyEventHipdAngle];
+keyEventKnee = [keyEventKneePhase;keyEventKneeAngle;keyEventKneedAngle];
+keyEventX = [keyEventXPhase;keyEventXPos;keyEventXdPos];
+
+%% Select the right key event data, it is done a bit ugly, but is just used for testing
 if selected1(1)
-    keyEvent1Phase = keyEventHipPhase;
-    keyEvent1y = keyEventHipAngle;
-    keyEvent1dy = keyEventHipdAngle;
+    keyEvent1 = keyEventHip;
 elseif selected1(2)
-    keyEvent1Phase = keyEventKneePhase; 
-    keyEvent1y = keyEventKneeAngle;
-    keyEvent1dy = keyEventKneedAngle;
+    keyEvent1 = keyEventKnee;
 elseif selected1(3)  
-    keyEvent1Phase = keyEventxPhase;
-    keyEvent1y = keyEventxPos;
-    keyEvent1dy = keyEventxdPos;
+    keyEvent1 = keyEventX;
 elseif selected1(4)    
-    keyEvent1Phase = keyEventyPhase; 
-    keyEvent1y = keyEventxPos;
-    keyEvent1dy = keyEventxdAngle;
+    keyEvent1 = keyEventY; 
 end
 
 if selected2(1)
-    keyEvent2Phase = keyEventHipPhase;
-    keyEvent2y = keyEventHipAngle;
-    keyEvent2dy = keyEventHipdAngle;
+    keyEvent2 = keyEventHip;
 elseif selected2(2)
-    keyEvent2Phase = keyEventKneePhase; 
-    keyEvent2y = keyEventKneeAngle;
-    keyEvent2dy = keyEventKneedAngle;
+    keyEvent2 = keyEventKnee;
 elseif selected2(3)  
-    keyEvent2Phase = keyEventxPhase;
-    keyEvent2y = keyEventxPos;
-    keyEvent2dy = keyEventxdPos;
+    keyEvent2 = keyEventX;
 elseif selected2(4)    
-    keyEvent2Phase = keyEventyPhase; 
-    keyEvent2y = keyEventxPos;
-    keyEvent2dy = keyEventxdAngle;
+    keyEvent2 = keyEventY;
 end
 
-keyEvent1Number = length(keyEvent1Phase);
-keyEvent1PhaseOut = [keyEvent1Phase, nan(1,20-keyEvent1Number)];
-keyEvent1yOut = [keyEvent1y, nan(1,20-keyEvent1Number)];
-keyEvent1dyOut = [keyEvent1dy, nan(1,20-keyEvent1Number)];
 
-keyEvent2Number = length(keyEvent2Phase);
-keyEvent2PhaseOut = [keyEvent2Phase, nan(1,20-keyEvent2Number)];
-keyEvent2yOut = [keyEvent2y, nan(1,20-keyEvent2Number)];
-keyEvent2dyOut = [keyEvent2dy, nan(1,20-keyEvent2Number)];
+% Create phase vector. 
+sampleFrequency = 1000; %[Hz] sample frequency of SLRT model
+stepTime = 1.5; %[s] Time it takes for 1 setp
+strideTime = stepTime*2; %[s]
+samplePointAmount = strideTime*sampleFrequency; %this will determine the speed
+tInterval = strideTime/samplePointAmount; %[s] The difference in time between each interval
 
-keyEvent1 = [keyEvent1Phase;keyEvent1y;keyEvent1dy];
-keyEvent2 = [keyEvent2Phase;keyEvent2y;keyEvent2dy];
+phase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
+time = phase*strideTime/100; %[s] Time vector
 
-%function luca_draws_splines(handles)
+%% Calculate Gait
+[angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = drawspline(keyEvent1, keyEvent2, selected, phase, tInterval);
 
-%[keyEvent1, keyEvent2, selected] = get_gait_data(handles)
 
-[angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = drawspline(keyEvent1, keyEvent2, selected);
-
+%% Process data
 %angleHip
 angleHip_deg = angleHip.angleHip/pi*180; %[deg]
 angleHip_RPM = angleHip.dangleHip/pi*60; %[RPM]
@@ -91,18 +79,15 @@ foot_p = foot.foot;
 foot_v = foot.dfoot;
 foot_a = foot.ddfoot;
 
-%Phase and time
-phase = 0:0.1:99.9;
-time = (0:0.1:99.9)/100*4;
-lstep = 0.3; %[m]
 
+%% Plot results
 gaitFigure = figure('Position',[200,0,1000,800]);
-title('Gait results')
 subplot(3,2,1)
 plot(phase,angleHip_deg,'Linewidth',2)
 hold on
 plot(phase,angleKnee_deg,'Linewidth',2);
-xlabel('Phase [%]')
+title('Joint angles')
+xlabel('Stride [%]')
 ylabel('Angle [degree]')
 legend('angleHip','angleKnee')
 grid on
@@ -111,33 +96,34 @@ subplot(3,2,2)
 plot(phase,x,'Linewidth',2)
 hold on
 plot(phase,y,'Linewidth',2)
+title('Foot Positions')
 legend('x','y')
 xlabel('Phase [%]')
 ylabel('position [m]')
 grid on
 
 subplot(3,2,3)
-title('x vs y')
 p3 = plot(x,y,'Linewidth',2);
+title('Foot Position Side View')
 xlabel('x [m]')
 ylabel('y [m]')
 grid on
 
 subplot(3,2,4)
-title('angleHip and angleKnee Velocity')
 plot(time,angleHip_RPM,'Linewidth',2);
 hold on
 plot(time,angleKnee_RPM,'Linewidth',2);
+title('Hip and Knee Angular Velocity')
 xlabel('Time [s]')
 ylabel('Velocity [RPM]')
 legend('angleHip','angleKnee')
 grid on
 
 subplot(3,2,5)
-title('angleHip and angleKnee Acceleration')
 plot(time,angleHip_rads2,'Linewidth',2);
 hold on
 plot(time,angleKnee_rads2,'Linewidth',2);
+title('Hip and Knee Angular Acceleration')
 xlabel('Time [s]')
 ylabel('Acceleration [rad/s^2]')
 legend('angleHip','angleKnee')
@@ -148,31 +134,47 @@ plot(angleHip_deg,angleHip_RPM,'Linewidth',2);
 hold on
 plot(angleKnee_deg,angleKnee_RPM,'Linewidth',2);
 legend('angleHip','angleKnee')
-title('angleHip and angleKnee Acceleration')
+title('Hip and Knee Velocity vd Angle')
 xlabel('Angle [deg]')
 ylabel('Velocity [RPM]')
 grid on
 
-%// modified jet-colormap
-cd = [uint8(jet(1000)*255) uint8(ones(1000,1))]'; 
+%Color side view with stride
+cd = [uint8(jet(samplePointAmount)*255) uint8(ones(samplePointAmount,1))]'; 
 drawnow
 set(p3.Edge, 'ColorBinding','interpolated', 'ColorData',cd)
-%saveas(gaitFigure,'GaitResults.jpg')
 
+%% Plot foot position, velcity and acceleration
 figure
 subplot(3,1,1)
-plot(foot_p)
-title('Foot Position (m) (x*y)')
+plot(time, foot_p)
+title('Foot Position')
+xlabel('Time [s]')
+ylabel('Position [m]')
+grid on
+
 subplot(3,1,2)
-plot(foot_v)
+plot(time, foot_v)
 title('Foot Velocity (m/s)')
+xlabel('Time [s]')
+ylabel('Velocity [m/s]')
+grid on
+
 subplot(3,1,3)
-plot(foot_a)
+plot(time, foot_a)
 title('Foot Acceleration (m^2/s)')
+xlabel('Time [s]')
+ylabel('Position [m]')
+grid on
 
-figure 
-plot(stanceLegRight)
+figure('Position',[200,200,800,300])
+plot(time, stanceLegRight,'Linewidth',3)
 hold on
-plot(stanceLegLeft)
+plot(time, stanceLegLeft,'Linewidth',3)
+title('Stance and swing leg')
+xlabel('Time [s]')
+legend('Right leg is stance leg','Right leg is swing leg')
+axis([0, max(time), -0.2, 1.2])
+grid on
 
-disp(stepLength);
+disp(stepLength/stepTime);

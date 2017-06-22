@@ -1,4 +1,6 @@
-function [angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = drawspline(keyEvent1, keyEvent2, selected)
+function [angleHip, angleKnee, x, y, foot, stanceLegRight, ...
+    stanceLegLeft,stepLength] = drawspline(keyEvent1, keyEvent2, ...
+    selected, plotStride, tInterval)
 % This function takes certain key events and uses them to draw a line trough
 % them. the general concept is explained at:
 % https://confluence.projectmarch.nl:8443/display/05TECH/01-First+gait+generator
@@ -19,11 +21,6 @@ function [angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLen
 % keyEvent1Amount = size(keyEvent1,2);
 % keyEvent2Amount = size(keyEvent2,2);
 
-% Create phase vector. 
-samplePointAmount = 1000; %this will determine the speed, this shouldn't be defined here!
-plotPhase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
-t = 0.1*4/100; %[s/%] the speed at which a gait will be played back, this shouldn't be defined here!
-
 % The first key event is copied and moved 100% further so a continious gait
 % can be generated.
 keyEvent1 = add_last_key_event(keyEvent1);
@@ -31,8 +28,8 @@ keyEvent2 = add_last_key_event(keyEvent2);
 
 % The plot phase needs to be moved, we want to interpolate from the key
 % event to the last key event.
-plotPhase1 = keyEvent1(1,1) + plotPhase; %[%]
-plotPhase2 = keyEvent2(1,1) + plotPhase; %[%]
+plotPhase1 = keyEvent1(1,1) + plotStride; %[%]
+plotPhase2 = keyEvent2(1,1) + plotStride; %[%]
 
 %% Interpolater
 % over here we interpolate between the different key events
@@ -68,8 +65,8 @@ stepLength = step_length(x.x, stanceLegRight);
 %% Derivation
 % all velocities, accelerations, and jerks are determined to check if they
 % meet the possible joint outputs
-[x.x, x.dx, x.ddx, x.dddx] = derivatives(x.x,t);
-[y.y, y.dy, y.ddy, y.dddy] = derivatives(y.y,t);
-[foot.foot, foot.dfoot, foot.ddfoot, foot.dddfoot] = derivatives(foot.foot,t);
-[angleKnee.angleKnee, angleKnee.dangleKnee, angleKnee.ddangleKnee, angleKnee.dddangleKnee] = derivatives(angleKnee.angleKnee,t);
-[angleHip.angleHip, angleHip.dangleHip, angleHip.ddangleHip, angleHip.dddangleHip] = derivatives(angleHip.angleHip,t);
+[x.x, x.dx, x.ddx, x.dddx] = derivatives(x.x,tInterval);
+[y.y, y.dy, y.ddy, y.dddy] = derivatives(y.y,tInterval);
+[foot.foot, foot.dfoot, foot.ddfoot, foot.dddfoot] = derivatives(foot.foot,tInterval);
+[angleKnee.angleKnee, angleKnee.dangleKnee, angleKnee.ddangleKnee, angleKnee.dddangleKnee] = derivatives(angleKnee.angleKnee,tInterval);
+[angleHip.angleHip, angleHip.dangleHip, angleHip.ddangleHip, angleHip.dddangleHip] = derivatives(angleHip.angleHip,tInterval);
