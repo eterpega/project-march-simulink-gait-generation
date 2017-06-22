@@ -1,4 +1,4 @@
-function [angleHip, angleKnee, x, y, foot, stanceLegRight, ...
+function [hip, knee, x, y, foot, stanceLegRight, ...
     stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, ...
     selected, plotStride, tInterval)
 % This function takes certain key events and uses them to draw a line trough
@@ -18,13 +18,6 @@ function [angleHip, angleKnee, x, y, foot, stanceLegRight, ...
 %
 % if high , tyhan this parameter is selected.
 %
-% keyEvent1Amount = size(keyEvent1,2);
-% keyEvent2Amount = size(keyEvent2,2);
-
-% The first key event is copied and moved 100% further so a continious gait
-% can be generated.
-keyEvent1 = add_last_key_event(keyEvent1);
-keyEvent2 = add_last_key_event(keyEvent2);
 
 % The plot phase needs to be moved, we want to interpolate from the key
 % event to the last key event.
@@ -38,17 +31,13 @@ spline2 = hermite_cubic_spline_value( keyEvent2,plotPhase2);
 
 % Since we want to define the gait from 0 to 100 percent we cut the part
 % after 100% and paste it after 0%.
-[spline1,plotPhase1] = rearrange_from_zero_to_hundered(spline1, plotPhase1);
-[spline2,plotPhase2] = rearrange_from_zero_to_hundered(spline2, plotPhase2);
-
-if plotPhase1 ~= plotPhase2
-    warning('the phases are not equal, something went wrong.')
-end
+[spline1,plotPhase] = rearrange_from_zero_to_hundered(spline1, plotPhase1);
+[spline2,plotPhase] = rearrange_from_zero_to_hundered(spline2, plotPhase2);
 
 %% Inverse kinematics
 % We now apply inverse kinematics to determine all the gait parameters.
 % see: https://confluence.projectmarch.nl:8443/display/05TECH/04-%28Inverse%29+Kinematics
-[x.x, y.y, angleKnee.angleKnee, angleHip.angleHip] = kinematics(spline1, spline2, selected);
+[x.x, y.y, knee.angleKnee, hip.angleHip] = kinematics(spline1, spline2, selected);
 
 %% Coordinate transform
 % Now we transform the coordinate system from the hip to the ground since
@@ -56,7 +45,7 @@ end
 % stance leg, than the transformation is applied.
 %see: https://confluence.projectmarch.nl:8443/display/05TECH/05-Coordinate+transform
 [stanceLegRight, stanceLegLeft] = stance_leg(y.y);
-[y.y] =  transform_to_ground(y.y,angleHip.angleHip,angleKnee.angleKnee, stanceLegLeft);
+[y.y] =  transform_to_ground(y.y,hip.angleHip,knee.angleKnee, stanceLegLeft);
 foot.foot = foot_position(x.x,y.y);
 
 %%Determine step length
@@ -68,5 +57,5 @@ stepLength = step_length(x.x, stanceLegRight);
 [x.x, x.dx, x.ddx, x.dddx] = derivatives(x.x,tInterval);
 [y.y, y.dy, y.ddy, y.dddy] = derivatives(y.y,tInterval);
 [foot.foot, foot.dfoot, foot.ddfoot, foot.dddfoot] = derivatives(foot.foot,tInterval);
-[angleKnee.angleKnee, angleKnee.dangleKnee, angleKnee.ddangleKnee, angleKnee.dddangleKnee] = derivatives(angleKnee.angleKnee,tInterval);
-[angleHip.angleHip, angleHip.dangleHip, angleHip.ddangleHip, angleHip.dddangleHip] = derivatives(angleHip.angleHip,tInterval);
+[knee.angleKnee, knee.dangleKnee, knee.ddangleKnee, knee.dddangleKnee] = derivatives(knee.angleKnee,tInterval);
+[hip.angleHip, hip.dangleHip, hip.ddangleHip, hip.dddangleHip] = derivatives(hip.angleHip,tInterval);

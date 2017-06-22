@@ -46,7 +46,6 @@ elseif selected2(4)
     keyEvent2 = keyEventY;
 end
 
-
 % Create phase vector. 
 sampleFrequency = 1000; %[Hz] sample frequency of SLRT model
 stepTime = 1.5; %[s] Time it takes for 1 setp
@@ -54,23 +53,43 @@ strideTime = stepTime*2; %[s]
 samplePointAmount = strideTime*sampleFrequency; %this will determine the speed
 tInterval = strideTime/samplePointAmount; %[s] The difference in time between each interval
 
+
 phase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
-time = phase*strideTime/100; %[s] Time vector
+phaseToTime = strideTime/100;
+time = phase*phaseToTime; %[s] Time vector
+
+%% Move key events
+% The first key event is copied and moved 100% further so a continious gait
+% can be generated.
+keyEvent1 = add_last_key_event(keyEvent1);
+keyEvent2 = add_last_key_event(keyEvent2);
+
+%% Check keyEvents
+key_event_checker(keyEvent1, phaseToTime, 1, selected);
+key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
-[angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
 
+%% Check gait
+[errorDetected, warningDetected, message] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
+if warningDetected
+    warning(message);
+end
+if errorDetected
+    error(message);
+end
 
 %% Process data
 %angleHip
-angleHip_deg = angleHip.angleHip/(2*pi)*360; %[deg]
-angleHip_RPM = angleHip.dangleHip/(2*pi)*60; %[RPM]
-angleHip_rads2 = angleHip.ddangleHip; %[rad/s^2]
+angleHip_deg = hip.angleHip/(2*pi)*360; %[deg]
+angleHip_RPM = hip.dangleHip/(2*pi)*60; %[RPM]
+angleHip_rads2 = hip.ddangleHip; %[rad/s^2]
 
 %angleKnee
-angleKnee_deg = angleKnee.angleKnee/(2*pi)*360; %[deg]
-angleKnee_RPM = angleKnee.dangleKnee/(2*pi)*60; %[RPM]
-angleKnee_rads2 = angleKnee.ddangleKnee; %[rad/s^2]
+angleKnee_deg = knee.angleKnee/(2*pi)*360; %[deg]
+angleKnee_RPM = knee.dangleKnee/(2*pi)*60; %[RPM]
+angleKnee_rads2 = knee.ddangleKnee; %[rad/s^2]
 
 %Foot
 x = x.x;
