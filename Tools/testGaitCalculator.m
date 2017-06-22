@@ -58,7 +58,7 @@ phase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
 time = phase*strideTime/100; %[s] Time vector
 
 %% Calculate Gait
-[angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = drawspline(keyEvent1, keyEvent2, selected, phase, tInterval);
+[angleHip, angleKnee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
 
 
 %% Process data
