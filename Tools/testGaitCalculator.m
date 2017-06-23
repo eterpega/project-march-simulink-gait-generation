@@ -8,6 +8,10 @@ selected2 = [0 ,0, 1, 0]; %[Hip, Knee, x, y];
 
 selected = selected1 + selected2; %this vecotr contains both selected
 
+%%
+Lul = 0.4; %[m]
+Lll = 0.4; %[m]
+
 %% We create some key venet vectors based on some data from a reasearch
 keyEventHipPhase = [55, 85]; %[%]
 keyEventHipAngle = [-7, 20]/180*pi; %[rad]
@@ -199,46 +203,16 @@ grid on
 disp(stepLength/stepTime);
 
 
-%%
-i = 1:samplePointAmount;
-phaseRight = i;
-phaseLeft = mod(i+0.5*samplePointAmount-1,3000)+1;
-xFootRight = x;
-yFootRight = y;
-xFootLeft = x(phaseLeft);
-yFootLeft = y(phaseLeft);   
+%% Animation
+%Find positions to plot
+[xRight, yRight, xLeft, yLeft] = position_leg(x , y, hip.angleHip,...
+    knee.angleKnee, stanceLegRight, stanceLegLeft, Lul,Lll);
 
-[~, yHipRight] = forwardKinematics(hip.angleHip(phaseRight),knee.angleKnee(phaseRight),0.4,0.4);
-[~, yHipLeft] = forwardKinematics(hip.angleHip(phaseLeft),knee.angleKnee(phaseLeft),0.4,0.4);
-yHip = stanceLegRight .* yHipRight + stanceLegLeft .* yHipLeft; 
-xHip = zeros(1,samplePointAmount);
+%Lock the x of the stance leg foot
+[xRight, yRight, xLeft, yLeft] = lock_x_stance_leg(xRight, yRight, ...
+    xLeft, yLeft, stanceLegRight, stanceLegLeft);
 
-xKneeRight = xHip + 0.4*sin(hip.angleHip(phaseRight));
-yKneeRight = yHip -0.4*cos(hip.angleHip(phaseRight));
-xKneeLeft = xHip + 0.4*sin(hip.angleHip(phaseLeft));
-yKneeLeft = yHip -0.4*cos(hip.angleHip(phaseLeft));
+%Lock the x of the stance leg foot
 
-legLengthRightUL = determine_length(xKneeRight, yKneeRight, xHip, yHip);
-legLengthLeftLL = determine_length(xKneeLeft, yKneeLeft, xHip, yHip);
-legLengthRightUL = determine_length(xFootRight, yFootRight, xKneeRight, yKneeRight);
-legLengthLeftLL = determine_length(xFootLeft, yFootLeft, xKneeLeft, yKneeLeft);
-
-figure
-i = 1;
-while true
-    if (i < (samplePointAmount-20))
-        i = i + 20;
-    else
-        i = 1;
-    end
-    Right = plot([xFootRight(i),xKneeRight(i) xHip(i)],[yFootRight(i), yKneeRight(i), yHip(i)],'Color','g');
-    hold on
-    Left = plot([xFootLeft(i),xKneeLeft(i) xHip(i)],[yFootLeft(i), yKneeLeft(i), yHip(i)],'Color','r');
-    %addpoints(footRight,xFootRight(i),yFootRight(i));
-    %addpoints(footLeft,xFootLeft(i),yFootLeft(i));
-    axis([-1 1, 0 , 1])
-    drawnow 
-    delete(Right)
-    delete(Left)
-end
-    
+%Animate position leg
+animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength)
