@@ -74,6 +74,8 @@ key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
 [hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+angleHip = hip.angleHip;
+save('angleHip.mat','angleHip')
 
 %% Check gait
 [errorDetected, warningDetected, message] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
