@@ -75,8 +75,9 @@ key_event_checker(keyEvent2, phaseToTime, 2, selected);
 %% Calculate Gait
 [hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
 angleHip = hip.angleHip;
+angleKnee = knee.angleKnee;
 save('angleHip.mat','angleHip')
-
+save('angleKnee.mat','angleKnee')
 %% Check gait
 [errorDetected, warningDetected, message] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
 if warningDetected
@@ -218,3 +219,24 @@ disp(stepLength/stepTime);
 
 %Animate position leg
 animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength)
+
+%% Finc current
+ILeg = 5.5;
+ILowerLeg = 0.7;
+efficiency = 0.5;
+
+torqueHip = ILeg * angleHip_rads2;
+torqueKnee = ILowerLeg * angleKnee_rads2;
+
+powerKnee = torqueKnee .* angleKnee_RPM/60*2*pi;
+powerHip = torqueHip .* angleHip_RPM/60*2*pi;
+
+powerTotal = abs(powerKnee) + abs(powerKnee([1501:3000, 1:1500])) + abs(powerHip) + abs(powerHip([1501:3000, 1:1500]));
+powerTotal = powerTotal/efficiency;
+currentTotal = powerTotal/48;
+
+figure
+plot(powerTotal)
+plot(angleKnee_rads2)
+%plot(torqueHip)
+plot(currentTotal)
