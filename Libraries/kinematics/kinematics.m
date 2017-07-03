@@ -27,8 +27,9 @@ elseif selected(2) && selected(3) %angle knee and x given
 else
     %This still has to be finished
     warning('please select other design parameters, these are not working (yet).')
-    y = nan(1000,1);
-    x = nan(1000,1);
-    angleHip =nan(1000,1);
-    angleKnee =nan(1000,1);   
+    valuesAmount = length(design_spline_data_1);
+    y = nan(valuesAmount,1);
+    x = nan(valuesAmount,1);
+    angleHip =nan(valuesAmount,1);
+    angleKnee =nan(valuesAmount,1);   
 end

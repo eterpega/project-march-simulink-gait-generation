@@ -8,7 +8,7 @@ selected2 = [0 ,0, 1, 0]; %[Hip, Knee, x, y];
 
 selected = selected1 + selected2; %this vecotr contains both selected
 
-%%
+%%leg length
 Lul = 0.4; %[m]
 Lll = 0.4; %[m]
 
@@ -71,7 +71,8 @@ key_event_checker(keyEvent1, phaseToTime, 1, selected);
 key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
-[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength, spline1Limit, spline2Limit] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+
 angleHip = hip.angleHip;
 angleKnee = knee.angleKnee;
 save('angleHip.mat','angleHip')
@@ -106,9 +107,9 @@ foot_a = foot.ddfoot;
 %% Plot results
 gaitFigure = figure('Position',[200,0,1000,800]);
 subplot(3,2,1)
-plot(time,angleHip_deg,'Linewidth',2)
+plot(phase,angleHip_deg,'Linewidth',2)
 hold on
-plot(time,angleKnee_deg,'Linewidth',2);
+plot(phase,angleKnee_deg,'Linewidth',2);
 title('Joint angles')
 xlabel('Time [s]')
 ylabel('Angle [degree]')
@@ -201,6 +202,17 @@ axis([0, max(time), -0.2, 1.2])
 grid on
 
 disp(stepLength/stepTime);
+
+%% plot spline limits
+figure
+plot(time,angleKnee_deg,'Linewidth',2);
+hold on
+plot(time,rad2deg(spline1Limit),'Linewidth',1);
+
+figure
+plot(phase,x,'Linewidth',2)
+hold on
+plot(phase, spline2Limit)
 
 
 %% Animation
