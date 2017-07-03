@@ -55,9 +55,7 @@ sampleFrequency = 1000; %[Hz] sample frequency of SLRT model
 stepTime = 1.5; %[s] Time it takes for 1 setp
 strideTime = stepTime*2; %[s]
 samplePointAmount = strideTime*sampleFrequency; %this will determine the speed
-tInterval = strideTime/samplePointAmount; %[s] The difference in time between each interval
-
-
+tInterval = strideTime/samplePointAmount; %[s] The difference in time between each interval, will be ised to compute velocities
 phase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
 phaseToTime = strideTime/100;
 time = phase*phaseToTime; %[s] Time vector
@@ -104,7 +102,6 @@ y = y.y;
 foot_p = foot.foot;
 foot_v = foot.dfoot;
 foot_a = foot.ddfoot;
-
 
 %% Plot results
 gaitFigure = figure('Position',[200,0,1000,800]);
@@ -236,7 +233,10 @@ powerTotal = powerTotal/efficiency;
 currentTotal = powerTotal/48;
 
 figure
-plot(powerTotal)
-plot(angleKnee_rads2)
+%plot(powerTotal)
+%plot(angleKnee_rads2)
 %plot(torqueHip)
-plot(currentTotal)
+plot(time, currentTotal)
+title('Total current required')
+xlabel('time [s]')
+ylabel('Current [A]')
