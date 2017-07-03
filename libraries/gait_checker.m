@@ -14,10 +14,10 @@ accelerationKnee = knee.ddangleKnee;
 velocityHipMax = RPM_to_rads(24); 
 velocityKneeMax = RPM_to_rads(24); 
 
-angleHipMin = degree_to_rad(-20);
-angleHipMax = degree_to_rad(110);
-angleKneeMin = degree_to_rad(-5);
-angleKneeMax = degree_to_rad(110);
+angleHipMin = deg2rad(-20);
+angleHipMax = deg2rad(110);
+angleKneeMin = deg2rad(-5);
+angleKneeMax = deg2rad(110);
 
 outOfRangeHip = out_of_range(angleHip, angleHipMin, angleHipMax);
 outOfRangeKnee = out_of_range(angleKnee, angleKneeMin, angleKneeMax);

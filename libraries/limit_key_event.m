@@ -1,4 +1,4 @@
-function [spline1Limit, spline2Limit] = limit_key_event(spline1, spline2, selected, Lul, Lll)
+function [spline1Limit, spline2Limit] = limit_key_event(spline1, spline2, selected)
 
 if selected(1) && selected(2) %angle knee and angle hip given
 
@@ -16,8 +16,8 @@ elseif selected(2) && selected(3) %angle knee and x given
     angleKnee = spline1; %[rad]
     x = spline2; %[m]
     
-    [angleKneeMinimum, angleKneeMaximum] = limit_angle_knee_position_x(x, Lul, Lll);
-    [positionXMinimum, positionXMaximum]= limit_position_x_angle_knee(angleKnee, Lul, Lll);
+    [angleKneeMinimum, angleKneeMaximum] = limit_angle_knee_position_x(x);
+    [positionXMinimum, positionXMaximum]= limit_position_x_angle_knee(angleKnee);
     
     spline1Limit = [angleKneeMinimum; angleKneeMaximum];
     spline2Limit = [positionXMinimum; positionXMaximum];

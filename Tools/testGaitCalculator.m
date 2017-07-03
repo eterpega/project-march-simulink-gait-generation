@@ -2,15 +2,24 @@ close all
 clear all
 clc
 
+%% Define global parameters
+global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
+    angleHipEndStopMinimum angleHipEndStopMaximum
+
+% leg length
+LProximal = 0.4; %[m]
+LDistal = 0.4; %[m]
+
+% end stops
+angleKneeEndStopMinimum = deg2rad(-5);
+angleKneeEndStopMaximum = deg2rad(110);
+angleHipEndStopMinimum = deg2rad(-10);
+angleHipEndStopMaximum = deg2rad(115);
 %% First give an input which design spline has bee slected
 selected1 = [0 ,1, 0, 0]; %[Hip, Knee, x, y];
 selected2 = [0 ,0, 1, 0]; %[Hip, Knee, x, y];
 
 selected = selected1 + selected2; %this vecotr contains both selected
-
-%%leg length
-Lul = 0.4; %[m]
-Lll = 0.4; %[m]
 
 %% We create some key venet vectors based on some data from a reasearch
 keyEventHipPhase = [55, 85]; %[%]
@@ -218,7 +227,7 @@ plot(phase, spline2Limit)
 %% Animation
 %Find positions to plot
 [xRight, yRight, xLeft, yLeft] = position_leg(x , y, hip.angleHip,...
-    knee.angleKnee, stanceLegRight, stanceLegLeft, Lul,Lll);
+    knee.angleKnee, stanceLegRight, stanceLegLeft);
 
 %Lock the x of the stance leg foot
 [xRight, yRight, xLeft, yLeft] = lock_x_stance_leg(xRight, yRight, ...

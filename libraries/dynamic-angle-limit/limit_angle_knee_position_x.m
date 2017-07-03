@@ -1,26 +1,39 @@
-function [angleKneeMinimum, angleKneeMaximum] = limit_angle_knee_position_x(x, Lul, Lll)
+function [angleKneeMinimum, angleKneeMaximum] = limit_angle_knee_position_x(x)
 % this function finds the maximum and minimum knee angle achivable given a
 % certain x psotion
 
-angleKneeEndStopMinimum = deg2rad(-10);
-angleKneeEndStopMaximum = deg2rad(110);
+%% Load all required global parameters
+global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum...
+    angleHipEndStopMinimum angleHipEndStopMaximum
 
-% Endstops
-angleHipEndStopMinimum = deg2rad(-10); %[rad] lowest endstop
-angleHipEndStopMaximum = deg2rad(110); %[rad] maximum endstop
-angleHip = linspace(angleHipEndStopMinimum, angleHipEndStopMaximum, 1000);
+%% Possible hip angles
+% We will move the hip angle over all possible positions to see what is
+% possible
+angleHip = linspace(angleHipEndStopMinimum, angleHipEndStopMaximum, 1000); %[rad]
 
-x = x(:)'; %should be row
-angleHip = angleHip(:); %should be column
+%% Make sure both x and hip angle vecotr are in the right dimensions
+x = x(:)'; %[m] should be row
+angleHip = angleHip(:); %[rad] should be column
 
-angleKnee = angleHip - asin((x-Lul*sin(angleHip))/Lll);
+%% Find knee angle
+% We look for the required knee angle to reach the hipangle and x 
+% requirements
+angleKnee = angleHip - asin((x-LProximal*sin(angleHip))/LDistal); %[rad]
 
+%% Remove complex solutions
+% Some angles we found are complex, these should be removed since they are
+% not achivable
 % https://nl.mathworks.com/matlabcentral/newsreader/view_thread/255392
 angleKnee(~abs(imag(angleKnee))< eps('double').*abs(real(angleKnee))) = nan;
 
+%% Look for limits
+% We now look for the limits over all possible hip angles, we need the
+% minimum and maximum limits.
 angleKneeMinimum = min(angleKnee, [], 1);
 angleKneeMaximum = max(angleKnee, [], 1);
 
-
+%% Apply end-stops
+% Many angles we find may lie outside the endstop range, in this case set
+% it equal to the end-stop
 angleKneeMinimum(angleKneeMinimum < angleKneeEndStopMinimum) =  angleKneeEndStopMinimum;
 angleKneeMaximum(angleKneeMinimum < angleKneeEndStopMaximum) =  angleKneeEndStopMaximum;

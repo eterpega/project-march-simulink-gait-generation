@@ -10,14 +10,14 @@ end
 
 if selectedParameter == 1
     %Hip angle
-    valueMin = degree_to_rad(-20); %[rad]
-    valueMax = degree_to_rad(110); %[rad]
+    valueMin = deg2rad(-20); %[rad]
+    valueMax = deg2rad(110); %[rad]
     velocityMax = RPM_to_rads(2400);%[rad/s]
     accelerationMax = 99999;
 elseif selectedParameter == 2
     %Knee angle
-    valueMin = degree_to_rad(-5); %[rad]
-    valueMax = degree_to_rad(110);%[rad]
+    valueMin = deg2rad(-5); %[rad]
+    valueMax = deg2rad(110);%[rad]
      velocityMax = RPM_to_rads(2400);%[rad/s]
 elseif selectedParameter == 3
     %x position

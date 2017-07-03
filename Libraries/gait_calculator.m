@@ -22,9 +22,6 @@ function [hip, knee, x, y, foot, stanceLegRight, ...
 % The plot phase needs to be moved, we want to interpolate from the key
 % event to the last key event.
 
-Lul = 0.4;
-Lll = 0.4;
-
 plotPhase1 = keyEvent1(1,1) + plotStride; %[%]
 plotPhase2 = keyEvent2(1,1) + plotStride; %[%]
 
@@ -39,7 +36,7 @@ spline2 = hermite_cubic_spline_value( keyEvent2,plotPhase2);
 [spline2,plotPhase] = rearrange_from_zero_to_hundered(spline2, plotPhase2);
 
 %% Find limits used for GUI
-[spline1Limit, spline2Limit] = limit_key_event(spline1, spline2, selected, Lul, Lll);
+[spline1Limit, spline2Limit] = limit_key_event(spline1, spline2, selected);
 
 
 %% Inverse kinematics
