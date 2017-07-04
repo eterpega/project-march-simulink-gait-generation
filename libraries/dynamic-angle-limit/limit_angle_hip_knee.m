@@ -1,4 +1,4 @@
-function [angleHipMinimum, angleHipMaximum]  = limit_angle_hip(angleKnee)
+function [angleHipMinimum, angleHipMaximum]  = limit_angle_hip_knee(angleKnee)
 
 samplesAmount = length(angleKnee);
 

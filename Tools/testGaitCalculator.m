@@ -16,18 +16,18 @@ angleKneeEndStopMaximum = deg2rad(110);
 angleHipEndStopMinimum = deg2rad(-10);
 angleHipEndStopMaximum = deg2rad(115);
 %% First give an input which design spline has bee slected
-selected1 = [0 ,1, 0, 0]; %[Hip, Knee, x, y];
-selected2 = [0 ,0, 1, 0]; %[Hip, Knee, x, y];
+selected1 = [1 ,0, 0, 0]; %[Hip, Knee, x, y];
+selected2 = [0 ,1, 0, 0]; %[Hip, Knee, x, y];
 
 selected = selected1 + selected2; %this vecotr contains both selected
 
 %% We create some key venet vectors based on some data from a reasearch
 keyEventHipPhase = [55, 85]; %[%]
-keyEventHipAngle = [-7, 20]/180*pi; %[rad]
+keyEventHipAngle = deg2rad([-7, 20]); %[rad]
 keyEventHipdAngle = [0,0]; %[rad/%] 
 
 keyEventKneePhase = [0, 18, 45, 78];   %[%]
-keyEventKneeAngle = [0, 15, 2, 60]/180*pi;  %[rad] 
+keyEventKneeAngle = deg2rad([0, 15, 2, 60]);  %[rad] 
 keyEventKneedAngle = [0,0, 0 ,0]; %[rad/%]
 
 keyEventXPhase = [0, 18, 45, 62]; %[%]
@@ -87,13 +87,8 @@ angleKnee = knee.angleKnee;
 save('angleHip.mat','angleHip')
 save('angleKnee.mat','angleKnee')
 %% Check gait
-[errorDetected, warningDetected, message] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
-if warningDetected
-    warning(message);
-end
-if errorDetected
-    error(message);
-end
+gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
+
 
 %% Process data
 %angleHip
