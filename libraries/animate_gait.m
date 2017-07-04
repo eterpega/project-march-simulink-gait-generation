@@ -20,9 +20,8 @@ stepAmount = 0;
 while true  %if not stopped it will play back forever
     tic %[s] start timer
     i = i + iInterval; %Determine which frame needs to be played next
-    if i > 3000 %make sure it is always in the vector range
-        i = mod(i,samplePointAmount);
-    end
+    
+    i = mod(i,samplePointAmount); %make sure it is always in the vector range
     if i < iInterval
     	stepAmount = stepAmount + 2;
     end
@@ -37,8 +36,7 @@ while true  %if not stopped it will play back forever
         
         %wait some time, so the gait is played back at an accurate speed.
         while true
-            if (toc < Ttimer)
-            else
+            if ~(toc < Ttimer)
                 break
             end
         end
