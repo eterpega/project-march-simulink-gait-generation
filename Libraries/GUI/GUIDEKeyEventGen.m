@@ -77,11 +77,14 @@ stepFreq=keyEventData.stepFreq;
 
 %% Define global parameters
 global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
-    angleHipEndStopMinimum angleHipEndStopMaximum
+    angleHipEndStopMinimum angleHipEndStopMaximum sampleFrequency stepTime
 
 % leg length
 LProximal = 0.4; %[m]
 LDistal = 0.4; %[m]
+
+sampleFrequency = 1000; %[Hz] sample frequency of SLRT model
+stepTime = 1.5; %[s] Time it takes for 1 step
 
 % end stops
 angleKneeEndStopMinimum = deg2rad(-5);
@@ -387,6 +390,8 @@ x=keyEventData.x;
 y=keyEventData.y;
 %Selected vector
 selected=keyEventData.selected;
+%Step frequency
+stepFreq=keyEventData.stepFreq;
 
 %Clear all plots
 cla(handles.graphQHip);
@@ -487,7 +492,8 @@ function AnimationButton_Callback(hObject, eventdata, handles)
 % hObject    handle to AnimationButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+selected=getappdata(handles.SelectionList,'selected');
+animation_gui(handles, selected);
 
 % --- Executes on selection change in SelectionList.
 function SelectionList_Callback(hObject, eventdata, handles)
@@ -531,10 +537,6 @@ function keyEventdYY_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of keyEventdYY as text
-%        str2double(get(hObject,'String')) returns contents of keyEventdYY as a double
-
-
 % --- Executes during object creation, after setting all properties.
 function keyEventdYY_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to keyEventdYY (see GCBO)
@@ -552,10 +554,6 @@ function keyEventY_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventY (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of keyEventY as text
-%        str2double(get(hObject,'String')) returns contents of keyEventY as a double
-
 
 % --- Executes during object creation, after setting all properties.
 function keyEventY_CreateFcn(hObject, eventdata, handles)
@@ -575,10 +573,6 @@ function keyEventPhaseY_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of keyEventPhaseY as text
-%        str2double(get(hObject,'String')) returns contents of keyEventPhaseY as a double
-
-
 % --- Executes during object creation, after setting all properties.
 function keyEventPhaseY_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseY (see GCBO)
@@ -597,9 +591,6 @@ function keyEventdQHip_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of keyEventdQHip as text
-%        str2double(get(hObject,'String')) returns contents of keyEventdQHip as a double
-
 
 % --- Executes during object creation, after setting all properties.
 function keyEventdQHip_CreateFcn(hObject, eventdata, handles)
@@ -613,16 +604,10 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-
 function keyEventQHip_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventQHip (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of keyEventQHip as text
-%        str2double(get(hObject,'String')) returns contents of keyEventQHip as a double
-
 
 % --- Executes during object creation, after setting all properties.
 function keyEventQHip_CreateFcn(hObject, eventdata, handles)
@@ -630,8 +615,6 @@ function keyEventQHip_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -641,18 +624,11 @@ function keyEventPhaseHip_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of keyEventPhaseHip as text
-%        str2double(get(hObject,'String')) returns contents of keyEventPhaseHip as a double
-
-
 % --- Executes during object creation, after setting all properties.
 function keyEventPhaseHip_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseHip (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -668,15 +644,10 @@ FileName = uiputfile('GaitData.mat','Save Gait Data');
 gait=compute_splines(handles, selected);
 save(FileName,'-struct','gait','splineHip','splineKnee');
 
-
-
 function stepFreq_Callback(hObject, eventdata, handles)
 % hObject    handle to stepFreq (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of stepFreq as text
-%        str2double(get(hObject,'String')) returns contents of stepFreq as a double
 
 
 % --- Executes during object creation, after setting all properties.
@@ -684,9 +655,6 @@ function stepFreq_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to stepFreq (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end

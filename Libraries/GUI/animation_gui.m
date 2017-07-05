@@ -1,5 +1,6 @@
-function [gait]=compute_splines(handles, selected)
-%% First give an input which design spline has bee slected
+function animation_gui(handles, selected)
+
+% First give an input which design spline has bee slected
 %[hip, knee, x, y]
 if selected==[1, 1, 0, 0]
     keyEvent1 = get_gait_data(handles,'hip');
@@ -35,23 +36,19 @@ key_event_checker(keyEvent1, phaseToTime, 1, selected);
 key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
-[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
 
 %% Check gait
-gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
+gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
 
-%% Process data
+%% Animation
+%Find positions to plot
+[xRight, yRight, xLeft, yLeft] = position_leg(x.x , y.y, hip.angleHip,...
+    knee.angleKnee, stanceLegRight, stanceLegLeft);
 
-%angleHip
-angleHip_deg = hip.angleHip/(pi)*180; %[deg]
-%angleKnee
-angleKnee_deg = knee.angleKnee/(pi)*180; %[deg]
+%Lock the x of the stance leg foot
+[xRight, yRight, xLeft, yLeft] = lock_x_stance_leg(xRight, yRight, ...
+    xLeft, yLeft, stanceLegRight, stanceLegLeft);
 
-%Make spline vectors [x y]
-gait.splineHip=[phase', angleHip_deg];
-gait.splineKnee=[phase', angleKnee_deg];
-gait.splineX=[phase', x.x];
-gait.splineY=[phase', y.y];
-
-draw_splines(handles,gait)
-end
+%Animate position leg
+animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength)
