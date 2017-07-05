@@ -23,7 +23,7 @@ selected = selected1 + selected2; %this vecotr contains both selected
 
 %% We create some key venet vectors based on some data from a reasearch
 keyEventHipPhase = [55, 85]; %[%]
-keyEventHipAngle = deg2rad([-7, 20]); %[rad]
+keyEventHipAngle = deg2rad([-70, 90]); %[rad] [-7, 20]
 keyEventHipdAngle = [0,0]; %[rad/%] 
 
 keyEventKneePhase = [0, 18, 45, 78];   %[%]

@@ -2,8 +2,8 @@ function animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmoun
 % This function playes back the leg positions at the correct speed.
 
 %%Create and intialize plot
-p = figure('Position', [200,200,1000,500]); %create figure
-axis([-1 1, 0 , 1])
+p = figure('Position', [200,200,1600,400]); %create figure
+axis([-1 3, 0 , 1])
 grid on
 xlabel('x [m]')
 ylabel('y [m]')
