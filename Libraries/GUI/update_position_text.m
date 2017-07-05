@@ -1,40 +1,75 @@
 function update_position_text(h,handles)
+
+%Find graphHandle
 graphHandle=get(h,'parent');
 
 switch get(graphHandle,'Tag')
     case 'graphQKnee'
-        graphHandle=handles.graphQKnee;
         phaseHandle=handles.keyEventPhaseKnee;
         yHandle=handles.keyEventQKnee;
         dYHandle=handles.keyEventdQKnee;
-        type='1';
+        convFact=(pi/180);
+    case 'graphQHip'
+        phaseHandle=handles.keyEventPhaseHip;
+        yHandle=handles.keyEventQHip;
+        dYHandle=handles.keyEventdQHip;
+        convFact=(pi/180);
     case 'graphX'
-        graphHandle=handles.graphX;
         phaseHandle=handles.keyEventPhaseX;
         yHandle=handles.keyEventX;
         dYHandle=handles.keyEventdYX;
-        type='2';
+        convFact=1;
+    case 'graphY'
+        phaseHandle=handles.keyEventPhaseY;
+        yHandle=handles.keyEventY;
+        dYHandle=handles.keyEventdYY;
+        convFact=1;
     otherwise 
-        error('ERROR: Inputtype not allowed')
+        msgbox('Error: Inputtype not allowed','Error: update_position_text')
 end
 
-%Get point positions
-for n=1:size(graphHandle.UserData.Points,2)
-    impoints=graphHandle.UserData.Points{n};
-    position(n,:)=getPosition(impoints);
+%Find Children
+childHandle=get(graphHandle,'children');
+impointHandles = findobj(childHandle,'-depth',1,'-not','Type','Line');
+
+%Get points position from graph
+for n=1:size(impointHandles,1)
+    position(n,:)=getPosition(graphHandle.UserData.Points{n});
 end
+
+%Read dy data
+dy=getappdata(graphHandle,'gaitData');
+position(:,3)=dy.dy;
 
 %Sort points on ascending X position
 position = sortrows(position,1);
-%Transpose position matrix
+
+%Transpose matrix
 position = position';
 
+%Create data struct with position data
+data.phase = position(1,:);
+data.y = position(2,:).*convFact;
+data.dy = position(3,:).*convFact;
+
+%Set gaitData field to data
+setappdata(graphHandle,'gaitData',data);
+
+%Write gait data to respective GUI text fields
 format='%2.2f';
-set_gui_string(position(1,:),phaseHandle,'String',format);
-set_gui_string(position(2,:),yHandle,'String',format);
-dY=str2num(get(dYHandle,'String'));
-%[phaseEvent1, phaseEvent2, selected] = get_gait_data(handles)
+dyformat='%2.4f';
+set_gui_string(graphHandle,'phase',phaseHandle,'String', format, 1);
+set_gui_string(graphHandle,'y',yHandle,'String', format, 1/convFact);
+set_gui_string(graphHandle,'dy',dYHandle,'String', dyformat, 1/convFact);
+
+guidata(graphHandle,handles);
+
+%Draw splines on graph
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles,selected);
 
 %Update Handles
 guidata(graphHandle,handles);
+
+
 end

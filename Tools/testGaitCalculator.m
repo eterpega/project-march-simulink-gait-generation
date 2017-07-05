@@ -233,7 +233,7 @@ plot(phase, spline2Limit)
 %Animate position leg
 animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength)
 
-%% Finc current
+%% Find current
 ILeg = 5.5;
 ILowerLeg = 0.7;
 efficiency = 0.5;

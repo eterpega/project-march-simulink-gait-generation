@@ -28,7 +28,7 @@ switch type
         convFact=1;
     otherwise 
         msgbox('ERROR: Key Event input vectors do not have same length','Error: User input Key Event')
-        return
+        re
 end
 
 %Delete all previous impoints
@@ -55,8 +55,7 @@ else
         %Write impoint handles and position to UserData field of Graph
         %graphHandle.UserData.Points{n}=h(n);
         addNewPositionCallback(graphHandle.UserData.Points{n},@(varargin)update_position_text(graphHandle.UserData.Points{n},handles));
-        end  
-end
+        end       
 
 %Update Handles
 guidata(graphHandle,handles);

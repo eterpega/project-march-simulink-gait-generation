@@ -1,13 +1,37 @@
-function [phaseEvent1, phaseEvent2, selected] = get_gait_data(handles)
+function [phaseEvent] = get_gait_data(handles,type)
 
-conversionFactor=(pi()/180);
-phase1=str2num(get(handles.keyEventPhaseKnee,'String')).*conversionFactor;
-phase2=str2num(get(handles.keyEventPhaseX,'String')).*conversionFactor;
-y1=str2num(get(handles.keyEventQKnee,'String')).*conversionFactor;
-y2=str2num(get(handles.keyEventX,'String')).*conversionFactor;
-dY1=str2num(get(handles.keyEventdQKnee,'String')).*conversionFactor;
-dY2=str2num(get(handles.keyEventdYX,'String')).*conversionFactor;
-selected=[0 1 1 0];
+if strcmpi(type,'knee')
+    data=getappdata(handles.graphQKnee,'gaitData');
+    phase=data.phase;
+    y=data.y;
+    dy=data.dy;
+    guidata(handles.graphQKnee,handles);
+elseif strcmpi(type,'hip')
+    data=getappdata(handles.graphQHip,'gaitData');
+    phase=data.phase;
+    y=data.y;
+    dy=data.dy;
+    guidata(handles.graphQHip,handles);
+elseif strcmpi(type,'x')
+    data=getappdata(handles.graphX,'gaitData');
+    phase=data.phase;
+    y=data.y;
+    dy=data.dy;
+    guidata(handles.graphX,handles);
+elseif strcmpi(type,'y')
+    data=getappdata(handles.graphY,'gaitData');
+    phase=data.phase;
+    y=data.y;
+    dy=data.dy;
+    guidata(handles.graphY,handles);
+else
+    error('ERROR: get_gait_data type is NOT valid')
+end
 
-phaseEvent1=[phase1; y1; dY1];
-phaseEvent2=[phase2; y2; dY2]
+if length(phase)~=length(y) || length(phase)~=length(dy) || length(y)~=length(dy)
+     msgbox(strcat('ERROR: Key Event input vectors of [',type,'] do not have same length'),'Key Event input error','warn','replace')
+     return
+end
+     
+phaseEvent=[phase; y; dy];
+

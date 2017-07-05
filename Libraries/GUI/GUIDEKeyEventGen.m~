@@ -75,20 +75,6 @@ selected=keyEventData.selected;
 %Step frequency
 stepFreq=keyEventData.stepFreq;
 
-%% Define global parameters
-global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
-    angleHipEndStopMinimum angleHipEndStopMaximum
-
-% leg length
-LProximal = 0.4; %[m]
-LDistal = 0.4; %[m]
-
-% end stops
-angleKneeEndStopMinimum = deg2rad(-5);
-angleKneeEndStopMaximum = deg2rad(110);
-angleHipEndStopMinimum = deg2rad(-10);
-angleHipEndStopMaximum = deg2rad(115);
-
 %Define graph limit values GUI
 kneeXLim=[0 100];
 kneeYLim=[-10 130];
@@ -116,7 +102,7 @@ set(handles.graphY,'XLim',yXLim);
 set(handles.graphY,'YLim',yYLim);
 
 %Set stepFreq
-set(handles.stepFreq,'String',num2str(stepFreq));
+set(handles.stepFrequency,'String',stepFreq);
 
 %Write data to UserData field of respective graph
 setappdata(handles.graphQKnee,'gaitData',knee);
