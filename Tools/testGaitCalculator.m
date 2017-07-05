@@ -16,8 +16,8 @@ angleKneeEndStopMaximum = deg2rad(110);
 angleHipEndStopMinimum = deg2rad(-10);
 angleHipEndStopMaximum = deg2rad(115);
 %% First give an input which design spline has bee slected
-selected1 = [1 ,0, 0, 0]; %[Hip, Knee, x, y];
-selected2 = [0 ,1, 0, 0]; %[Hip, Knee, x, y];
+selected1 = [0 ,1 ,0 , 0]; %[Hip, Knee, x, y];
+selected2 = [0 ,0 ,1 , 0]; %[Hip, Knee, x, y];
 
 selected = selected1 + selected2; %this vecotr contains both selected
 
@@ -80,16 +80,16 @@ key_event_checker(keyEvent1, phaseToTime, 1, selected);
 key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
+% slowest function
 [hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength, spline1Limit, spline2Limit] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+
+%% Check gait
+gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
 
 angleHip = hip.angleHip;
 angleKnee = knee.angleKnee;
 save('angleHip.mat','angleHip')
 save('angleKnee.mat','angleKnee')
-%% Check gait
-gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
-
-
 %% Process data
 %angleHip
 angleHip_deg = hip.angleHip/(2*pi)*360; %[deg]
@@ -211,12 +211,16 @@ disp(stepLength/stepTime);
 figure
 plot(time,angleKnee_deg,'Linewidth',2);
 hold on
-plot(time,rad2deg(spline1Limit),'Linewidth',1);
+plot(time,rad2deg(spline1Limit.minimum),'Linewidth',1);
+hold on
+plot(time,rad2deg(spline1Limit.maximum),'Linewidth',1);
 
 figure
-plot(phase,x,'Linewidth',2)
+plot(time,x,'Linewidth',2)
 hold on
-plot(phase, spline2Limit)
+plot(time,spline2Limit.minimum,'Linewidth',1);
+hold on
+plot(time,spline2Limit.maximum,'Linewidth',1);
 
 
 %% Animation

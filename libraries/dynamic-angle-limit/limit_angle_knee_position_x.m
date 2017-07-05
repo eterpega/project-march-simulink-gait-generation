@@ -1,7 +1,7 @@
 function [angleKneeMinimum, angleKneeMaximum] = limit_angle_knee_position_x(x)
 % this function finds the maximum and minimum knee angle achivable given a
 % certain x psotion
-
+%0.08
 %% Load all required global parameters
 global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum...
     angleHipEndStopMinimum angleHipEndStopMaximum
@@ -23,8 +23,7 @@ angleKnee = angleHip - asin((x-LProximal*sin(angleHip))/LDistal); %[rad]
 %% Remove complex solutions
 % Some angles we found are complex, these should be removed since they are
 % not achivable
-% https://nl.mathworks.com/matlabcentral/newsreader/view_thread/255392
-angleKnee(~abs(imag(angleKnee))< eps('double').*abs(real(angleKnee))) = nan;
+angleKnee(angleKnee ~= real(angleKnee)) = nan;
 
 %% Look for limits
 % We now look for the limits over all possible hip angles, we need the
