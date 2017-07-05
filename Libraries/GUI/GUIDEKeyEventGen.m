@@ -467,6 +467,9 @@ y.dy=ymat(3,:);
 %get 'selected' vector
 selected=getappdata(handles.SelectionList,'selected');
 
+%get 'stepFreq' value
+stepFreq=get(handles.stepFreq,'String');
+
 %Define filename
 FileName = uiputfile('KeyEventData.mat','Save Key Event data');
 
@@ -476,6 +479,7 @@ save(FileName,'knee','-append');
 save(FileName,'x','-append');
 save(FileName,'y','-append');
 save(FileName,'selected','-append');
+save(FileName,'stepFreq','-append');
 
 
 % --- Executes on button press in AnimationButton.

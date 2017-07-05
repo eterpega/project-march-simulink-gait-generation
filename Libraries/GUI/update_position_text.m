@@ -50,7 +50,7 @@ position = position';
 %Create data struct with position data
 data.phase = position(1,:);
 data.y = position(2,:).*convFact;
-data.dy = position(3,:).*convFact;
+data.dy = position(3,:);
 
 %Set gaitData field to data
 setappdata(graphHandle,'gaitData',data);

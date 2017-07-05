@@ -75,11 +75,25 @@ selected=keyEventData.selected;
 %Step frequency
 stepFreq=keyEventData.stepFreq;
 
+%% Define global parameters
+global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
+    angleHipEndStopMinimum angleHipEndStopMaximum
+
+% leg length
+LProximal = 0.4; %[m]
+LDistal = 0.4; %[m]
+
+% end stops
+angleKneeEndStopMinimum = deg2rad(-5);
+angleKneeEndStopMaximum = deg2rad(110);
+angleHipEndStopMinimum = deg2rad(-10);
+angleHipEndStopMaximum = deg2rad(115);
+
 %Define graph limit values GUI
-kneeXLim=[0 100];
-kneeYLim=[-10 130];
+kneeXLim=[0 100 ];
+kneeYLim=[(rad2deg(angleKneeEndStopMinimum)-5) (rad2deg(angleKneeEndStopMaximum)+5)];
 hipXLim=[0 100];
-hipYLim=[-10 130];
+hipYLim=[(rad2deg(angleHipEndStopMinimum)-5) (rad2deg(angleHipEndStopMaximum)+5)];
 xXLim=[0 100];
 xYLim=[-0.3 0.3];
 yXLim=[0 100];
@@ -102,7 +116,7 @@ set(handles.graphY,'XLim',yXLim);
 set(handles.graphY,'YLim',yYLim);
 
 %Set stepFreq
-set(handles.stepFrequency,'String',stepFreq);
+set(handles.stepFreq,'String',num2str(stepFreq));
 
 %Write data to UserData field of respective graph
 setappdata(handles.graphQKnee,'gaitData',knee);
@@ -462,6 +476,7 @@ save(FileName,'knee','-append');
 save(FileName,'x','-append');
 save(FileName,'y','-append');
 save(FileName,'selected','-append');
+save(FileName,'stepFreq','-append');
 
 
 % --- Executes on button press in AnimationButton.
