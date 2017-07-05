@@ -77,11 +77,14 @@ stepFreq=keyEventData.stepFreq;
 
 %% Define global parameters
 global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
-    angleHipEndStopMinimum angleHipEndStopMaximum
+    angleHipEndStopMinimum angleHipEndStopMaximum sampleFrequency stepTime
 
 % leg length
 LProximal = 0.4; %[m]
 LDistal = 0.4; %[m]
+
+sampleFrequency = 1000; %[Hz] sample frequency of SLRT model
+stepTime = 1.5; %[s] Time it takes for 1 step
 
 % end stops
 angleKneeEndStopMinimum = deg2rad(-5);
@@ -387,6 +390,8 @@ x=keyEventData.x;
 y=keyEventData.y;
 %Selected vector
 selected=keyEventData.selected;
+%Step frequency
+stepFreq=keyEventData.stepFreq;
 
 %Clear all plots
 cla(handles.graphQHip);
@@ -467,6 +472,9 @@ y.dy=ymat(3,:);
 %get 'selected' vector
 selected=getappdata(handles.SelectionList,'selected');
 
+%get 'stepFreq' value
+stepFreq=get(handles.stepFreq,'String');
+
 %Define filename
 FileName = uiputfile('KeyEventData.mat','Save Key Event data');
 
@@ -484,7 +492,8 @@ function AnimationButton_Callback(hObject, eventdata, handles)
 % hObject    handle to AnimationButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+animation_gui(x, y, hip.angleHip, knee.angleKnee, stanceLegRight, stanceLegLeft,...
+    sampleFrequency, samplePointAmount, stepLength)
 
 % --- Executes on selection change in SelectionList.
 function SelectionList_Callback(hObject, eventdata, handles)
