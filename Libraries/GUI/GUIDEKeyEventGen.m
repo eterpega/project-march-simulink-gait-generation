@@ -90,10 +90,10 @@ angleHipEndStopMinimum = deg2rad(-10);
 angleHipEndStopMaximum = deg2rad(115);
 
 %Define graph limit values GUI
-kneeXLim=[0 100];
-kneeYLim=[-10 130];
+kneeXLim=[0 100 ];
+kneeYLim=[(rad2deg(angleKneeEndStopMinimum)-5) (rad2deg(angleKneeEndStopMaximum)+5)];
 hipXLim=[0 100];
-hipYLim=[-10 130];
+hipYLim=[(rad2deg(angleHipEndStopMinimum)-5) (rad2deg(angleHipEndStopMaximum)+5)];
 xXLim=[0 100];
 xYLim=[-0.3 0.3];
 yXLim=[0 100];
