@@ -15,6 +15,10 @@ angleKneeEndStopMinimum = deg2rad(-5);
 angleKneeEndStopMaximum = deg2rad(110);
 angleHipEndStopMinimum = deg2rad(-10);
 angleHipEndStopMaximum = deg2rad(115);
+
+%% Animation
+dynamic = 0; %if set to one the animation will walk away
+
 %% First give an input which design spline has bee slected
 selected1 = [0 ,1 ,0 , 0]; %[Hip, Knee, x, y];
 selected2 = [0 ,0 ,1 , 0]; %[Hip, Knee, x, y];
@@ -80,7 +84,6 @@ key_event_checker(keyEvent1, phaseToTime, 1, selected);
 key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
-% slowest function
 [hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength, spline1Limit, spline2Limit] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
 
 %% Check gait
@@ -229,13 +232,12 @@ plot(time,spline2Limit.maximum,'Linewidth',1);
     knee.angleKnee, stanceLegRight, stanceLegLeft);
 
 %Lock the x of the stance leg foot
-[xRight, yRight, xLeft, yLeft] = lock_x_stance_leg(xRight, yRight, ...
-    xLeft, yLeft, stanceLegRight, stanceLegLeft);
-
-%Lock the x of the stance leg foot
+[xRight, xLeft] = lock_x_stance_leg(xRight, xLeft, stanceLegRight, ...
+    stanceLegLeft, dynamic);
 
 %Animate position leg
-animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength)
+animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency, ...
+    samplePointAmount,stepLength, dynamic)
 
 %% Find current
 ILeg = 5.5;

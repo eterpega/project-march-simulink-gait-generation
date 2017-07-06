@@ -1,9 +1,13 @@
-function animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength)
+function animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength, dynamic)
 % This function playes back the leg positions at the correct speed.
 
+if ~dynamic
+    stepLength = 0;
+end
+
 %%Create and intialize plot
-p = figure('Position', [200,200,1600,400]); %create figure
-axis([-1 3, 0 , 1])
+p = figure('Position', [200,200,500,400]); %create figure
+axis([-0.6 0.6, 0 , 1])
 grid on
 xlabel('x [m]')
 ylabel('y [m]')
@@ -29,9 +33,13 @@ while true  %if not stopped it will play back forever
     if ishandle(p) %if the figure p is not closed
         figure(p);
         hold on
-        Right = plot(xRight(:,i)+stepAmount*stepLength, yRight(:,i),'Color','g');
+        
+        xRightActual = xRight(:,i)+stepAmount*stepLength;
+        xLeftActual = xLeft(:,i)+stepAmount*stepLength;
+        
+        Right = plot(xRightActual, yRight(:,i),'Color','g');
         hold on
-        Left = plot(xLeft(:,i)+stepAmount*stepLength, yLeft(:,i),'Color','r');
+        Left = plot(xLeftActual, yLeft(:,i),'Color','r');
         drawnow 
         
         %wait some time, so the gait is played back at an accurate speed.

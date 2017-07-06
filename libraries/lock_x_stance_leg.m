@@ -1,8 +1,8 @@
-function [xRight, yRight, xLeft, yLeft] = lock_x_stance_leg(xRight, ...
-    yRight, xLeft, yLeft, stanceLegRight, stanceLegLeft)
+function [xRightOut, xLeftOut] = lock_x_stance_leg(xRightIn, ...
+    xLeftIn, stanceLegRight, stanceLegLeft, dynamic)
 
-xFootRight = xRight(1,:);
-xFootLeft = xLeft(1,:);
+xFootRight = xRightIn(1,:);
+xFootLeft = xLeftIn(1,:);
 samplePointAmount = length(xFootLeft);
 xDiff = xFootRight .* stanceLegRight' + xFootLeft .* stanceLegLeft';
 
@@ -16,5 +16,10 @@ for i = 1:(length(iOverStep)-1)
     xDiffOverStep = xDiffOverStep + [zeros(1,iOverStep(i+1)+1), repmat(lengthOverStep(i),1,samplePointAmount-iOverStep(i+1)-1)];
 end
 
-xRight = xRight - xDiff + xDiffOverStep;
-xLeft = xLeft - xDiff + xDiffOverStep;
+if dynamic
+    xRightOut = xRightIn - xDiff + xDiffOverStep;
+    xLeftOut = xLeftIn - xDiff + xDiffOverStep;
+else
+    xRightOut = xRightIn;
+    xLeftOut = xLeftIn;
+end
