@@ -43,7 +43,7 @@ kneeYLim=[(rad2deg(angleKneeEndStopMinimum)-5) (rad2deg(angleKneeEndStopMaximum)
 hipXLim=[0 100];
 hipYLim=[(rad2deg(angleHipEndStopMinimum)-5) (rad2deg(angleHipEndStopMaximum)+5)];
 xXLim=[0 100];
-xYLim=[-0.3 0.3];
+xYLim=[-0.4 0.4];
 yXLim=[0 100];
 yYLim=[0 0.2];
 
@@ -63,7 +63,7 @@ set(handles.graphX,'YLim',xYLim);
 set(handles.graphY,'XLim',yXLim);
 set(handles.graphY,'YLim',yYLim);
 
-%Set stepFreq
+%Set stepTime
 set(handles.stepTime,'String',num2str(stepTime));
 
 %Write data to UserData field of respective graph

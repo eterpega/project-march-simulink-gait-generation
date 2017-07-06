@@ -12,7 +12,7 @@ elseif selected==[0, 1, 1, 0]
     keyEvent1 = get_gait_data(handles,'knee');
     keyEvent2 = get_gait_data(handles,'x'); 
 else
-    error('ERROR: parameter selection not valid for compute_splines')
+    error('ERROR: parameter selection not valid for animation_gui')
 end
 
 % Create phase vector. 
