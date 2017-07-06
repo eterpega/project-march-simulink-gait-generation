@@ -46,24 +46,20 @@ if any(isgraphics(get(handles.graphQHip ,'children'),'Line'))
     childrenKnee = get(handles.graphQKnee, 'children');
     childrenX = get(handles.graphX, 'children');
     childrenY = get(handles.graphY, 'children');
-    childrenLimit1 = get(graphHandle1, 'children');
-    childrenLimit2 = get(graphHandle2, 'children');
+    childrenLimit1 = get(handles.graphY, 'children');
+    childrenLimit2 = get(handles.graphY, 'children');
     
     %Find handles of splines
     lineHandleHip=findobj(childrenHip,'-depth',1,'Type','Line');
-    lineHandleKnee=findobj(childrenKnee,'-depth',1,'Type','Line');
+    lineHandleKnee=findobj(childrenKnee,'-depth',1,'Type','Line')
     lineHandleX=findobj(childrenX,'-depth',1,'Type','Line');
     lineHandleY=findobj(childrenY,'-depth',1,'Type','Line');
-    lineHandleLimit1=findobj(childrenLimit1,'-depth',1,'Type','Line');
-    lineHandleLimit2=findobj(childrenLimit2,'-depth',1,'Type','Line');
-        
+    
     %Delete previous lines    
     delete(lineHandleHip(1));
     delete(lineHandleKnee(1));
     delete(lineHandleX(1));
     delete(lineHandleY(1));
-    delete(lineHandleLimit1(1:3));
-    delete(lineHandleLimit2(1:3));
     
     %Hold axes to not override points
     hold(handles.graphQHip,'on');

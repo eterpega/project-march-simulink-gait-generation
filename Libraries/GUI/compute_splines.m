@@ -3,10 +3,14 @@ function [gait]=compute_splines(handles, selected)
 %[hip, knee, x, y]
 if selected==[1, 1, 0, 0]
     keyEvent1 = get_gait_data(handles,'hip');
-    keyEvent2 = get_gait_data(handles,'knee');    
+    keyEvent2 = get_gait_data(handles,'knee');
+    convFact1 = 180/pi;
+    convFact2 = 180/pi;
 elseif selected==[0, 0, 1, 1]
     keyEvent1 = get_gait_data(handles,'x');
     keyEvent2 = get_gait_data(handles,'y'); 
+    convFact1 = 1;
+    convFact2 = 1;
 elseif selected==[0, 1, 1, 0]
     keyEvent1 = get_gait_data(handles,'knee');
     keyEvent2 = get_gait_data(handles,'x'); 
@@ -35,7 +39,7 @@ key_event_checker(keyEvent1, phaseToTime, 1, selected);
 key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
-[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength, spline1Limit, spline2Limit] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
 
 %% Check gait
 gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
@@ -53,6 +57,8 @@ gait.splineHip=[phase', angleHip_deg];
 gait.splineKnee=[phase', angleKnee_deg];
 gait.splineX=[phase', x.x];
 gait.splineY=[phase', y.y];
+gait.spline1Limit=spline1Limit;
+gait.spline2Limit=spline2Limit;
 
-draw_splines(handles,gait)
+draw_splines(handles,gait,selected)
 end
