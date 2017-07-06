@@ -42,6 +42,7 @@ gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
 
 %% Process data
 
+
 %angleHip
 angleHip_deg = hip.angleHip/(pi)*180; %[deg]
 %angleKnee

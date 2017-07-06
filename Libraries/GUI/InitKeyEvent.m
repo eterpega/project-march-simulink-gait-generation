@@ -24,7 +24,7 @@ y.y         =   [0.15, 0.0, -0.1, -0.25];
 y.dy        =   [0, -0.0035, -0.0035, 0];
 
 selected=[0 1 1 0];
-stepFreq=1.5;
+stepTime=1.5;
 
 %Save structs to file
 filename='KeyEventData.mat';
@@ -33,6 +33,6 @@ save(filename,'knee','-append');
 save(filename,'x','-append');
 save(filename,'y','-append');
 save(filename,'selected','-append');
-save(filename,'stepFreq','-append');
+save(filename,'stepTime','-append');
 
 clear all

@@ -7,6 +7,7 @@ axis([-1 3, 0 , 1])
 grid on
 xlabel('x [m]')
 ylabel('y [m]')
+title('Gait Animation')
 
 %% Find play back time
 fps = 25;   %[Hz] the fps at which we want to play the animation
