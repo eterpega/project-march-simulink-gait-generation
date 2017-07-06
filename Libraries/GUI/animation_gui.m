@@ -1,4 +1,5 @@
 function animation_gui(handles, selected)
+dynamic = 0; %if set to one the animation will walk away
 
 % First give an input which design spline has bee slected
 %[hip, knee, x, y]
@@ -41,14 +42,15 @@ key_event_checker(keyEvent2, phaseToTime, 2, selected);
 %% Check gait
 gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
 
-%% Animation
+%% Animate 
 %Find positions to plot
 [xRight, yRight, xLeft, yLeft] = position_leg(x.x , y.y, hip.angleHip,...
     knee.angleKnee, stanceLegRight, stanceLegLeft);
 
 %Lock the x of the stance leg foot
-[xRight, yRight, xLeft, yLeft] = lock_x_stance_leg(xRight, yRight, ...
-    xLeft, yLeft, stanceLegRight, stanceLegLeft);
+[xRight, xLeft] = lock_x_stance_leg(xRight, xLeft, stanceLegRight, ...
+    stanceLegLeft, dynamic);
 
 %Animate position leg
-animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency,samplePointAmount,stepLength)
+animate_gait(xRight,yRight,xLeft,yLeft,sampleFrequency, ...
+    samplePointAmount,stepLength, dynamic)
