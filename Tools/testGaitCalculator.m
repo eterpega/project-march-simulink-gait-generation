@@ -20,14 +20,14 @@ angleHipEndStopMaximum = deg2rad(115);
 dynamic = 0; %if set to one the animation will walk away
 
 %% First give an input which design spline has bee slected
-selected1 = [0 ,1 ,0 , 0]; %[Hip, Knee, x, y];
-selected2 = [0 ,0 ,1 , 0]; %[Hip, Knee, x, y];
+selected1 = [0 ,0 ,1 , 0]; %[Hip, Knee, x, y];
+selected2 = [0 ,0 ,0 , 1]; %[Hip, Knee, x, y];
 
 selected = selected1 + selected2; %this vecotr contains both selected
 
 %% We create some key venet vectors based on some data from a reasearch
 keyEventHipPhase = [55, 85]; %[%]
-keyEventHipAngle = deg2rad([-70, 90]); %[rad] [-7, 20]
+keyEventHipAngle = deg2rad([-7, 20]); %[rad] 
 keyEventHipdAngle = [0,0]; %[rad/%] 
 
 keyEventKneePhase = [0, 18, 45, 78];   %[%]
@@ -38,10 +38,18 @@ keyEventXPhase = [0, 18, 45, 62]; %[%]
 keyEventXPos = [0.15, 0.0, -0.1, -0.25]; %[m] 
 keyEventXdPos = [0, -0.0035, -0.0035, 0]; %[m/%]
 
+keyEventYPhase = [10, 45, 75, 90]; %[%]
+keyEventYPos = [0.79, 0.79, 0.67, 0.78]; %[m] 
+keyEventYdPos = [0, 0, 0, 0]; %[m/%]
+
+%keyEventYPhase = [5, 55, 75, 92]; %[%]
+%keyEventYPos = [0, 0, 0.12, 0.025]; %[m] 
+%keyEventYdPos = [0, 0, 0, 0]; %[m/%]
+
 keyEventHip = [keyEventHipPhase;keyEventHipAngle;keyEventHipdAngle];
 keyEventKnee = [keyEventKneePhase;keyEventKneeAngle;keyEventKneedAngle];
 keyEventX = [keyEventXPhase;keyEventXPos;keyEventXdPos];
-
+keyEventY =  [keyEventYPhase;keyEventYPos;keyEventYdPos];
 %% Select the right key event data, it is done a bit ugly, but is just used for testing
 if selected1(1)
     keyEvent1 = keyEventHip;
