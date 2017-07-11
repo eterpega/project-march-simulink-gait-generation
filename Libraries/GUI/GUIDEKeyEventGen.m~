@@ -22,7 +22,7 @@ function varargout = GUIDEKeyEventGen(varargin)
 
 % Edit the above text to modify the response to help GUIDEKeyEventGen
 
-% Last Modified by GUIDE v2.5 09-Jul-2017 20:46:07
+% Last Modified by GUIDE v2.5 09-Jul-2017 15:46:10
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -80,6 +80,8 @@ update_gait_data('knee', handles);
 draw_points('knee', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles, selected);
+
+
 
 % --- Executes during object creation, after setting all properties.
 function keyEventPhaseKnee_CreateFcn(hObject, eventdata, handles)
@@ -323,11 +325,10 @@ set(handles.stepTime,'String',num2str(stepTime));
 %selected=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
 
-[selected,type1,type2] = param_selection(handles);
 %Draw Graphs at initialization
 %DrawPoints(hObject, eventdata, handles);
-init_points(type1, eventdata, handles);
-init_points(type2, eventdata, handles);
+init_points('knee', eventdata, handles);
+init_points('x', eventdata, handles);
 
 %Draw the splines in the GUI
 compute_splines(handles,selected);
@@ -370,6 +371,8 @@ selected=getappdata(handles.SelectionList,'selected');
 
 %Define filename
 FileName = uiputfile('KeyEventData.mat','Save Key Event data');
+
+global stepTime
 
 %Save and append struct to .mat file
 save(FileName,'hip');
@@ -584,9 +587,68 @@ function detailplotbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to detailplotbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-selected=getappdata(handles.SelectionList,'selected');
-[~, phase, angleHip_deg,angleKnee_deg, x, y,...
-angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time, samplePointAmount]...
-= compute_splines(handles, selected);
-detail_plots(phase, angleHip_deg, angleKnee_deg, x.x, y.y,...
-angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time, samplePointAmount);
+
+%plot 
+gaitFigure = figure('Position',[200,0,1000,800]);
+subplot(3,2,1)
+plot(phase,angleHip_deg,'Linewidth',2)
+hold on
+plot(phase,angleKnee_deg,'Linewidth',2);
+title('Joint angles')
+xlabel('Time [s]')
+ylabel('Angle [degree]')
+legend('angleHip','angleKnee')
+grid on
+
+subplot(3,2,2)
+plot(phase,x,'Linewidth',2)
+hold on
+plot(phase,y,'Linewidth',2)
+title('Foot Positions')
+legend('x','y')
+xlabel('Time [s]')
+ylabel('position [m]')
+grid on
+
+subplot(3,2,3)
+plot(time,angleHip_RPM,'Linewidth',2);
+hold on
+plot(time,angleKnee_RPM,'Linewidth',2);
+title('Hip and Knee Angular Velocity')
+xlabel('Time [s]')
+ylabel('Velocity [RPM]')
+legend('angleHip','angleKnee')
+grid on
+
+subplot(3,2,4)
+p3 = plot(x,y,'Linewidth',2);
+title('Foot Position Side View')
+xlabel('x [m]')
+ylabel('y [m]')
+grid on
+
+subplot(3,2,5)
+plot(time,angleHip_rads2,'Linewidth',2);
+hold on
+plot(time,angleKnee_rads2,'Linewidth',2);
+title('Hip and Knee Angular Acceleration')
+xlabel('Time [s]')
+ylabel('Acceleration [rad/s^2]')
+legend('angleHip','angleKnee')
+grid on
+
+subplot(3,2,6)
+plot(angleHip_deg,angleHip_RPM,'Linewidth',2);
+hold on
+plot(angleKnee_deg,angleKnee_RPM,'Linewidth',2);
+legend('angleHip','angleKnee')
+title('Hip and Knee Velocity vd Angle')
+xlabel('Angle [deg]')
+ylabel('Velocity [RPM]')
+grid on
+
+%Color side view with stride
+cd = [uint8(jet(samplePointAmount)*255) uint8(ones(samplePointAmount,1))]'; 
+drawnow
+set(p3.Edge, 'ColorBinding','interpolated', 'ColorData',cd)
+

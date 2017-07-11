@@ -1,4 +1,5 @@
-function [gait]=compute_splines(handles, selected)
+function [gait, phase, angleHip_deg,angleKnee_deg, x, y,...
+    angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time, samplePointAmount]=compute_splines(handles, selected)
 %% First give an input which design spline has bee slected
 %[hip, knee, x, y]
 if selected==[1, 1, 0, 0]
@@ -50,9 +51,14 @@ set(handles.stepVel,'String',num2str(stepVel));
 %% Process data
 
 %angleHip
-angleHip_deg = hip.angleHip/(pi)*180; %[deg]
+angleHip_deg = hip.angleHip/(2*pi)*360; %[deg]
+angleHip_RPM = hip.dangleHip/(2*pi)*60; %[RPM]
+angleHip_rads2 = hip.ddangleHip; %[rad/s^2]
+
 %angleKnee
-angleKnee_deg = knee.angleKnee/(pi)*180; %[deg]
+angleKnee_deg = knee.angleKnee/(2*pi)*360; %[deg]
+angleKnee_RPM = knee.dangleKnee/(2*pi)*60; %[RPM]
+angleKnee_rads2 = knee.ddangleKnee; %[rad/s^2]
 
 %Make spline vectors [x y]
 gait.splineHip=[phase', angleHip_deg];

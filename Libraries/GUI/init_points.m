@@ -26,7 +26,7 @@ dY=data(3,:).*convFact;
 
 %Check same that x and y have same length
 if length(X)~=length(Y) || length(X)~=length(dY) || length(Y)~=length(dY)
-    msgbox('ERROR: Initializing Key Event input vectors do not have same length','Error: Initial Key Event input','error')
+    msgbox('ERROR: Initializing Key Event input vectors do not have same length','Error: Initial Key Event input','warning')
     return
 else
     %Set draggable points on figure and limit them to axis of figure
