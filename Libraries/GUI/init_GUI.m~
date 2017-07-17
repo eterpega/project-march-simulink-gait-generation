@@ -15,8 +15,6 @@ LDistal = 0.4; %[m]
 
 sampleFrequency = 1000; %[Hz] sample frequency of SLRT model
 
-gaitType='Continuous';
-
 %Load keyEventData from .mat file at startup [rad, meters]
 filename='KeyEventData.mat';
 keyEventData  =	load(filename);
@@ -98,6 +96,10 @@ set_gui_string(handles.graphY,'dy',handles.keyEventdYY,'String',dyformat, 1);
 %selected=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
 [selected,type1,type2] = param_selection(handles);
+
+setappdata(
+contents = cellstr(get(hObject,'String'));
+gaitType=contents{get(hObject,'Value')}
 
 %Draw Graphs at initialization
 %DrawPoints(hObject, eventdata, handles);

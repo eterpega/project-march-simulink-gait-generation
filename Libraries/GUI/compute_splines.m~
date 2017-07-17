@@ -35,12 +35,11 @@ time = phase*phaseToTime; %[s] Time vector
 % The first key event is copied and moved 100% further so a continious gait
 % can be generated.
 global gaitType
-if strcmpi(gaitType,'Continuous')
+if strcmpi(gaitType,'Continious')
     keyEvent1 = add_last_key_event(keyEvent1);
     keyEvent2 = add_last_key_event(keyEvent2);
-elseif strcmpi(gaitType, 'Discontinuous')
-else
-    msgbox('ERROR: Gait type selection is invalid','Error in compute_splines')
+elseif strcmpi(gaitType, 'Discontinous')
+else(
 end
 
 
