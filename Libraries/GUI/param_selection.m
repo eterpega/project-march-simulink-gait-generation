@@ -2,7 +2,7 @@ function [selected,type1,type2,clearGraph1,clearGraph2] = param_selection(handle
 
 %[angleHip, angleKnee, x, y]
 contents = cellstr(get(handles.SelectionList,'String'));
-selList=contents{get(handles.SelectionList,'Value')}
+selList=contents{get(handles.SelectionList,'Value')};
 
 if strcmpi(selList,'Q Knee, X Foot')
     selected=[0, 1, 1, 0];

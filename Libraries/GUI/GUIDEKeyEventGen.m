@@ -73,9 +73,6 @@ function keyEventPhaseKnee_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of keyEventPhaseKnee as text
-%        str2double(get(hObject,'String')) returns contents of keyEventPhaseKnee as a double
 update_gait_data('knee', handles);
 draw_points('knee', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
@@ -409,7 +406,7 @@ draw_points(type1, eventdata, handles);
 update_gait_data(type2, handles);
 draw_points(type2, eventdata, handles);
 
-selected=getappdata(handles.SelectionList,'selected')
+selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles, selected);
 
 
