@@ -7,8 +7,8 @@ clc
 load(strcat(PathName, getFileName));
 
 %%Define start/stop frames
-frameStart=5;
-frameEnd=69;
+frameStart=1;
+frameEnd=length(S.kneeAngleDeg(:,1));
 
 %%Get right part
 plotKnee=S.kneeAngleDeg(frameStart:frameEnd,:);
@@ -18,19 +18,6 @@ phase(:,1)=0;
 for n=2:length(plotKnee(:,1))
     phase(n,1)=phase(n-1,1)+dPhase;
 end
-
-% S.lowerBack=lowerBack;
-% S.upperLeg=upperLeg;
-% S.lowerLeg=lowerLeg;
-% S.hipAngleRad=hipAngleRad;
-% S.kneeAngleRad=kneeAngleRad;
-% S.hipAngleDeg=hipAngleDeg;
-% S.kneeAngleDeg=kneeAngleDeg;
-% S.anklePos=anklePos;
-% S.kneePos=kneePos;
-% S.hipPos=hipPos;
-% S.backPos=backPos;
-
 
 smooth=0.995;    %smoothing parameter of the smoothpine interpolation...
                 %has to be in between [0 1]

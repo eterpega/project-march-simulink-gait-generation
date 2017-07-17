@@ -32,9 +32,7 @@ switch type
 end
 
 %Delete all previous impoints
-childHandle=get(graphHandle,'children');
-impointHandles = findobj(childHandle,'-depth',1,'-not','Type','Line');
-delete(impointHandles);
+delete_impoints(graphHandle);
 
 %Get data from values in GUI, assign to x and y
 data=get_gait_data(handles,type);
@@ -53,7 +51,6 @@ else
         graphHandle.UserData.Points{n} = impoint(graphHandle,X(n),Y(n));
         setPositionConstraintFcn(graphHandle.UserData.Points{n},fcn);
         %Write impoint handles and position to UserData field of Graph
-        %graphHandle.UserData.Points{n}=h(n);
         addNewPositionCallback(graphHandle.UserData.Points{n},@(varargin)update_position_text(graphHandle.UserData.Points{n},handles));
         end  
 end

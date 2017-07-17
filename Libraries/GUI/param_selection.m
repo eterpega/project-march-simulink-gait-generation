@@ -1,13 +1,15 @@
-function [selected,type1,type2] = param_selection(handles)
+function [selected,type1,type2,clearGraph1,clearGraph2] = param_selection(handles)
 
 %[angleHip, angleKnee, x, y]
 contents = cellstr(get(handles.SelectionList,'String'));
-selList=contents{get(handles.SelectionList,'Value')};
+selList=contents{get(handles.SelectionList,'Value')}
 
 if strcmpi(selList,'Q Knee, X Foot')
     selected=[0, 1, 1, 0];
     type1='knee';
     type2='x';
+    clearGraph1=handles.graphQHip;
+    clearGraph2=handles.graphY;
     set(handles.keyEventPhaseHip, 'enable', 'off');
     set(handles.keyEventQHip, 'enable', 'off');
     set(handles.keyEventdQHip, 'enable', 'off');
@@ -24,6 +26,8 @@ elseif strcmpi(selList,'Q Hip, Q Knee');
     selected=[1, 1, 0, 0];
     type1='hip';
     type2='knee';
+    clearGraph1=handles.graphX;
+    clearGraph2=handles.graphY;
     set(handles.keyEventPhaseHip, 'enable', 'on');
     set(handles.keyEventQHip, 'enable', 'on');
     set(handles.keyEventdQHip, 'enable', 'on');
@@ -39,7 +43,9 @@ elseif strcmpi(selList,'Q Hip, Q Knee');
 elseif strcmpi(selList,'X Foot, Y Foot');
     selected=[0, 0, 1, 1];
     type1='x';
-    type2='y';s
+    type2='y';
+    clearGraph1=handles.graphQHip;
+    clearGraph2=handles.graphQKnee;
     set(handles.keyEventPhaseHip, 'enable', 'off');
     set(handles.keyEventQHip, 'enable', 'off');
     set(handles.keyEventdQHip, 'enable', 'off');

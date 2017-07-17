@@ -140,7 +140,6 @@ function graphQKnee_DeleteFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 function keyEventPhaseX_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseX (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -369,8 +368,9 @@ y.dy=ymat(3,:);
 selected=getappdata(handles.SelectionList,'selected');
 
 %Define filename
-FileName = uiputfile('KeyEventData.mat','Save Key Event data');
-
+currentDir=pwd;
+[FileName, PATHNAME] = uiputfile('KeyEventData.mat','Save Key Event data');
+cd(PATHNAME);
 %Save and append struct to .mat file
 save(FileName,'hip');
 save(FileName,'knee','-append');
@@ -378,6 +378,7 @@ save(FileName,'x','-append');
 save(FileName,'y','-append');
 save(FileName,'selected','-append');
 save(FileName,'stepTime','-append');
+cd(currentDir);
 
 
 % --- Executes on button press in AnimationButton.
@@ -396,17 +397,21 @@ function SelectionList_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns SelectionList contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from SelectionList
-[selected,type1,type2]=param_selection(handles);
+[selected,type1,type2,clearGraph1,clearGraph2]=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
 
-update_gait_data(type1, handles);
-update_gait_data(type2, handles);
+cla(clearGraph1)
+cla(clearGraph2)
 
+update_gait_data(type1, handles);
 draw_points(type1, eventdata, handles);
+
+update_gait_data(type2, handles);
 draw_points(type2, eventdata, handles);
 
-selected=getappdata(handles.SelectionList,'selected');
+selected=getappdata(handles.SelectionList,'selected')
 compute_splines(handles, selected);
+
 
 % Update handles structure
 guidata(handles.SelectionList, handles);
@@ -429,6 +434,10 @@ function keyEventdYY_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventdYY (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+update_gait_data('y', handles);
+draw_points('y', eventdata, handles);
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles, selected);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventdYY_CreateFcn(hObject, eventdata, handles)
@@ -447,6 +456,10 @@ function keyEventY_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventY (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+update_gait_data('y', handles);
+draw_points('y', eventdata, handles);
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles, selected);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventY_CreateFcn(hObject, eventdata, handles)
@@ -460,11 +473,14 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
 function keyEventPhaseY_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseY (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+update_gait_data('y', handles);
+draw_points('y', eventdata, handles);
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles, selected);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventPhaseY_CreateFcn(hObject, eventdata, handles)
@@ -483,7 +499,10 @@ function keyEventdQHip_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventdQHip (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+update_gait_data('hip', handles);
+draw_points('hip', eventdata, handles);
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles, selected);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventdQHip_CreateFcn(hObject, eventdata, handles)
@@ -501,6 +520,10 @@ function keyEventQHip_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventQHip (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+update_gait_data('hip', handles);
+draw_points('hip', eventdata, handles);
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles, selected);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventQHip_CreateFcn(hObject, eventdata, handles)
@@ -516,6 +539,10 @@ function keyEventPhaseHip_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseHip (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+update_gait_data('hip', handles);
+draw_points('hip', eventdata, handles);
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles, selected);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventPhaseHip_CreateFcn(hObject, eventdata, handles)
@@ -525,7 +552,6 @@ function keyEventPhaseHip_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
 
 % --- Executes on button press in savegaitbutton.
 function savegaitbutton_Callback(hObject, eventdata, handles)
@@ -561,9 +587,6 @@ function edit19_Callback(hObject, eventdata, handles)
 % hObject    handle to stepTime (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of stepTime as text
-%        str2double(get(hObject,'String')) returns contents of stepTime as a double
 
 
 % --- Executes during object creation, after setting all properties.

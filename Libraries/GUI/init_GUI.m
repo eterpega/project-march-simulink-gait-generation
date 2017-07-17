@@ -45,7 +45,7 @@ hipYLim=[(rad2deg(angleHipEndStopMinimum)-5) (rad2deg(angleHipEndStopMaximum)+5)
 xXLim=[0 100];
 xYLim=[-0.4 0.4];
 yXLim=[0 100];
-yYLim=[0 0.2];
+yYLim=[0 0.5];
 
 %Clear all plots
 cla(handles.graphQHip);
