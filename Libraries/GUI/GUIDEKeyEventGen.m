@@ -556,9 +556,13 @@ function savegaitbutton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 selected=getappdata(handles.SelectionList,'selected');
-FileName = uiputfile('GaitData.mat','Save Gait Data');
+%currDir=pwd;
+[FileName, PathName] = uiputfile('GaitData.mat','Save Gait Data');
 gait=compute_splines(handles, selected);
-save(FileName,'-struct','gait','splineHip','splineKnee');
+%cd(PathName);
+fileLoc=strcat(PathName, FileName)
+save(fileLoc,'-struct','gait','splineHip','splineKnee');
+%cd(currDir);
 
 function stepTime_Callback(hObject, eventdata, handles)
 % hObject    handle to stepTime (see GCBO)
