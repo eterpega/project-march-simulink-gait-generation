@@ -2,6 +2,9 @@ function [gait, phase, angleHip_deg,angleKnee_deg, x, y,...
     angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time, samplePointAmount]=compute_splines(handles, selected)
 %% First give an input which design spline has bee slected
 %[hip, knee, x, y]
+
+%define the right key events to get based on the selection list. The
+%conversion factor is used to rightly convert from rad to deg as the data
 if selected==[1, 1, 0, 0]
     keyEvent1 = get_gait_data(handles,'hip');
     keyEvent2 = get_gait_data(handles,'knee');
@@ -21,27 +24,27 @@ else
     error('ERROR: parameter selection not valid for compute_splines')
 end
 
-% Create phase vector. 
-global sampleFrequency stepTime stepLength stepVel
-strideTime = stepTime*2; %[s]
+%% Move key events
+% The first key event is copied and moved 100% further so a continious gait
+% can be generated.
+global gaitType sampleFrequency stepTime stepLength stepVel
+if strcmpi(gaitType,'Continuous')
+    keyEvent1 = add_last_key_event(keyEvent1);
+    keyEvent2 = add_last_key_event(keyEvent2);
+    strideTime = stepTime*2; %[s]
+elseif strcmpi(gaitType, 'Discontinuous')
+    strideTime = stepTime; %[s]
+else
+    msgbox('ERROR: Gait type selection is invalid','Error in compute_splines')
+end
+
+% Create phase vector.
 samplePointAmount = strideTime*sampleFrequency; %this will determine the speed
 tInterval = strideTime/samplePointAmount; %[s] The difference in time between each interval
 
 phase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
 phaseToTime = strideTime/100;
 time = phase*phaseToTime; %[s] Time vector
-
-%% Move key events
-% The first key event is copied and moved 100% further so a continious gait
-% can be generated.
-global gaitType
-if strcmpi(gaitType,'Continuous')
-    keyEvent1 = add_last_key_event(keyEvent1);
-    keyEvent2 = add_last_key_event(keyEvent2);
-elseif strcmpi(gaitType, 'Discontinuous')
-else
-    msgbox('ERROR: Gait type selection is invalid','Error in compute_splines')
-end
 
 
 %% Check keyEvents

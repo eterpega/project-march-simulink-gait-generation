@@ -17,7 +17,9 @@ switch type
     otherwise 
         msgbox('ERROR: Input type not allowed','Error: init_points','error')
 end
+
 cla(graphHandle);
+
 %Get data from values in GUI, assign to x and y
 data=get_gait_data(handles,type);
 X=data(1,:);

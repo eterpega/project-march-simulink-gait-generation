@@ -1,3 +1,6 @@
+%This is the GUI is used for designing gaits of bipedal axoskeleton with 4
+%DOGs namely, LKFE,RKFE,LHFE,RHFE.
+
 function varargout = GUIDEKeyEventGen(varargin)
 % GUIDEKEYEVENTGEN MATLAB code for GUIDEKeyEventGen.fig
 %      GUIDEKEYEVENTGEN, by itself, creates a new GUIDEKEYEVENTGEN or raises the existing
@@ -141,9 +144,6 @@ function keyEventPhaseX_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseX (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of keyEventPhaseX as text
-%        str2double(get(hObject,'String')) returns contents of keyEventPhaseX as a double
 update_gait_data('x', handles);
 draw_points('x', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
@@ -249,7 +249,6 @@ function RunSimpushbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to RunSimpushbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-%run_simulation(gcf)
 
 
 % --- If Enable == 'on', executes on mouse press in 5 pixel border.
@@ -265,8 +264,8 @@ function LoadKeyEventsButton_Callback(hObject, eventdata, handles)
 % hObject    handle to LoadKeyEventsButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-filename = uigetfile('*.mat','Load Key Event data');
-keyEventData  =	load(filename);
+[filename, pathname] = uigetfile('*.mat','Load Key Event data');
+keyEventData  =	load(strcat(pathname,filename));
 %knee [rad]
 knee=keyEventData.knee;
 %hip [rad]
@@ -624,7 +623,7 @@ function GaitTypeList_Callback(hObject, eventdata, handles)
 global gaitType
 selected=getappdata(handles.SelectionList,'selected');
 contents = cellstr(get(hObject,'String'));
-gaitType=contents{get(hObject,'Value')}
+gaitType=contents{get(hObject,'Value')};
 compute_splines(handles, selected);
 
 
