@@ -572,65 +572,122 @@ plot(gait.splineHip(:,1),gait.splineHip(:,2));
 title('Hip Angles');
 ylim([rad2deg(angleHipEndStopMinimum) rad2deg(angleHipEndStopMaximum)]);
 
-%Show question box for confirmation
-questionStr='These are the vectors you will save to the DataDictionary are you sure you want to continue?'
+%Open question box for confirmation
+questionStr='These are the vectors you will save to the DataDictionary are you sure you want to continue?';
 titleStr='Save gait data to Model DataDictionary';
 choice=questdlg(questionStr,titleStr,'Yes','No','Yes');
+
+%close figure with knee and hip angles
 close(fig)
 
 %save data to DataDictionary of simulink model
-if choice=='Yes'
-    dictionaryPath='/Users/lucadelaat/Desktop/MARCH/simulink-models/Library';
-    dictionaryName='ModelDictionary.sldd';
-    fullDictionaryPath=[dictionaryPath filesep dictionaryName];
-    myDictionaryObj = Simulink.data.dictionary.open(fullDictionaryPath);
-    sectionObj = getSection(myDictionaryObj,'Design Data');
+switch choice
+    case 'Yes'
+    dictionaryPath='/Users/lucadelaat/Desktop/MARCH/simulink-models/Library'; %set datadictionary parent directory path
+    dictionaryName='ModelDictionary.sldd'; %set datadictionary name
+    fullDictionaryPath=[dictionaryPath filesep dictionaryName]; %construct full path name for data dictionary
+    myDictionaryObj = Simulink.data.dictionary.open(fullDictionaryPath); %get datadictionary object
+    sectionObj = getSection(myDictionaryObj,'Design Data'); %get datadictionary section object
 
+    
+    %set itemList for selection list below (gait types)
     itemList{1} = 'Continuous Gait';
     itemList{2} = 'Standing Up';
     itemList{3} = 'Sitting Down';
+    %itemList{4} = 'Stairs Up';
+    %itemList{5} = 'Stairs Down';
+    %itemList{6} = 'Rough Terrain';
 
     %Open dialog box for gait type selection
     [s,v] = listdlg('PromptString','Select the type of gait',...
                     'ListString',itemList,...
                     'SelectionMode','single',...
                     'ListSize',[300 300]);
-
+                
+     %give error if no selection made (v==0)
      if v==0
           msgbox('ERROR: No valid gait type selected','Error: Save Gait','error')
+          
      elseif s==1 && v==1
-         kneeEntryObj=getEntry(sectionObj,'walkRWKnee');
-         hipEntryObj=getEntry(sectionObj,'walkRWHip');
+         kneeEntryObj=getEntry(sectionObj,'walkRWKnee');%get entryObj for knee
+         hipEntryObj=getEntry(sectionObj,'walkRWHip');  %get entryObj for hip
+         
+         if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+            setValue(kneeEntryObj,gait.splineKnee); %set entryObj for knee
+            setValue(hipEntryObj,gait.splineHip);   %set entryObj for knee
+            saveChanges(myDictionaryObj);           %save all changes to the model data dictionary
+         
+         %give error if entryObjs are empty   
+         elseif isempty(kneeEntryObj) || isempty(hipEntryObj) 
+            msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
+         end
+         
+     elseif s==2 && v==1
+         kneeEntryObj=getEntry(sectionObj,'standUpKnee');
+         hipEntryObj=getEntry(sectionObj,'standUpHip');
+         
          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
             setValue(kneeEntryObj,gait.splineKnee);
             setValue(hipEntryObj,gait.splineHip);  
             saveChanges(myDictionaryObj);
-         elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
-            msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
-         end
-     elseif s==2 && v==1
-         kneeEntryObj=getEntry(sectionObj,'standUpKnee');
-         hipEntryObj=getEntry(sectionObj,'standUpHip');
-         if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
-            setValue(entryObj(1),gait.splineKnee);
-            setValue(entryobj(2),gait.splineHip);  
-            saveChanges(myDictionaryObj);
+            
           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
+         
      elseif s==3 && v==1
          kneeEntryObj=getEntry(sectionObj,'sitDownKnee');
          hipEntryObj=getEntry(sectionObj,'sitDownHip');
+         
          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
-            setValue(entryObj(1),gait.splineKnee);
-            setValue(entryobj(2),gait.splineHip);  
+            setValue(kneeEntryObj,gait.splineKnee);
+            setValue(hipEntryObj,gait.splineHip);  
             saveChanges(myDictionaryObj);
+            
           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
+         
+%      elseif s==4 && v==1
+%          kneeEntryObj=getEntry(sectionObj,'stairsUpKnee');
+%          hipEntryObj=getEntry(sectionObj,'stairsUpHip');
+
+%          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+%             setValue(kneeEntryObj,gait.splineKnee);
+%             setValue(hipEntryObj,gait.splineHip);  
+%             saveChanges(myDictionaryObj);
+
+%           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
+%             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
+%          end
+
+%       elseif s==5 && v==1
+%          kneeEntryObj=getEntry(sectionObj,'stairsDownKnee');
+%          hipEntryObj=getEntry(sectionObj,'stairsDownHip');
+
+%          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+%             setValue(kneeEntryObj,gait.splineKnee);
+%             setValue(hipEntryObj,gait.splineHip);  
+%             saveChanges(myDictionaryObj);
+
+%           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
+%             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
+%          end
+
+%       elseif s==6 && v==1
+%          kneeEntryObj=getEntry(sectionObj,'roughTerrainKnee');
+%          hipEntryObj=getEntry(sectionObj,'roughTerrainHip');
+
+%          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+%             setValue(kneeEntryObj,gait.splineKnee);
+%             setValue(hipEntryObj,gait.splineHip);  
+%             saveChanges(myDictionaryObj);
+
+%           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
+%             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
+%          end
      end
-     
-elseif choice=='NO'
+    case choice=='No'
 end
 
 function stepTime_Callback(hObject, eventdata, handles)
