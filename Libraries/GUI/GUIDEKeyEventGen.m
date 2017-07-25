@@ -609,16 +609,28 @@ switch choice
           msgbox('ERROR: No valid gait type selected','Error: Save Gait','error')
           
      elseif s==1 && v==1
-         kneeEntryObj=getEntry(sectionObj,'walkRWKnee');%get entryObj for knee
-         hipEntryObj=getEntry(sectionObj,'walkRWHip');  %get entryObj for hip
+
+         kneeSwingEntryObj=getEntry(sectionObj,'stepSwingLegKnee');%get entryObj for knee
+         hipSwingEntryObj=getEntry(sectionObj,'stepSwingLegHip');  %get entryObj for hip
+         kneeStandEntryObj=getEntry(sectionObj,'stepStandLegKnee');%get entryObj for knee
+         hipStandEntryObj=getEntry(sectionObj,'stepStandLegHip');  %get entryObj for hip
          
-         if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
-            setValue(kneeEntryObj,gait.splineKnee); %set entryObj for knee
-            setValue(hipEntryObj,gait.splineHip);   %set entryObj for knee
-            saveChanges(myDictionaryObj);           %save all changes to the model data dictionary
+         if ~isempty(kneeSwingEntryObj) && ~isempty(hipSwingEntryObj)...
+                 && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)
+             
+            [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
+            =splitGaitVector(gait.splineHip, gait.splineKnee);
+        
+            setValue(hipSwingEntryObj,stepSwingLegHip);     %set entryObj for hip
+            setValue(kneeSwingEntryObj,stepSwingLegKnee);   %set entryObj for knee            
+            setValue(hipStandEntryObj,stepStandLegHip);     %set entryObj for hip
+            setValue(kneeStandEntryObj,stepStandLegKnee);   %set entryObj for knee
+            
+            saveChanges(myDictionaryObj);                   %save all changes to the model data dictionary
          
          %give error if entryObjs are empty   
-         elseif isempty(kneeEntryObj) || isempty(hipEntryObj) 
+         elseif isempty(kneeSwingEntryObj) || isempty(hipSwingEntryObj)...
+                 || isempty(kneeStandEntryObj) || isempty(hipStandEntryObj) 
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
          
