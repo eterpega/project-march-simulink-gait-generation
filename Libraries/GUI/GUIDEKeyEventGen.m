@@ -554,11 +554,11 @@ function savegaitbutton_Callback(hObject, eventdata, handles)
 global angleKneeEndStopMinimum angleKneeEndStopMaximum angleHipEndStopMinimum angleHipEndStopMaximum
 
 selected=getappdata(handles.SelectionList,'selected');
-gait=compute_splines(handles, selected);
+[gait,~,~,~,~,~,~,~,~,~,~,~,warningCount, messageWarning]=compute_splines(handles, selected);
 
 %plot gait vectors for confirmation from User
 fig=figure('position', [0, 0, 900, 500]);
-subplot(2,1,1)git 
+subplot(2,1,1)
 plot(gait.splineKnee(:,1),gait.splineKnee(:,2));
 title('Knee Angles');
 ylim([rad2deg(angleKneeEndStopMinimum) rad2deg(angleKneeEndStopMaximum)]);
@@ -570,7 +570,11 @@ title('Hip Angles');
 ylim([rad2deg(angleHipEndStopMinimum) rad2deg(angleHipEndStopMaximum)]);
 
 %Open question box for confirmation
-questionStr='These are the vectors you will save to the Model Dictionary. Are you sure you want to continue?';
+str=['These are the vectors you will save to the Model Dictionary.\n',...
+     'There is/are %i warning(s). \n'...
+    ,cell2str(messageWarning)];
+
+questionStr=sprintf(str, warningCount);
 titleStr='Save gait data to Model DataDictionary';
 choice=questdlg(questionStr,titleStr,'Yes','No','Yes');
 

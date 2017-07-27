@@ -2,12 +2,12 @@ function [warningDetected, messageWarning] = out_of_range_handler(outOfRange, me
 if (outOfRange == -1)
     warningDetected = 1;
     warning(messageMinimum);
-    messageWarning{1} = messageMinimum;
+    messageWarning = messageMinimum;
 elseif (outOfRange == 1)
     warningDetected = 1;
     warning(messageMaximum);
-    messageWarning{1} = messageMaximum;
+    messageWarning = messageMaximum;
 else
     warningDetected = 0;
-    messageWarning{1} = 'This should not be here.';
+    messageWarning = 'This should not be here.';
 end

@@ -1,5 +1,6 @@
 function [gait, phase, angleHip_deg,angleKnee_deg, x, y,...
-    angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time, samplePointAmount]=compute_splines(handles, selected)
+    angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time,...
+    samplePointAmount, warningCount, messageWarning]=compute_splines(handles, selected)
 %% First give an input which design spline has bee slected
 %[hip, knee, x, y]
 
@@ -57,6 +58,8 @@ key_event_checker(keyEvent2, phaseToTime, 2, selected);
 %y.y
 %% Check gait
 gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
+
+[warningCount, messageWarning] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
 
 %Gait parameters for GUI
 stepVel=stepLength/stepTime;
