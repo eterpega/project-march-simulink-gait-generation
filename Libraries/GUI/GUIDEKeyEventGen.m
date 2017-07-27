@@ -551,7 +551,7 @@ function savegaitbutton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global angleKneeEndStopMinimum angleKneeEndStopMaximum angleHipEndStopMinimum angleHipEndStopMaximum
+global angleKneeEndStopMinimum angleKneeEndStopMaximum angleHipEndStopMinimum angleHipEndStopMaximum gaitType
 
 selected=getappdata(handles.SelectionList,'selected');
 [gait,~,~,~,~,~,~,~,~,~,~,~,warningCount, messageWarning]=compute_splines(handles, selected);
@@ -606,6 +606,14 @@ switch choice
                     'ListString',itemList,...
                     'SelectionMode','single',...
                     'ListSize',[300 300]);
+     
+     if strcmpi(gaitType,'Continuous') && s~=1
+         msgbox('ERROR: You"re trying to save a non-continuous as a continuous one. This will result in an erroneous sample frequency!','Error: Save Gait','error')
+         return
+     elseif strcmpi(gaitType, 'Discontinuous') && s==1
+         msgbox('ERROR: You"re trying to save a continuous as a non-continuous one. This will result in an erroneous sample frequency!','Error: Save Gait','error')
+         return
+     end        
                 
      %give error if no selection made (v==0)
      if v==0

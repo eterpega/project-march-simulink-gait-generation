@@ -554,7 +554,7 @@ function savegaitbutton_Callback(hObject, eventdata, handles)
 global angleKneeEndStopMinimum angleKneeEndStopMaximum angleHipEndStopMinimum angleHipEndStopMaximum
 
 selected=getappdata(handles.SelectionList,'selected');
-[gait,~,~,~,~,~,~,~,~,~,~,~,warningCount, messageWarning]=compute_splines(handles, selected)
+[gait,~,~,~,~,~,~,~,~,~,~,~,warningCount, messageWarning]=compute_splines(handles, selected);
 
 %plot gait vectors for confirmation from User
 fig=figure('position', [0, 0, 900, 500]);
@@ -571,9 +571,10 @@ ylim([rad2deg(angleHipEndStopMinimum) rad2deg(angleHipEndStopMaximum)]);
 
 %Open question box for confirmation
 str=['These are the vectors you will save to the Model Dictionary.\n',...
-    'There is/are %i warning(s). \n'...
-    , cell2str(messageWarning)];
-questionStr=sprintf(str, warningCount, cell2str(messageWarning));
+     'There is/are %i warning(s). \n'...
+    ,cell2str(messageWarning)];
+
+questionStr=sprintf(str, warningCount);
 titleStr='Save gait data to Model DataDictionary';
 choice=questdlg(questionStr,titleStr,'Yes','No','Yes');
 
@@ -605,6 +606,12 @@ switch choice
                     'ListString',itemList,...
                     'SelectionMode','single',...
                     'ListSize',[300 300]);
+     gl
+     if strcmpi(gaitType,'Continuous') && s~=1
+         msgbox('ERROR: You"re trying to save a non-continuous as a continuous one. This will result in an erroneous sample frequency!','Error: Save Gait','error')
+         return
+     elseif strcmpi(Gait
+            
                 
      %give error if no selection made (v==0)
      if v==0
