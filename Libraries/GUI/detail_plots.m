@@ -2,7 +2,7 @@ function detail_plots(phase, angleHip_deg, angleKnee_deg, x, y,...
     velocityHip_RPM, velocityKnee_RPM, accelerationHip_rads2, ...
     accelerationKnee_rads2, time, samplePointAmount)
 
-global velocityMaximumHip
+global velocityMaximumHip accelerationMaximumHip accelerationMaximumKnee
 
 %% Make figure 
 gaitFigure = figure('Position',[200,0,1000,800]);
@@ -37,11 +37,26 @@ grid on
 subplot(4,2,5)
 plot(time,accelerationHip_rads2,'Linewidth',2);
 hold on
-plot(time,accelerationKnee_rads2,'Linewidth',2);
-title('Hip and Knee Angular Acceleration')
+plot(time,repmat(accelerationMaximumHip ,length(time),1),'Linewidth',2,'Color','r')
+hold on
+plot(time,repmat(-accelerationMaximumHip,length(time),1),'Linewidth',2,'Color','r')
+title('Hip Angular Acceleration')
 xlabel('Time [s]')
 ylabel('Acceleration [rad/s^2]')
-legend('angleHip','angleKnee')
+legend('Acceleration','Maximum','Minimum')
+grid on
+
+%% Angular acceleration
+subplot(4,2,7)
+plot(time,accelerationKnee_rads2,'Linewidth',2);
+hold on
+plot(time,repmat(accelerationMaximumKnee ,length(time),1),'Linewidth',2,'Color','r')
+hold on
+plot(time,repmat(-accelerationMaximumKnee,length(time),1),'Linewidth',2,'Color','r')
+title('Knee Angular Acceleration')
+xlabel('Time [s]')
+ylabel('Acceleration [rad/s^2]')
+legend('Acceleration','Maximum','Minimum')
 grid on
 
 %% Position
@@ -67,17 +82,6 @@ grid on
     velocityCurveMaximumHip, velocityCurveMinimumHip, ...
     angleKnee, angleHip] = max_velocities;
 
-%% Velocity vs angle
-% subplot(3,2,6)
-% plot(angleHip_deg,velocityHip_RPM,'Linewidth',2);
-% hold on
-% plot(angleKnee_deg,velocityKnee_RPM,'Linewidth',2);
-% legend('angleHip','angleKnee')
-% title('Hip and Knee Velocity vs Angle')
-% xlabel('Angle [deg]')
-% ylabel('Velocity [RPM]')
-% grid on
-
 %% Velocity vs angle Knee
 subplot(4,2,6)
 plot(rad2deg(angleKnee), velocityCurveMaximumKnee)
@@ -94,7 +98,7 @@ grid on
 hold off
 
 %% Velocity vs angle Knee
-subplot(4,2,7)
+subplot(4,2,8)
 plot(rad2deg(angleHip), velocityCurveMaximumHip)
 hold on
 plot(rad2deg(angleHip), velocityCurveMinimumHip)
@@ -107,20 +111,6 @@ xlim([min(rad2deg(angleHip)), max(rad2deg(angleHip))])
 title 'Hip Joint'
 grid on
 hold off
-
-
-% subplot(2,1,2); hold on
-% plot(angleHip, velocityMaximumHipPositive)
-% plot(angleHip, velocityMaximumHipNegative)
-% ylabel 'angular speed [rpm]'
-% xlabel 'angular position [degrees]'
-% legend ('maximum allowable speed', 'absolute limit')
-% xlim([angleHipEndStopMinimum, angleHipEndStopMaximum])
-% title 'Hip Joint'
-% grid on
-% hold off
-%%%%%%%%%%%%%
-%%
 
 
 %Color side view with stride

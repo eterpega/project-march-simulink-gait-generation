@@ -8,7 +8,8 @@ guidata(hObject, handles);
 %% Define global parameters
 global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
     angleHipEndStopMinimum angleHipEndStopMaximum sampleFrequency ...
-    velocityMaximumKnee velocityMaximumHip stepTime gaitType 
+    velocityMaximumKnee velocityMaximumHip stepTime gaitType ...
+    accelerationMaximumHip accelerationMaximumKnee
 
 % leg length
 LProximal = 0.48; %[m] Length of upper leg, still has to be set correctly!
@@ -16,15 +17,22 @@ LDistal = 0.48; %[m]  Length of lower leg, still has to be set correctly!
 
 sampleFrequency = 500; %[Hz] sample frequency of SLRT model
 
-% end stops
+% angle maximum (end stops)
 angleKneeEndStopMinimum = deg2rad(-5);
 angleKneeEndStopMaximum = deg2rad(115);
 angleHipEndStopMinimum = deg2rad(-20);
 angleHipEndStopMaximum = deg2rad(100);
 
-% maximum velocity
+% velocity maximum
 velocityMaximumHip = RPM2rads(17); %[rad/s]
 velocityMaximumKnee = RPM2rads(17); %[rad/s]
+
+% acceleration maximum
+inertiaLeg = 10; %[kg*m^2]
+inertiaLowerLeg = 1.5; %[kg*m^2]
+torqueJoint = 200; %[Nm]
+accelerationMaximumHip = torqueJoint/inertiaLeg; %[rad/s^2]
+accelerationMaximumKnee = torqueJoint/inertiaLowerLeg; %[rad/s^2]
 
 gaitType='Continuous';
 

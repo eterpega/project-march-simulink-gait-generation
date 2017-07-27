@@ -2,9 +2,9 @@ function [warningCount, messageWarning] = gait_checker(hip, knee, x, y, foot, st
 
 global LProximal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
     angleHipEndStopMinimum angleHipEndStopMaximum velocityMaximumHip ...
-    velocityMaximumKnee
+    velocityMaximumKnee accelerationMaximumHip accelerationMaximumKnee
 
-errorDetected = 0;
+%errorDetected = 0;
 warningCount = 0;
 messageWarning{1} = 'No warnings';
 
@@ -49,6 +49,24 @@ if warningDetected
 	warningCount = warningCount + 1;
     messageWarning{warningCount} = temporaryMessageWarning;
 end
+
+
+%% Acceleration check
+tooAcceleraionHip = out_of_range(accelerationHip, -accelerationMaximumHip, accelerationMaximumHip);
+tooAccelerationKnee = out_of_range(accelerationKnee, -accelerationMaximumKnee, accelerationMaximumKnee);
+
+[warningDetected, temporaryMessageWarning] = out_of_range_handler(tooAcceleraionHip, 'Acceleration of hip is too low.', 'Acceleration of hip is too high.');
+if warningDetected
+	warningCount = warningCount + 1;
+    messageWarning{warningCount} = temporaryMessageWarning;
+end
+
+[warningDetected, temporaryMessageWarning] = out_of_range_handler(tooAccelerationKnee, 'Acceleration of knee is too low.', 'Acceleration of knee is too high.');
+if warningDetected
+	warningCount = warningCount + 1;
+    messageWarning{warningCount} = temporaryMessageWarning;
+end
+
 
 %% y check
 
