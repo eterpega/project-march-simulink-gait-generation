@@ -26,12 +26,15 @@ f2 = fit(phase,plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smo
 
 figure;
 hold on;
+
+yLim=[-15 120];
+
 for n=1:length(phase(:,1))
-    line([phase(n),phase(n)],[-5 120],'Color','y','LineWidth',0.01);
+    line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
 plot(f1,phase,plotKnee);
 title('Knee Angles');
-ylim([-5 120]);
+ylim(yLim);
 xlabel('Phase %');
 ylabel('Angle (deg)');
 hold off;
@@ -39,11 +42,11 @@ hold off;
 figure;
 hold on;
 for n=1:length(phase(:,1))
-    line([phase(n),phase(n)],[-5 120],'Color','y','LineWidth',0.01);
+    line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
 plot(f2,phase,plotHip);
 title('Hip Angles');
-ylim([-5 120]);
+ylim(yLim);
 xlabel('Phase %');
 ylabel('Angle (deg)');
 hold off
