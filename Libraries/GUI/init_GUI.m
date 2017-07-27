@@ -7,17 +7,28 @@ guidata(hObject, handles);
 
 %% Define global parameters
 global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
-    angleHipEndStopMinimum angleHipEndStopMaximum sampleFrequency stepTime gaitType
+    angleHipEndStopMinimum angleHipEndStopMaximum sampleFrequency ...
+    velocityMaximumKnee velocityMaximumHip stepTime gaitType 
 
 % leg length
-LProximal = 0.4; %[m]
-LDistal = 0.4; %[m]
+LProximal = 0.48; %[m] Length of upper leg, still has to be set correctly!
+LDistal = 0.48; %[m]  Length of lower leg, still has to be set correctly!
 
-sampleFrequency = 1000; %[Hz] sample frequency of SLRT model
+sampleFrequency = 500; %[Hz] sample frequency of SLRT model
+
+% end stops
+angleKneeEndStopMinimum = deg2rad(-5);
+angleKneeEndStopMaximum = deg2rad(115);
+angleHipEndStopMinimum = deg2rad(-20);
+angleHipEndStopMaximum = deg2rad(100);
+
+% maximum velocity
+velocityMaximumHip = RPM_to_rads(17); %[rad/s]
+velocityMaximumKnee = RPM_to_rads(17); %[rad/s]
 
 gaitType='Continuous';
 
-%Load keyEventData from .mat file at startup [rad, meters]
+%% Load keyEventData from .mat file at startup [rad, meters]
 filename='KeyEventData.mat';
 keyEventData  =	load(filename);
 %knee [rad]
@@ -33,11 +44,7 @@ selected=keyEventData.selected;
 %Step frequency
 stepTime=keyEventData.stepTime; %[s] Time it takes for 1 step
 
-% end stops
-angleKneeEndStopMinimum = deg2rad(-5);
-angleKneeEndStopMaximum = deg2rad(110);
-angleHipEndStopMinimum = deg2rad(-10);
-angleHipEndStopMaximum = deg2rad(115);
+
 
 %Define graph limit values GUI
 kneeXLim=[0 100 ];
