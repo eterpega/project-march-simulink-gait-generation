@@ -47,6 +47,7 @@ spline2 = hermite_cubic_spline_value( keyEvent2,plotPhase2);
 % stance leg, than the transformation is applied.
 %see: https://confluence.projectmarch.nl:8443/display/05TECH/05-Coordinate+transform
 
+
 [stanceLegRight, stanceLegLeft] = stance_leg(y.y);
 [y.y] =  transform_to_ground(y.y,hip.angleHip,knee.angleKnee, stanceLegLeft);
 foot.foot = foot_position(x.x,y.y);
