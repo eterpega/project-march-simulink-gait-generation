@@ -1,6 +1,4 @@
-function [] = set_gui_string(vector, handle, property, format)
-%Converts data in rowvector vector to a nice string format that is later
-%used for display in the GUI.
+function [] = set_gui_string(gethandle, gaitvar, sethandle, property, format, convFac)
 %vector of data to convert to string with nice format
 %handle of object to write to
 %property of object to write to
@@ -11,6 +9,9 @@ function [] = set_gui_string(vector, handle, property, format)
 %initialise strings
 str='';
 
+struct=getappdata(gethandle,'gaitData');
+vector=struct.(gaitvar);
+vector=vector.*convFac;
 %write coordinates to strings
 for n=1:length(vector)
     str=[str,num2str(vector(n),format),', '];
@@ -22,4 +23,4 @@ str=str(1:end-2);
 %Put brackets around
 str=strcat('[',str,']');
 %Set property equal to string
-set(handle,property,str);
+set(sethandle,property,str);

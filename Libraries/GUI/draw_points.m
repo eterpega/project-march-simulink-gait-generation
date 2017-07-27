@@ -1,84 +1,62 @@
-function draw_points(hObject, eventdata, handles)
-%%draw_points draws impoints on the graph hObject.
-%x and y position are obtained from corresponding editable 'String' field in
-%the GUI figure.
-%Adds impoint handles to graphHandle.UserData.Points{n}
-%Sets all phase, y, dY and key event number in Simulink
-
+function [position] = draw_points(type, eventdata, handles)
 
 %Define Graph type
-switch hObject
-    case handles.graphQKnee
+switch type
+    case 'knee'
         graphHandle=handles.graphQKnee;
         phaseHandle=handles.keyEventPhaseKnee;
         yHandle=handles.keyEventQKnee;
         dYHandle=handles.keyEventdQKnee;
-        type='1';
-    case handles.graphX
+        convFact=(180/pi);
+    case 'hip'
+        graphHandle=handles.graphQHip;
+        phaseHandle=handles.keyEventPhaseHip;
+        yHandle=handles.keyEventQHip;
+        dYHandle=handles.keyEventdQHip;
+        convFact=(180/pi);
+    case 'x'
         graphHandle=handles.graphX;
         phaseHandle=handles.keyEventPhaseX;
         yHandle=handles.keyEventX;
         dYHandle=handles.keyEventdYX;
-        type='2';
+        convFact=1;
+    case 'y'  
+        graphHandle=handles.graphY;
+        phaseHandle=handles.keyEventPhaseY;
+        yHandle=handles.keyEventY;
+        dYHandle=handles.keyEventdYY;
+        convFact=1;
     otherwise 
-        error('ERROR: Inputtype not allowed')
+        msgbox('ERROR: Key Event input vectors do not have same length','Error: User input Key Event')
+        return
 end
 
-%Clear figure of previous points
-cla(graphHandle);
+%Delete all previous impoints
+delete_impoints(graphHandle);
+
 %Get data from values in GUI, assign to x and y
-X=str2num(get(phaseHandle,'String'));
-Y=str2num(get(yHandle,'String'));
-dY=str2num(get(dYHandle,'String'));
+data=get_gait_data(handles,type);
+X=data(1,:);
+Y=data(2,:).*convFact;
+dY=data(3,:).*convFact;
 
 %Check same that x and y have same length
-if length(X)~=length(Y)
-    error('Phase and Y vector do not have same length')
+if length(X)~=length(Y) || length(X)~=length(dY) || length(Y)~=length(dY)
+    msgbox('ERROR: Initializing Key Event input vectors do not have same length','Initial Key Event input error')
+    return
 else
     %Set draggable points on figure and limit them to axis of figure
     fcn=makeConstrainToRectFcn('impoint',graphHandle.XLim,graphHandle.YLim);
-        for n=1:length(X);
-        h(n) = impoint(graphHandle,X(n),Y(n));
-        setPositionConstraintFcn(h(n),fcn);
+        for n=1:length(X)
+        graphHandle.UserData.Points{n} = impoint(graphHandle,X(n),Y(n));
+        setPositionConstraintFcn(graphHandle.UserData.Points{n},fcn);
         %Write impoint handles and position to UserData field of Graph
-        graphHandle.UserData.Points{n}=h(n);
-        graphHandle.UserData.Position{n}=getPosition(h(n));
-        guidata(hObject,handles);
-        addNewPositionCallback(h(n),@(varargin)update_position_text(h(n),handles));
-        position(n,:)=getPosition(h(n));
-        end       
-
-%Sort points on ascending X position
-position = sortrows(position,1);
-%Transpose position matrix
-position = position';
+        addNewPositionCallback(graphHandle.UserData.Points{n},@(varargin)update_position_text(graphHandle.UserData.Points{n},handles));
+        end  
+end
 
 %Update Handles
-guidata(hObject,handles);
-
-%Define name string of Simulink blocks to update
-%TopLevelSyst='SplineGeneratorTest';
-subsystemName1='KeyEventGeneratorRefMod';
-subsystemName2='/Subsystem1';
-completeBlockName=[subsystemName1 subsystemName2];
-%CompleteBlockName=[ TopLevelSyst SubsystemName1 SubsystemName2];
-phaseBlock=[completeBlockName '/keyEventPhase' type];
-yBlock=[completeBlockName '/keyEventy' type];
-dYBlock=[completeBlockName '/keyEventdY' type];
-amountBlock=[completeBlockName '/keyEventAmount' type];
-%strcmp('KeyEventGeneratorRefMod/Subsystem1/keyEventPhase1',PhaseBlock)
-
-%Append NaN to reach dim of 20
-phaseBlockString=nan_fill(position(1,:), 20);
-yBlockString=nan_fill(position(2,:), 20);
-dYBlockString=nan_fill(dY, 20);
-
-%Write values in Simulink
-set_param(phaseBlock,'Value',phaseBlockString);
-set_param(yBlock,'Value',yBlockString);
-set_param(dYBlock,'Value',dYBlockString);
-set_param(amountBlock,'Value',num2str(length(position(1,:))));
-set_param([completeBlockName '/selection'],'Value','[0 1 1 0]');
+guidata(graphHandle,handles);
 end
 
 

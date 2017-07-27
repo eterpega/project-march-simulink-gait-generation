@@ -1,67 +1,75 @@
 function update_position_text(h,handles)
-%%update_position_text is added with the addNewPositionCallback of every
-%impoint added to the GUI Graphs. 
-%I.e this function is called everytime an impoint is dragged.
-%Input definition:
-%h: handle of impoint being dragged
-%handles: structure containing handles of all GUI objects
 
+%Find graphHandle
 graphHandle=get(h,'parent');
 
 switch get(graphHandle,'Tag')
     case 'graphQKnee'
-        graphHandle=handles.graphQKnee;
         phaseHandle=handles.keyEventPhaseKnee;
         yHandle=handles.keyEventQKnee;
         dYHandle=handles.keyEventdQKnee;
-        type='1';
+        convFact=(pi/180);
+    case 'graphQHip'
+        phaseHandle=handles.keyEventPhaseHip;
+        yHandle=handles.keyEventQHip;
+        dYHandle=handles.keyEventdQHip;
+        convFact=(pi/180);
     case 'graphX'
-        graphHandle=handles.graphX;
         phaseHandle=handles.keyEventPhaseX;
         yHandle=handles.keyEventX;
         dYHandle=handles.keyEventdYX;
-        type='2';
+        convFact=1;
+    case 'graphY'
+        phaseHandle=handles.keyEventPhaseY;
+        yHandle=handles.keyEventY;
+        dYHandle=handles.keyEventdYY;
+        convFact=1;
     otherwise 
-        error('ERROR: Inputtype not allowed')
+        msgbox('Error: Inputtype not allowed','Error: update_position_text')
 end
 
-%Get point positions for UserData field within Graph object
-for n=1:size(graphHandle.UserData.Points,2)
-    impoints=graphHandle.UserData.Points{n};
-    position(n,:)=getPosition(impoints);
+%Find Children
+childHandle=get(graphHandle,'children');
+impointHandles = findobj(childHandle,'-depth',1,'-not','Type','Line');
+
+%Get points position from graph
+for n=1:size(impointHandles,1)
+    position(n,:)=getPosition(graphHandle.UserData.Points{n});
 end
+
+%Read dy data
+dy=getappdata(graphHandle,'gaitData');
+position(:,3)=dy.dy;
 
 %Sort points on ascending X position
 position = sortrows(position,1);
-%Transpose position matrix
+
+%Transpose matrix
 position = position';
 
-set_gui_string(position(1,:),phaseHandle,'String','%2.1f');
-set_gui_string(position(2,:),yHandle,'String','%2.1f');
-dY=str2num(get(dYHandle,'String'));
+%Create data struct with position data
+data.phase = position(1,:);
+data.y = position(2,:).*convFact;
+data.dy = position(3,:);
 
-%Define name string of Simulink blocks to update
-subsystemName1='KeyEventGeneratorRefMod';
-subsystemName2='/Subsystem1';
-completeBlockName=[subsystemName1 subsystemName2];
-phaseBlock=[completeBlockName '/keyEventPhase' type];
-yBlock=[completeBlockName '/keyEventy' type];
-dYBlock=[completeBlockName '/keyEventdY' type];
-amountBlock=[completeBlockName '/keyEventAmount' type];
+%Set gaitData field to data
+setappdata(graphHandle,'gaitData',data);
 
-%Append NaN to reach dim of 20
-phaseBlockString=nan_fill(position(1,:), 20);
-yBlockString=nan_fill(position(2,:), 20);
-dYBlockString=nan_fill(dY, 20);
+%Write gait data to respective GUI text fields
+format='%2.2f';
+dyformat='%2.4f';
+set_gui_string(graphHandle,'phase',phaseHandle,'String', format, 1);
+set_gui_string(graphHandle,'y',yHandle,'String', format, 1/convFact);
+set_gui_string(graphHandle,'dy',dYHandle,'String', dyformat, 1/convFact);
 
-%Write values in Simulink
-set_param(phaseBlock,'Value',phaseBlockString);
-set_param(phaseBlock,'Value',phaseBlockString);
-set_param(yBlock,'Value',yBlockString);
-set_param(dYBlock,'Value',dYBlockString);
-set_param(amountBlock,'Value',num2str(length(position(1,:))));
-set_param([completeBlockName '/selection'],'Value','[0 1 1 0]');
+guidata(graphHandle,handles);
+
+%Draw splines on graph
+selected=getappdata(handles.SelectionList,'selected');
+compute_splines(handles,selected);
 
 %Update Handles
 guidata(graphHandle,handles);
+
+
 end
