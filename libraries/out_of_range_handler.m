@@ -9,5 +9,5 @@ elseif (outOfRange == 1)
     messageWarning = messageMaximum;
 else
     warningDetected = 0;
-    messageWarning = 'This should not be here.';
+    messageWarning = 'No warnings.';
 end
