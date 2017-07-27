@@ -619,7 +619,7 @@ switch choice
                  && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)
              
             [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
-            =splitGaitVector(gait.splineHip, gait.splineKnee);
+            =splitGaitVector(gait.splineHip(:,2), gait.splineKnee(:,2));
         
             setValue(hipSwingEntryObj,stepSwingLegHip);     %set entryObj for hip
             setValue(kneeSwingEntryObj,stepSwingLegKnee);   %set entryObj for knee            
