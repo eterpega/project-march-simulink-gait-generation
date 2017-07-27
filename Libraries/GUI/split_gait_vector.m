@@ -1,5 +1,5 @@
 function [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
-    =splitGaitVector(hipVector,kneeVector)
+    =split_gait_vector(hipVector,kneeVector)
 
 %Define vector lenght
 lengthKneeVect=length(kneeVector)

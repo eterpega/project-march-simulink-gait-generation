@@ -619,7 +619,7 @@ switch choice
                  && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)
              
             [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
-            =splitGaitVector(gait.splineHip(:,2), gait.splineKnee(:,2));
+            =split_gait_vector(gait.splineHip(:,2), gait.splineKnee(:,2));
         
             setValue(hipSwingEntryObj,stepSwingLegHip);     %set entryObj for hip
             setValue(kneeSwingEntryObj,stepSwingLegKnee);   %set entryObj for knee            
@@ -634,13 +634,16 @@ switch choice
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
          
+     %Same as above but for other gait type    
      elseif s==2 && v==1
          kneeEntryObj=getEntry(sectionObj,'standUpKnee');
          hipEntryObj=getEntry(sectionObj,'standUpHip');
          
          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+             
             setValue(kneeEntryObj,gait.splineKnee);
-            setValue(hipEntryObj,gait.splineHip);  
+            setValue(hipEntryObj,gait.splineHip);
+            
             saveChanges(myDictionaryObj);
             
           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
@@ -652,8 +655,10 @@ switch choice
          hipEntryObj=getEntry(sectionObj,'sitDownHip');
          
          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+             
             setValue(kneeEntryObj,gait.splineKnee);
-            setValue(hipEntryObj,gait.splineHip);  
+            setValue(hipEntryObj,gait.splineHip); 
+            
             saveChanges(myDictionaryObj);
             
           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
