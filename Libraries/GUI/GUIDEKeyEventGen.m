@@ -314,10 +314,9 @@ set_gui_string(handles.graphY,'dy',handles.keyEventdYY,'String',dyformat, 1);
 set(handles.stepTime,'String',num2str(stepTime));
 
 %Determine selected parameters from selection list in GUI
-%selected=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
-
 [selected,type1,type2] = param_selection(handles);
+
 %Draw Graphs at initialization
 %DrawPoints(hObject, eventdata, handles);
 init_points(type1, eventdata, handles);
@@ -395,7 +394,7 @@ function SelectionList_Callback(hObject, eventdata, handles)
 [selected,type1,type2,clearGraph1,clearGraph2]=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
 
-cla(clearGraph1);
+cla(clearGraph1); %clears graph with handle clearGraph (obtained from  param_selection
 cla(clearGraph2);
 
 update_gait_data(type1, handles);
@@ -505,8 +504,6 @@ function keyEventdQHip_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -573,7 +570,7 @@ title('Hip Angles');
 ylim([rad2deg(angleHipEndStopMinimum) rad2deg(angleHipEndStopMaximum)]);
 
 %Open question box for confirmation
-questionStr='These are the vectors you will save to the DataDictionary are you sure you want to continue?';
+questionStr='These are the vectors you will save to the Model Dictionary. Are you sure you want to continue?';
 titleStr='Save gait data to Model DataDictionary';
 choice=questdlg(questionStr,titleStr,'Yes','No','Yes');
 
@@ -619,7 +616,7 @@ switch choice
                  && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)
              
             [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
-            =splitGaitVector(gait.splineHip, gait.splineKnee);
+            =split_gait_vector(gait.splineHip(:,2), gait.splineKnee(:,2));
         
             setValue(hipSwingEntryObj,stepSwingLegHip);     %set entryObj for hip
             setValue(kneeSwingEntryObj,stepSwingLegKnee);   %set entryObj for knee            
@@ -634,26 +631,20 @@ switch choice
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
          
+     %standUp  
      elseif s==2 && v==1
-         kneeEntryObj=getEntry(sectionObj,'standUpKnee');
-         hipEntryObj=getEntry(sectionObj,'standUpHip');
+         write_to_model_dictionary(myDictionaryObj, sectionObj, 'standUpKnee', 'standUpHip', gait);
          
-         if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
-            setValue(kneeEntryObj,gait.splineKnee);
-            setValue(hipEntryObj,gait.splineHip);  
-            saveChanges(myDictionaryObj);
-            
-          elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
-            msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
-         end
-         
+     %sitDown
      elseif s==3 && v==1
          kneeEntryObj=getEntry(sectionObj,'sitDownKnee');
          hipEntryObj=getEntry(sectionObj,'sitDownHip');
          
          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+             
             setValue(kneeEntryObj,gait.splineKnee);
-            setValue(hipEntryObj,gait.splineHip);  
+            setValue(hipEntryObj,gait.splineHip); 
+            
             saveChanges(myDictionaryObj);
             
           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)

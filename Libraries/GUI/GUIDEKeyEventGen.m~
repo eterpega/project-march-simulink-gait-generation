@@ -395,7 +395,7 @@ function SelectionList_Callback(hObject, eventdata, handles)
 [selected,type1,type2,clearGraph1,clearGraph2]=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
 
-cla(clearGraph1);
+cla(clearGraph1); %clears gr
 cla(clearGraph2);
 
 update_gait_data(type1, handles);
@@ -505,8 +505,6 @@ function keyEventdQHip_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -615,26 +613,35 @@ switch choice
          kneeStandEntryObj=getEntry(sectionObj,'stepStandLegKnee');%get entryObj for knee
          hipStandEntryObj=getEntry(sectionObj,'stepStandLegHip');  %get entryObj for hip
          
-         if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+         if ~isempty(kneeSwingEntryObj) && ~isempty(hipSwingEntryObj)...
+                 && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)
+             
             [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
-            =splitGaitVector(gait.splineHip, gait.splineKnee)
-            setValue(kneeSwingEntryObj,gait.splineKnee); %set entryObj for knee
-            setValue(kneeSwingEntryObj,gait.splineKnee); %set entryObj for knee            
-            setValue(hipSwingEntryObj,gait.splineHip);   %set entryObj for knee
-            saveChanges(myDictionaryObj);           %save all changes to the model data dictionary
+            =split_gait_vector(gait.splineHip(:,2), gait.splineKnee(:,2));
+        
+            setValue(hipSwingEntryObj,stepSwingLegHip);     %set entryObj for hip
+            setValue(kneeSwingEntryObj,stepSwingLegKnee);   %set entryObj for knee            
+            setValue(hipStandEntryObj,stepStandLegHip);     %set entryObj for hip
+            setValue(kneeStandEntryObj,stepStandLegKnee);   %set entryObj for knee
+            
+            saveChanges(myDictionaryObj);                   %save all changes to the model data dictionary
          
          %give error if entryObjs are empty   
-         elseif isempty(kneeEntryObj) || isempty(hipEntryObj) 
+         elseif isempty(kneeSwingEntryObj) || isempty(hipSwingEntryObj)...
+                 || isempty(kneeStandEntryObj) || isempty(hipStandEntryObj) 
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
          
+     %Same as above but for other gait type    
      elseif s==2 && v==1
          kneeEntryObj=getEntry(sectionObj,'standUpKnee');
          hipEntryObj=getEntry(sectionObj,'standUpHip');
          
          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+             
             setValue(kneeEntryObj,gait.splineKnee);
-            setValue(hipEntryObj,gait.splineHip);  
+            setValue(hipEntryObj,gait.splineHip);
+            
             saveChanges(myDictionaryObj);
             
           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
@@ -646,8 +653,10 @@ switch choice
          hipEntryObj=getEntry(sectionObj,'sitDownHip');
          
          if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+             
             setValue(kneeEntryObj,gait.splineKnee);
-            setValue(hipEntryObj,gait.splineHip);  
+            setValue(hipEntryObj,gait.splineHip); 
+            
             saveChanges(myDictionaryObj);
             
           elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
