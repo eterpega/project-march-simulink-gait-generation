@@ -314,9 +314,10 @@ set_gui_string(handles.graphY,'dy',handles.keyEventdYY,'String',dyformat, 1);
 set(handles.stepTime,'String',num2str(stepTime));
 
 %Determine selected parameters from selection list in GUI
+%selected=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
-[selected,type1,type2] = param_selection(handles);
 
+[selected,type1,type2] = param_selection(handles);
 %Draw Graphs at initialization
 %DrawPoints(hObject, eventdata, handles);
 init_points(type1, eventdata, handles);
@@ -394,7 +395,7 @@ function SelectionList_Callback(hObject, eventdata, handles)
 [selected,type1,type2,clearGraph1,clearGraph2]=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
 
-cla(clearGraph1); %clears graph with handle clearGraph (obtained from  param_selection
+cla(clearGraph1); %clears gr
 cla(clearGraph2);
 
 update_gait_data(type1, handles);
@@ -570,7 +571,7 @@ title('Hip Angles');
 ylim([rad2deg(angleHipEndStopMinimum) rad2deg(angleHipEndStopMaximum)]);
 
 %Open question box for confirmation
-questionStr='These are the vectors you will save to the Model Dictionary. Are you sure you want to continue?';
+questionStr='These are the vectors you will save to the DataDictionary are you sure you want to continue?';
 titleStr='Save gait data to Model DataDictionary';
 choice=questdlg(questionStr,titleStr,'Yes','No','Yes');
 
@@ -631,11 +632,22 @@ switch choice
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
          
-     %standUp  
+     %Same as above but for other gait type    
      elseif s==2 && v==1
-         write_to_model_dictionary(myDictionaryObj, sectionObj, 'standUpKnee', 'standUpHip', gait);
+         kneeEntryObj=getEntry(sectionObj,'standUpKnee');
+         hipEntryObj=getEntry(sectionObj,'standUpHip');
          
-     %sitDown
+         if ~isempty(kneeEntryObj) && ~isempty(hipEntryObj)
+             
+            setValue(kneeEntryObj,gait.splineKnee);
+            setValue(hipEntryObj,gait.splineHip);
+            
+            saveChanges(myDictionaryObj);
+            
+          elseif isempty(kneeEntryObj) || isempty(hipEntryObj)
+            msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
+         end
+         
      elseif s==3 && v==1
          kneeEntryObj=getEntry(sectionObj,'sitDownKnee');
          hipEntryObj=getEntry(sectionObj,'sitDownHip');
