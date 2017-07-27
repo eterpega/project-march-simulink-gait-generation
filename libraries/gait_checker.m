@@ -1,7 +1,8 @@
 function [warningCount, messageWarning] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft,stepLength);
 
 global LProximal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
-    angleHipEndStopMinimum angleHipEndStopMaximum
+    angleHipEndStopMinimum angleHipEndStopMaximum velocityMaximumHip ...
+    velocityMaximumKnee
 
 errorDetected = 0;
 warningCount = 0;
@@ -14,9 +15,6 @@ accelerationHip = hip.ddangleHip;
 angleKnee = knee.angleKnee;
 velocityKnee = knee.dangleKnee;
 accelerationKnee = knee.ddangleKnee;
-
-velocityHipMaximum = RPM_to_rads(17); 
-velocityKneeMaximum = RPM_to_rads(17); 
 
 y = y.y;
 
@@ -39,8 +37,8 @@ if warningDetected
 end
 
 %% Velocity check
-tooFastHip = out_of_range(velocityHip, -velocityHipMaximum, velocityHipMaximum);
-tooFastKnee = out_of_range(angleKnee, -velocityKneeMaximum, velocityKneeMaximum);
+tooFastHip = out_of_range(velocityHip, -velocityMaximumHip, velocityMaximumHip);
+tooFastKnee = out_of_range(angleKnee, -velocityMaximumKnee, velocityMaximumKnee);
 
 [warningDetected, temporaryMessageWarning] = out_of_range_handler(tooFastHip, 'Velocity of hip is too low.', 'Velocity of hip is too high.');
 if warningDetected
