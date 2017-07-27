@@ -13,7 +13,7 @@ global LProximal LDistal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
 
 % leg length
 LProximal = 0.48; %[m] Length of upper leg, still has to be set correctly!
-LDistal = 0.48; %[m]  Length of lower leg, still has to be set correctly!
+LDistal = 0.565; %[m]  Length of lower leg, still has to be set correctly!
 
 sampleFrequency = 500; %[Hz] sample frequency of SLRT model
 

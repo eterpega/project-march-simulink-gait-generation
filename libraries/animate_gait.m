@@ -7,8 +7,9 @@ end
 
 %%Create and intialize plot
 p = figure('Position', [200,200,500,400]); %create figure
-axis([-0.6 0.6, 0 , 1])
+axis([-0.55 0.55, 0 , 1.1])
 grid on
+axis square
 xlabel('x [m]')
 ylabel('y [m]')
 title('Gait Animation')
