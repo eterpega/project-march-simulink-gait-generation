@@ -6,7 +6,7 @@ global LProximal angleKneeEndStopMinimum angleKneeEndStopMaximum ...
 
 errorDetected = 0;
 warningCount = 0;
-messageWarning{1} = 'This should not be here.';
+messageWarning{1} = 'No warnings';
 
 angleHip = hip.angleHip;
 velocityHip = hip.dangleHip;
@@ -38,7 +38,7 @@ end
 
 %% Velocity check
 tooFastHip = out_of_range(velocityHip, -velocityMaximumHip, velocityMaximumHip);
-tooFastKnee = out_of_range(angleKnee, -velocityMaximumKnee, velocityMaximumKnee);
+tooFastKnee = out_of_range(velocityKnee, -velocityMaximumKnee, velocityMaximumKnee);
 
 [warningDetected, temporaryMessageWarning] = out_of_range_handler(tooFastHip, 'Velocity of hip is too low.', 'Velocity of hip is too high.');
 if warningDetected
