@@ -1,14 +1,17 @@
 function [xRight, yRight, xLeft, yLeft] = position_leg(x, y, angleHip, angleKnee, stanceLegRight, stanceLegLeft)
 
-global LProximal LDistal
+global LProximal LDistal gaitType
 
 samplePointAmount = length(angleHip);
 phase = 1:samplePointAmount;
 
 samplePointAmount = length(phase);
 phaseRight(1,:) = phase;
-phaseLeft(1,:) = mod(phase + 0.5 * samplePointAmount - 1,samplePointAmount) + 1;
-
+if strcmpi(gaitType,'Continuous')
+    phaseLeft(1,:) = mod(phase + 0.5 * samplePointAmount - 1,samplePointAmount) + 1;
+elseif strcmpi(gaitType, 'Discontinuous')
+    phaseLeft(1,:) = phase;
+end
 xFootLeft(1,:) = x(phaseLeft);
 yFootLeft(1,:) = y(phaseLeft);   
 xFootRight(1,:) = x(phaseRight);
