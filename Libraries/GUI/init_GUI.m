@@ -23,8 +23,8 @@ angleHipEndStopMinimum = deg2rad(-20);
 angleHipEndStopMaximum = deg2rad(100);
 
 % maximum velocity
-velocityMaximumHip = RPM_to_rads(17); %[rad/s]
-velocityMaximumKnee = RPM_to_rads(17); %[rad/s]
+velocityMaximumHip = RPM2rads(17); %[rad/s]
+velocityMaximumKnee = RPM2rads(17); %[rad/s]
 
 gaitType='Continuous';
 

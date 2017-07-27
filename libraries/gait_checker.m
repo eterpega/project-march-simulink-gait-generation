@@ -26,14 +26,12 @@ outOfRangeKnee = out_of_range(angleKnee, angleKneeEndStopMinimum, angleKneeEndSt
 if warningDetected
 	warningCount = warningCount + 1;
     messageWarning{warningCount} = temporaryMessageWarning;
-    warningDetected = 0;
 end
 
 [warningDetected, temporaryMessageWarning] = out_of_range_handler(outOfRangeKnee, 'Knee angle becomes too low', 'Knee angle becomes too high');
 if warningDetected
 	warningCount = warningCount + 1;
     messageWarning{warningCount} = temporaryMessageWarning;
-    warningDetected = 0;
 end
 
 %% Velocity check
@@ -44,14 +42,12 @@ tooFastKnee = out_of_range(velocityKnee, -velocityMaximumKnee, velocityMaximumKn
 if warningDetected
 	warningCount = warningCount + 1;
     messageWarning{warningCount} = temporaryMessageWarning;
-    warningDetected = 0;
 end
 
 [warningDetected, temporaryMessageWarning] = out_of_range_handler(tooFastKnee, 'Velocity of knee is too low.', 'Velocity of knee is too high.');
 if warningDetected
 	warningCount = warningCount + 1;
     messageWarning{warningCount} = temporaryMessageWarning;
-    warningDetected = 0;
 end
 
 %% y check
