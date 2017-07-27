@@ -56,7 +56,10 @@ key_event_checker(keyEvent2, phaseToTime, 2, selected);
 %x.x
 %y.y
 %% Check gait
-gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
+[warningCount, messageWarning] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
+disp(warningCount)
+disp(messageWarning{1})
+disp(messageWarning{2})
 %Gait parameters for GUI
 stepVel=stepLength/stepTime;
 set(handles.stepLength,'String',num2str(stepLength));
