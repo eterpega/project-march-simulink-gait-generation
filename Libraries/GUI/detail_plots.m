@@ -1,8 +1,10 @@
 function detail_plots(phase, angleHip_deg, angleKnee_deg, x, y,...
     angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time, samplePointAmount)
 
-%plot 
+%% Make figure 
 gaitFigure = figure('Position',[200,0,1000,800]);
+
+%% Joint angles
 subplot(3,2,1)
 plot(phase,angleHip_deg,'Linewidth',2)
 hold on
@@ -13,16 +15,7 @@ ylabel('Angle [degree]')
 legend('angleHip','angleKnee')
 grid on
 
-subplot(3,2,2)
-plot(phase,x,'Linewidth',2)
-hold on
-plot(phase,y,'Linewidth',2)
-title('Foot Position')
-legend('x','y')
-xlabel('Time [s]')
-ylabel('position [m]')
-grid on
-
+%% Angular velocity
 subplot(3,2,3)
 plot(time,angleHip_RPM,'Linewidth',2);
 hold on
@@ -31,15 +24,13 @@ title('Hip and Knee Angular Velocity')
 xlabel('Time [s]')
 ylabel('Velocity [RPM]')
 legend('angleHip','angleKnee')
+hold on
+plot(time,repmat(17,length(time),1),'Linewidth',2,'Color','r')
+hold on
+plot(time,repmat(-17,length(time),1),'Linewidth',2,'Color','r')
 grid on
 
-subplot(3,2,4)
-p3 = plot(x,y,'Linewidth',2);
-title('Foot Position Side View')
-xlabel('x [m]')
-ylabel('y [m]')
-grid on
-
+%% Angular acceleration
 subplot(3,2,5)
 plot(time,angleHip_rads2,'Linewidth',2);
 hold on
@@ -50,6 +41,26 @@ ylabel('Acceleration [rad/s^2]')
 legend('angleHip','angleKnee')
 grid on
 
+%% Position
+subplot(3,2,2)
+plot(phase,x,'Linewidth',2)
+hold on
+plot(phase,y,'Linewidth',2)
+title('Foot Position')
+legend('x','y')
+xlabel('Time [s]')
+ylabel('position [m]')
+grid on
+
+%% Position
+subplot(3,2,4)
+p3 = plot(x,y,'Linewidth',2);
+title('Foot Position Side View')
+xlabel('x [m]')
+ylabel('y [m]')
+grid on
+
+%% Velocity vs angle
 subplot(3,2,6)
 plot(angleHip_deg,angleHip_RPM,'Linewidth',2);
 hold on

@@ -15,8 +15,8 @@ angleKnee = knee.angleKnee;
 velocityKnee = knee.dangleKnee;
 accelerationKnee = knee.ddangleKnee;
 
-velocityHipMax = RPM_to_rads(24); 
-velocityKneeMax = RPM_to_rads(24); 
+velocityHipMax = RPM_to_rads(17); 
+velocityKneeMax = RPM_to_rads(17); 
 
 y = y.y;
 
