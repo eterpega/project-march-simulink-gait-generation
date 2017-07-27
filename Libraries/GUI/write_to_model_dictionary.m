@@ -25,6 +25,7 @@ function write_to_model_dictionary(myDictionaryObj, sectionObj, varNameKnee, var
                 case 'No';
                     
                 case 'Yes';
+                    
                     kneeEntryObj = addEntry(sectionObj, varNameKnee, gait.splineKnee(:,2));
                     hipEntryObj = addEntry(sectionObj, varNameHip, gait.splineHip(:,2));
                     
