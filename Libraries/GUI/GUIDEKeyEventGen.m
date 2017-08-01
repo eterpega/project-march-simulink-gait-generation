@@ -75,6 +75,8 @@ function keyEventPhaseKnee_Callback(hObject, eventdata, handles)
 % hObject    handle to keyEventPhaseKnee (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% objTag=get(hObject,'Tag');
+% objTag=
 update_gait_data('knee', handles);
 draw_points('knee', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
