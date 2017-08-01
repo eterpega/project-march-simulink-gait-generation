@@ -78,6 +78,7 @@ if ~isempty(IndexHalfStepStartHipSwing)
     IndexHalfStepStartHipSwing=IndexHalfStepStartHipSwing(1);
 end
 
+
 %truncate vector to right length to start at standUp(end)
 startHalfStepKnee=stepSwingLegKnee((IndexHalfStepStartKneeSwing+1):end);
 startHalfStepHip=stepSwingLegHip((IndexHalfStepStartHipSwing+1):end);
