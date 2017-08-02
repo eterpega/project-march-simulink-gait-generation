@@ -103,6 +103,7 @@ stopHalfStepFromStandKnee=stepSwingLegKnee(1:IndexHalfStepStopKneeFromStand);
 stopHalfStepFromStandHip=[stopHalfStepFromStandHip; ones(length(stepSwingLegHip)-IndexHalfStepStopHipFromStand,1)*standUpHip(end)];
 stopHalfStepFromStandKnee=[stopHalfStepFromStandKnee; ones(length(stepSwingLegKnee)-IndexHalfStepStopKneeFromStand,1)*standUpKnee(end)];
 
+stopHalfStepFromStandKnee=stepStandLegKnee;
 %% PLOT DATA
 
 %plot half step stop from swing

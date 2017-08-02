@@ -89,10 +89,6 @@ startSwingHalfStepHip=stepSwingLegHip((IndexHalfStepStartHipSwing+1):end);
 startSwingHalfStepHip=[ones(IndexHalfStepStartHipSwing,1)*standUpHip(end); startSwingHalfStepHip];
 startSwingHalfStepKnee=[ones(IndexHalfStepStartKneeSwing,1)*standUpKnee(end); startSwingHalfStepKnee];
 
-%Reset knee vectors to normal gait because they dont matter for half step
-%start
-startSwingHalfStepKnee=stepStandLegKnee;
-
 %% DEFINE START HALF STEP FOR STANCE LEG (LEFT)
 
 %truncate vector to right length to start at standUp(end)
@@ -103,6 +99,7 @@ startStandHalfStepHip=stepStandLegHip((IndexHalfStepStartHipStand+1):end);
 startStandHalfStepHip=[ones(IndexHalfStepStartHipStand,1)*standUpHip(end); startStandHalfStepHip];
 startStandHalfStepKnee=[ones(IndexHalfStepStartKneeStand,1)*standUpKnee(end); startStandHalfStepKnee];
 
+%Reset knee vectors to normal stand gait because they dont matter for half step start
 startStandHalfStepKnee=stepStandLegKnee;
 
 %% STOP HALF STEP
@@ -161,6 +158,7 @@ stopHalfStepFromStandKnee=stepSwingLegKnee(1:IndexHalfStepStopKneeFromStand);
 stopHalfStepFromStandHip=[stopHalfStepFromStandHip; ones(length(stepSwingLegHip)-IndexHalfStepStopHipFromStand,1)*standUpHip(end)];
 stopHalfStepFromStandKnee=[stopHalfStepFromStandKnee; ones(length(stepSwingLegKnee)-IndexHalfStepStopKneeFromStand,1)*standUpKnee(end)];
 
+stopHalfStepFromStandKnee=stepStandLegKnee;
 %% PLOT DATA
 
 %%plot half step stop from swing
