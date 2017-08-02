@@ -185,10 +185,12 @@ stopHalfStepFromStandKnee=[stopHalfStepFromStandKnee; ones(length(stepSwingLegKn
 %% SAVE HALF STEPS TO MODEL DICTIONARY
 
 %Define variable names
-varNameStartStandHalfStepHip    = 'halfStepStandStartHip';
+varNameStartStandHalfStepHip    = 'halfStepStartStandHip';
 varNameStartStandHalfStepKnee   = 'halfStepStandStartKnee';
-varNameStartSwingHalfStepHip    = 'halfStepSwingStartHip';
-varNameStartSwingHalfStepKnee   = 'halfStepSwingStartKnee';
+varNameStartSwingHalfStepHip    = 'startSwingHalfStepHip';
+varNameStartSwingHalfStepKnee   = 'startSwingHalfStepKnee';
+varNameStartStepHip             = 'halfStepStartHip';
+varNameStartStepKnee            = 'halfStepStartKnee';
 varNameStopStepFromSwingKnee    = 'halfStepStopFromSwingKnee';
 varNameStopStepFromSwingHip     = 'halfStepStopFromSwingHip';
 varNameStopStepFromStandKnee    = 'halfStepStopFromStandKnee';

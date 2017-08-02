@@ -21,7 +21,7 @@ end
 %check hip index
 %STAND
 if ~isempty(IndexHalfStepStartHipStand)
-    IndexHalfStepStartHipStand=IndexHalfStepStartHipStand(end);
+    IndexHalfStepStartHipStand=IndexHalfStepStartHipStand(1);
 end
 
 if ~isempty(IndexHalfStepStartHipSwing)
@@ -106,8 +106,8 @@ stopHalfStepFromStandKnee=[stopHalfStepFromStandKnee; ones(length(stepSwingLegKn
 %% PLOT DATA
 
 %plot half step stop from swing
-fullStopVectKnee    =[standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee];
-fullStopVectHip     =[standUpHip; startSwingHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip];
+fullStopVectKnee    =[standUpKnee; startStandHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee];
+fullStopVectHip     =[standUpHip; startStandHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip];
 
 %plot half step stop from stand
 %fullStopVectKnee=[standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stopHalfStepFromStandKnee];
