@@ -51,135 +51,24 @@ hipStandUpEntryObj  = getEntry(sectionObj,'standUpHip');      %get entryObj for 
         return
      end
      
-%% START HALF STEP
-%find index of stepStandLegKnee vector where angle==angle(standUpKnee(end))
-IndexHalfStepStartKneeStand=find(stepStandLegKnee >= standUpKnee(end));
-IndexHalfStepStartKneeSwing=find(stepSwingLegKnee >= standUpKnee(end));
+%% RUN half_steps_generator_func
+[startStandHalfStepHip,startStandHalfStepKnee,...
+    startSwingHalfStepHip,startSwingHalfStepKnee,...
+    stopHalfStepFromSwingKnee,stopHalfStepFromSwingHip,...
+    stopHalfStepFromStandKnee,stopHalfStepFromStandHip]...
+    = half_steps_generator_func(stepSwingLegHip, stepSwingLegKnee,...
+    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip);
 
-%find index of stepStandLegHip vector where angle==angle(standUpHip(end))
-IndexHalfStepStartHipStand=find(stepStandLegHip >= standUpHip(end));
-IndexHalfStepStartHipSwing=find(stepSwingLegHip >= standUpHip(end));
-
-%check knee index
-%SWING
-if ~isempty(IndexHalfStepStartKneeStand)
-    IndexHalfStepStartKneeStand=IndexHalfStepStartKneeStand(1);
-end
-
-if ~isempty(IndexHalfStepStartKneeSwing)
-    IndexHalfStepStartKneeSwing=IndexHalfStepStartKneeSwing(1);
-end
-
-%check hip index
-%STAND
-if ~isempty(IndexHalfStepStartHipStand)
-    IndexHalfStepStartHipStand=IndexHalfStepStartHipStand(end);
-end
-
-if ~isempty(IndexHalfStepStartHipSwing)
-    IndexHalfStepStartHipSwing=IndexHalfStepStartHipSwing(1);
-end
-
-%% DEFINE START HALF STEP FOR SWING LEG (RIGHT)
-%truncate vector to right length to start at standUp(end)
-startSwingHalfStepKnee=stepSwingLegKnee((IndexHalfStepStartKneeSwing+1):end);
-startSwingHalfStepHip=stepSwingLegHip((IndexHalfStepStartHipSwing+1):end);
-
-%Padding begin of vectors before standUp(end) angle is reached with standUp(en)
-startSwingHalfStepHip=[ones(IndexHalfStepStartHipSwing,1)*standUpHip(end); startSwingHalfStepHip];
-startSwingHalfStepKnee=[ones(IndexHalfStepStartKneeSwing,1)*standUpKnee(end); startSwingHalfStepKnee];
-
-%% DEFINE START HALF STEP FOR STANCE LEG (LEFT)
-
-%truncate vector to right length to start at standUp(end)
-startStandHalfStepKnee=stepStandLegKnee((IndexHalfStepStartKneeStand+1):end);
-startStandHalfStepHip=stepStandLegHip((IndexHalfStepStartHipStand+1):end);
-
-%Padding begin of vectors before standUp(end) angle is reached with standUp(en)
-startStandHalfStepHip=[ones(IndexHalfStepStartHipStand,1)*standUpHip(end); startStandHalfStepHip];
-startStandHalfStepKnee=[ones(IndexHalfStepStartKneeStand,1)*standUpKnee(end); startStandHalfStepKnee];
-
-%Reset knee vectors to normal stand gait because they dont matter for half step start
-startStandHalfStepKnee=stepStandLegKnee;
-
-%% STOP HALF STEP
-
-%find index of stepStandLegKnee vector where angle>=angle(standUpKnee(end))
-IndexHalfStepStopKneeFromStand=find(stepSwingLegKnee >= standUpKnee(end));
-IndexHalfStepStopKneeFromSwing=find(stepStandLegKnee >= standUpKnee(end));
-
-%find index of stepStandLegHip vector where angle>=angle(standUpHip(end))
-IndexHalfStepStopHipFromStand=find(stepSwingLegHip >= standUpHip(end));
-IndexHalfStepStopHipFromSwing=find(stepStandLegHip >= standUpHip(end));
-
-%check knee index is not empty
-%Swing
-if ~isempty(IndexHalfStepStopKneeFromSwing)
-    IndexHalfStepStopKneeFromSwing=IndexHalfStepStopKneeFromSwing(end);
-else
-    IndexHalfStepStopKneeFromSwing=length(stepSwingLegKnee);
-end
-%Stand
-if ~isempty(IndexHalfStepStopKneeFromStand)
-    IndexHalfStepStopKneeFromStand=IndexHalfStepStopKneeFromStand(end);
-else
-    IndexHalfStepStopKneeFromStand=length(stepStandLegKnee);
-end
-
-%check if hip index is not empty
-%Swing
-if ~isempty(IndexHalfStepStopHipFromSwing)
-    IndexHalfStepStopHipFromSwing=IndexHalfStepStopHipFromSwing(end);
-else 
-    IndexHalfStepStopHipFromSwing=length(stepSwingLegHip);
-end
-%Stand
-if ~isempty(IndexHalfStepStopHipFromStand)
-    IndexHalfStepStopHipFromStand=IndexHalfStepStopHipFromStand(1);
-else
-    IndexHalfStepStopHipFromStand=length(stepStandLegHip);
-end
-
-%% DEFINE HALF STOP STEP FROM SWING
-%vector for half step stop from swing leg
-stopHalfStepFromSwingHip    =stepStandLegHip(1:IndexHalfStepStopHipFromSwing);
-stopHalfStepFromSwingKnee   =stepStandLegKnee(1:IndexHalfStepStopKneeFromSwing);
-
-%Padding 'from swing' vectors when stand angle is reached
-stopHalfStepFromSwingHip    =[stopHalfStepFromSwingHip; ones((length(stepStandLegHip)-IndexHalfStepStopHipFromSwing),1)*startSwingHalfStepHip(1)];
-stopHalfStepFromSwingKnee   =[stopHalfStepFromSwingKnee; ones((length(stepStandLegKnee)-IndexHalfStepStopKneeFromSwing),1)*stepStandLegKnee(1)];
-
-%% DEFINE HALF STOP STEP FROM STAND
-%vector for half step stop from stand leg
-stopHalfStepFromStandHip=stepSwingLegHip(1:IndexHalfStepStopHipFromStand);
-stopHalfStepFromStandKnee=stepSwingLegKnee(1:IndexHalfStepStopKneeFromStand);
-
-%Padding 'from stand' vectors to hold position when stand angle is reached
-stopHalfStepFromStandHip=[stopHalfStepFromStandHip; ones(length(stepSwingLegHip)-IndexHalfStepStopHipFromStand,1)*standUpHip(end)];
-stopHalfStepFromStandKnee=[stopHalfStepFromStandKnee; ones(length(stepSwingLegKnee)-IndexHalfStepStopKneeFromStand,1)*standUpKnee(end)];
-
-stopHalfStepFromStandKnee=stepStandLegKnee;
-%% PLOT DATA
-
-%%plot half step stop from swing
-%fullStopVectKnee    =[standUpKnee; startHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee];
-%fullStopVectHip     =[standUpHip; startHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip];
-
-%%plot half step stop from stand
-% fullStopVectKnee=[standUpKnee; startHalfStepKnee; stepStandLegKnee; stopHalfStepFromStandKnee];
-% fullStopVectHip=[standUpHip; startHalfStepHip; stepStandLegHip; stopHalfStepFromStandHip];
-% 
-% figure
-% hold on
-% plot(fullStopVectKnee)
-% plot(fullStopVectHip)
-% line([length(standUpKnee) length(standUpKnee)], [-20 90])
-% line([length([standUpKnee; startHalfStepKnee]) length([standUpKnee; startHalfStepKnee])], [-20 90])
-% line([length([standUpKnee; startHalfStepKnee; stepStandLegKnee]) length([standUpKnee; startHalfStepKnee; stepStandLegKnee])], [-20 90])
-% line([length([standUpKnee; startHalfStepKnee; stepStandLegKnee; stepSwingLegKnee]) length([standUpKnee; startHalfStepKnee; stepStandLegKnee; stepSwingLegKnee])], [-20 90])
-% line([length([standUpKnee; startHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee]) length([standUpKnee; startHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee])], [-20 90])
-% hold off
-
+%% USER CHECK IF VECTORS ARE CONTINUOUS
+questionStr=['Are all the gait vectors continuous?'];
+    titleStr='Check if the gait vectors are continuous';
+    choice1=questdlg(questionStr,titleStr,'Yes','No','No');
+        
+switch choice1
+    case 'No'
+        return
+        
+    case 'Yes'
 %% SAVE HALF STEPS TO MODEL DICTIONARY
 
 %Define variable names
@@ -249,3 +138,4 @@ varNameStopStepFromStandHip     = 'halfStepStopFromStandHip';
                 saveChanges(myDictionaryObj);
         end
      end
+end

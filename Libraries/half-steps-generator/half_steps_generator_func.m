@@ -1,4 +1,10 @@
-     
+function [startStandHalfStepHip,startStandHalfStepKnee,...
+    startSwingHalfStepHip,startSwingHalfStepKnee,...
+    stopHalfStepFromSwingKnee,stopHalfStepFromSwingHip,...
+    stopHalfStepFromStandKnee,stopHalfStepFromStandHip]...
+    = half_steps_generator_func(stepSwingLegHip, stepSwingLegKnee,...
+    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip)
+
 %% START HALF STEP
 %find index of stepStandLegKnee vector where angle==angle(standUpKnee(end))
 IndexHalfStepStartKneeStand=find(stepStandLegKnee >= standUpKnee(end));
@@ -21,7 +27,7 @@ end
 %check hip index
 %STAND
 if ~isempty(IndexHalfStepStartHipStand)
-    IndexHalfStepStartHipStand=IndexHalfStepStartHipStand(1);
+    IndexHalfStepStartHipStand=IndexHalfStepStartHipStand(end);
 end
 
 if ~isempty(IndexHalfStepStartHipSwing)
@@ -103,23 +109,49 @@ stopHalfStepFromStandKnee=stepSwingLegKnee(1:IndexHalfStepStopKneeFromStand);
 stopHalfStepFromStandHip=[stopHalfStepFromStandHip; ones(length(stepSwingLegHip)-IndexHalfStepStopHipFromStand,1)*standUpHip(end)];
 stopHalfStepFromStandKnee=[stopHalfStepFromStandKnee; ones(length(stepSwingLegKnee)-IndexHalfStepStopKneeFromStand,1)*standUpKnee(end)];
 
+stopHalfStepFromStandKnee=stepStandLegKnee;
 %% PLOT DATA
 
 %plot half step stop from swing
-fullStopVectKnee    =[standUpKnee; startStandHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee];
-fullStopVectHip     =[standUpHip; startStandHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip];
+fullSwingVectKnee    =[standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee];
+fullSwingVectHip     =[standUpHip; startSwingHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip];
 
 %plot half step stop from stand
-%fullStopVectKnee=[standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stopHalfStepFromStandKnee];
-%fullStopVectHip=[standUpHip; startSwingHalfStepHip; stepStandLegHip; stopHalfStepFromStandHip];
+fullStandVectKnee=[standUpKnee; startStandHalfStepKnee; stepSwingLegKnee; stepStandLegKnee; stopHalfStepFromStandKnee];
+fullStandVectHip=[standUpHip; startStandHalfStepHip; stepSwingLegHip; stepStandLegHip; stopHalfStepFromStandHip];
+
+fullStartStopStandVectKnee=[standUpKnee; startStandHalfStepKnee; stopHalfStepFromStandKnee];
+fullStartStopStandVectHip=[standUpHip; startStandHalfStepHip; stopHalfStepFromStandHip];
+
+fullStartStopSwingVectKnee=[standUpKnee; startSwingHalfStepKnee; stopHalfStepFromSwingKnee];
+fullStartStopSwingVectHip=[standUpHip; startSwingHalfStepHip; stopHalfStepFromSwingHip];
 
 figure
+subplot(4,1,1)
 hold on
-plot(fullStopVectKnee)
-plot(fullStopVectHip)
-line([length(standUpKnee) length(standUpKnee)], [-20 90])
-line([length([standUpKnee; startSwingHalfStepKnee]) length([standUpKnee; startSwingHalfStepKnee])], [-20 90])
-line([length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee]) length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee])], [-20 90])
-line([length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee]) length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee])], [-20 90])
-line([length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee]) length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee])], [-20 90])
+plot(fullSwingVectKnee)
+plot(fullSwingVectHip)
 hold off
+
+subplot(4,1,2)
+hold on
+plot(fullStandVectKnee)
+plot(fullStandVectHip)
+hold off
+
+subplot(4,1,3)
+hold on
+plot(fullStartStopStandVectKnee)
+plot(fullStartStopStandVectHip)
+hold off
+
+subplot(4,1,4)
+hold on
+plot(fullStartStopSwingVectKnee)
+plot(fullStartStopSwingVectHip)
+hold off
+% line([length(standUpKnee) length(standUpKnee)], [-20 90])
+% line([length([standUpKnee; startSwingHalfStepKnee]) length([standUpKnee; startSwingHalfStepKnee])], [-20 90])
+% line([length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee]) length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee])], [-20 90])
+% line([length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee]) length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee])], [-20 90])
+% line([length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee]) length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee])], [-20 90])
