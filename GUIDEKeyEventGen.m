@@ -55,8 +55,8 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to GUIDEKeyEventGen (see VARARGIN)
 
 % Choose default command line output for GUIDEKeyEventGen
-
-init_GUI(hObject, eventdata, handles, varargin);
+addpath(genpath(fullfile('libraries')));
+init(hObject, eventdata, handles, varargin);
 
 % UIWAIT makes GUIDEKeyEventGen wait for user response (see UIRESUME)
 % uiwait(handles.figure1);

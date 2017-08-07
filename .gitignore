@@ -13,3 +13,4 @@ build/
 *pt.m
 *ref.m
 *_slrt_rtw/
+*.DS_Store

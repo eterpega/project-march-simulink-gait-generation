@@ -32,8 +32,8 @@ spline2 = hermite_cubic_spline_value( keyEvent2,plotPhase2);
 
 % Since we want to define the gait from 0 to 100 percent we cut the part
 % after 100% and paste it after 0%.
-[spline1,plotPhase] = rearrange_from_zero_to_hundered(spline1, plotPhase1);
-[spline2,plotPhase] = rearrange_from_zero_to_hundered(spline2, plotPhase2);
+[spline1] = rearrange_from_zero_to_hundered(spline1, plotPhase1);
+[spline2] = rearrange_from_zero_to_hundered(spline2, plotPhase2);
 %% Find limits used for GUI
 [spline1Limit, spline2Limit] = limit_key_event(spline1, spline2, selected);
 

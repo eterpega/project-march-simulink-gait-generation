@@ -1,4 +1,4 @@
-function init_GUI(hObject, eventdata, handles, varargin)
+function init(hObject, eventdata, handles, varargin)
 
 handles.output = hObject;
 

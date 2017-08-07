@@ -1,4 +1,6 @@
 function animation_gui(handles, selected)
+% Does preparations for running animate_gait.m
+
 dynamic = 0; %if set to one the animation will walk away
 
 % First give an input which design spline has bee slected
