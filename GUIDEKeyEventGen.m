@@ -586,7 +586,7 @@ close(fig)
 %save data to DataDictionary of simulink model
 switch choice
     case 'Yes'
-    dictionaryPath='/Users/lucadelaat/Desktop/MARCH/simulink-models/Library'; %set datadictionary parent directory path
+    dictionaryPath=strcat('..',filesep,'simulink-models',filesep,'Library'); %set datadictionary parent directory path
     dictionaryName='ModelDictionary.sldd'; %set datadictionary name
     fullDictionaryPath=[dictionaryPath filesep dictionaryName]; %construct full path name for data dictionary
     myDictionaryObj = Simulink.data.dictionary.open(fullDictionaryPath); %get datadictionary object
