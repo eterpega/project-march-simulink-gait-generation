@@ -129,26 +129,31 @@ fullStartStopSwingVectHip=[standUpHip; startSwingHalfStepHip; stopHalfStepFromSw
 figure
 subplot(4,1,1)
 hold on
+title('Stand, StartSwing, Walk, StopfromSwing')
 plot(fullSwingVectKnee)
 plot(fullSwingVectHip)
 hold off
 
 subplot(4,1,2)
 hold on
+title('Stand, StartStand, Walk, StopfromStand')
 plot(fullStandVectKnee)
 plot(fullStandVectHip)
 hold off
 
 subplot(4,1,3)
 hold on
+title('Stand, StartStand, StopfromStand')
 plot(fullStartStopStandVectKnee)
 plot(fullStartStopStandVectHip)
 hold off
 
 subplot(4,1,4)
 hold on
+title('Stand, StartSwing, StopfromSwing')
 plot(fullStartStopSwingVectKnee)
 plot(fullStartStopSwingVectHip)
+
 hold off
 % line([length(standUpKnee) length(standUpKnee)], [-20 90])
 % line([length([standUpKnee; startSwingHalfStepKnee]) length([standUpKnee; startSwingHalfStepKnee])], [-20 90])

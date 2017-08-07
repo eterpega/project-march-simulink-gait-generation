@@ -21,8 +21,8 @@ end
 
 smooth=0.995;    %smoothing parameter of the smoothpine interpolation...
                 %has to be in between [0 1]
-f1 = fit(phase,-plotKnee,'smoothingspline','Normalize', 'on', 'SmoothingParam', smooth);
-f2 = fit(phase,-plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smooth);
+f1 = fit(phase,plotKnee,'smoothingspline','Normalize', 'on', 'SmoothingParam', smooth);
+f2 = fit(phase,plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smooth);
 
 figure;
 hold on;
@@ -32,7 +32,7 @@ yLim=[-15 120];
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
-plot(f1,phase,-plotKnee);
+plot(f1,phase,plotKnee);
 title('Knee Angles');
 ylim(yLim);
 xlabel('Phase %');
@@ -44,7 +44,7 @@ hold on;
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
-plot(f2,phase,-plotHip);
+plot(f2,phase,plotHip);
 title('Hip Angles');
 ylim(yLim);
 xlabel('Phase %');
