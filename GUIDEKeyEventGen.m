@@ -597,10 +597,10 @@ switch choice
     itemList{1} = 'Continuous Gait';
     itemList{2} = 'Standing Up';
     itemList{3} = 'Sitting Down';
-    %itemList{4} = 'Stairs Up Right';
-    %itemList{5} = 'Stairs Up Left';
-    %itemList{6} = 'Stairs Down Right';
-    %itemList{7} = 'Stairs Down Left';
+    itemList{4} = 'Stairs Up Right';
+    itemList{5} = 'Stairs Up Left';
+    itemList{6} = 'Stairs Down Right';
+    itemList{7} = 'Stairs Down Left';
     %itemList{8} = 'Rough Terrain';
 
     %Open dialog box for gait type selection
@@ -656,20 +656,20 @@ switch choice
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'sitDownKnee', 'sitDownHip', gait);
      
         %stairsUpRight   
-%       elseif s==4 && v==1
-%        write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpRightKnee', 'stairsUpRightHip', gait);
+       elseif s==4 && v==1
+        write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpRightKnee', 'stairsUpRightHip', gait);
 
         %stairsUpLeft
-%       elseif s==5 && v==1
-%           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpLeftKnee', 'stairsUpLeftHip', gait);
+       elseif s==5 && v==1
+          write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpLeftKnee', 'stairsUpLeftHip', gait);
 
         %stairsDownRight
-%       elseif s==6 && v==1
-%           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownRightKnee', 'stairsDownRightHip', gait);
+       elseif s==6 && v==1
+           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownRightKnee', 'stairsDownRightHip', gait);
 
         %stairsDownLeft
-%       elseif s==7 && v==1
-%           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownLeftKnee', 'stairsDownLeftHip', gait);
+      elseif s==7 && v==1
+          write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownLeftKnee', 'stairsDownLeftHip', gait);
         
         %roughTerrain
 %       elseif s==8 && v==1
