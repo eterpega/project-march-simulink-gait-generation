@@ -18,7 +18,7 @@ IndexHalfStepStartHipSwing=find(stepSwingLegHip >= standUpHip(end));
 %SWING
 if ~isempty(IndexHalfStepStartKneeStand)
     IndexHalfStepStartKneeStand=IndexHalfStepStartKneeStand(end);
-else %Happens when standUp(end)>HalfStepStartKneeStand)
+else
     IndexHalfStepStartKneeStand=1;
 end
 
@@ -118,31 +118,27 @@ stopHalfStepFromStandKnee=stepStandLegKnee;
 fullSwingVectKnee    =[standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee];
 fullSwingVectHip     =[standUpHip; startSwingHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip];
 
-if length(fullSwingVectKnee)~=length(fullSwingVectHip)
+if length(fullSwingVectKnee)~length(fullSwingVectHip)
     error('Error: Vectors of the 1st plot are not the same lenght')
-end
-
+    
 %plot half step stop from stand
 fullStandVectKnee=[standUpKnee; startStandHalfStepKnee; stepSwingLegKnee; stepStandLegKnee; stopHalfStepFromStandKnee];
 fullStandVectHip=[standUpHip; startStandHalfStepHip; stepSwingLegHip; stepStandLegHip; stopHalfStepFromStandHip];
 
-if length(fullStandVectKnee)~=length(fullStandVectHip)
+if length(fullStandVectKnee)~length(fullStandVectHip)
     error('Error: Vectors of the 2nd plot are not the same lenght')
-end
 
 fullStartStopStandVectKnee=[standUpKnee; startStandHalfStepKnee; stopHalfStepFromStandKnee];
 fullStartStopStandVectHip=[standUpHip; startStandHalfStepHip; stopHalfStepFromStandHip];
 
-if length(fullStartStopStandVectKnee)~=length(fullStartStopStandVectHip)
+if length(fullStartStopStandVectKnee)~length(fullStartStopStandVectHip)
     error('Error: Vectors of the 3rd plot are not the same lenght')
-end
 
 fullStartStopSwingVectKnee=[standUpKnee; startSwingHalfStepKnee; stopHalfStepFromSwingKnee];
 fullStartStopSwingVectHip=[standUpHip; startSwingHalfStepHip; stopHalfStepFromSwingHip];
 
-if length(fullStartStopSwingVectKnee)~=length(fullStartStopSwingVectHip)
+if length(fullStartStopStandVectKnee)~length(fullStartStopStandVectHip)
     error('Error: Vectors of the 4th plot are not the same lenght')
-end
 
 figure
 subplot(4,1,1)
@@ -171,8 +167,8 @@ hold on
 title('Stand, StartSwing, StopfromSwing')
 plot(fullStartStopSwingVectKnee)
 plot(fullStartStopSwingVectHip)
-hold off
 
+hold off
 % line([length(standUpKnee) length(standUpKnee)], [-20 90])
 % line([length([standUpKnee; startSwingHalfStepKnee]) length([standUpKnee; startSwingHalfStepKnee])], [-20 90])
 % line([length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee]) length([standUpKnee; startSwingHalfStepKnee; stepStandLegKnee])], [-20 90])
