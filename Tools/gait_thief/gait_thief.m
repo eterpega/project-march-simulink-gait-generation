@@ -107,6 +107,7 @@ f1 = fit(phase,plotKnee,'smoothingspline','Normalize', 'on', 'SmoothingParam', s
 f2 = fit(phase,plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smooth);
 
 figure;
+subplot(
 hold on;
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],[-5 120],'Color','y','LineWidth',0.01);

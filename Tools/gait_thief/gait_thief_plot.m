@@ -26,9 +26,8 @@ f2 = fit(phase,plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smo
 
 figure;
 hold on;
-
+subplot(2,1,2)
 yLim=[-15 120];
-
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
@@ -41,6 +40,7 @@ hold off;
 
 figure;
 hold on;
+subplot(2,1,1)
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
