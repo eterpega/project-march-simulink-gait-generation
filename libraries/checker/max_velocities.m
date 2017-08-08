@@ -36,3 +36,4 @@ velocityCurveMinimumKnee = rads2RPM(max(velocityCurveMinimumKnee, -velocityMaxim
 
 velocityCurveMaximumHip = rads2RPM(min(velocityCurveMaximumHip,velocityMaximumHip));
 velocityCurveMinimumHip = rads2RPM(max(velocityCurveMinimumHip, -velocityMaximumHip));
+end
