@@ -107,30 +107,30 @@ f1 = fit(phase,plotKnee,'smoothingspline','Normalize', 'on', 'SmoothingParam', s
 f2 = fit(phase,plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smooth);
 
 figure;
-subplot(
 hold on;
+subplot(2,1,2)
+yLim=[-15 120];
 for n=1:length(phase(:,1))
-    line([phase(n),phase(n)],[-5 120],'Color','y','LineWidth',0.01);
+    line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
 plot(f1,phase,plotKnee);
 title('Knee Angles');
-ylim([-5 120]);
+ylim(yLim);
 xlabel('Phase %');
 ylabel('Angle (deg)');
 hold off;
 
-saveas(gcf,strcat(Name,'_KneeAngles.fig'),'fig');
-
 figure;
 hold on;
+subplot(2,1,1)
 for n=1:length(phase(:,1))
-    line([phase(n),phase(n)],[-5 120],'Color','y','LineWidth',0.01);
+    line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
 plot(f2,phase,plotHip);
 title('Hip Angles');
-ylim([-5 120]);
+ylim(yLim);
 xlabel('Phase %');
 ylabel('Angle (deg)');
 hold off
 
-saveas(gcf,strcat(Name,'_HipAngles.fig'),'fig');
+saveas(gcf,strcat(Name,'_JointAngles.fig'),'fig');

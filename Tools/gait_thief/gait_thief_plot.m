@@ -25,8 +25,8 @@ f1 = fit(phase,plotKnee,'smoothingspline','Normalize', 'on', 'SmoothingParam', s
 f2 = fit(phase,plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smooth);
 
 figure;
+subplot(2,1,2);
 hold on;
-subplot(2,1,2)
 yLim=[-15 120];
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
@@ -38,9 +38,8 @@ xlabel('Phase %');
 ylabel('Angle (deg)');
 hold off;
 
-figure;
+subplot(2,1,1);
 hold on;
-subplot(2,1,1)
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
@@ -50,3 +49,6 @@ ylim(yLim);
 xlabel('Phase %');
 ylabel('Angle (deg)');
 hold off
+
+Name=getFileName(1:end-4);
+saveas(gcf,strcat(Name,'_JointAngles.fig'),'fig');
