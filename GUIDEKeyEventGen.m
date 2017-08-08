@@ -55,7 +55,7 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to GUIDEKeyEventGen (see VARARGIN)
 
 % Choose default command line output for GUIDEKeyEventGen
-addpath(genpath(fullfile('libraries')));
+addpath(genpath(fullfile(pwd)));
 init(hObject, eventdata, handles, varargin);
 
 % UIWAIT makes GUIDEKeyEventGen wait for user response (see UIRESUME)
@@ -586,7 +586,7 @@ close(fig)
 %save data to DataDictionary of simulink model
 switch choice
     case 'Yes'
-    dictionaryPath='/Users/lucadelaat/Desktop/MARCH/simulink-models/Library'; %set datadictionary parent directory path
+    dictionaryPath=strcat('..',filesep,'simulink-models',filesep,'Library'); %set datadictionary parent directory path
     dictionaryName='ModelDictionary.sldd'; %set datadictionary name
     fullDictionaryPath=[dictionaryPath filesep dictionaryName]; %construct full path name for data dictionary
     myDictionaryObj = Simulink.data.dictionary.open(fullDictionaryPath); %get datadictionary object
@@ -597,10 +597,10 @@ switch choice
     itemList{1} = 'Continuous Gait';
     itemList{2} = 'Standing Up';
     itemList{3} = 'Sitting Down';
-    %itemList{4} = 'Stairs Up Right';
-    %itemList{5} = 'Stairs Up Left';
-    %itemList{6} = 'Stairs Down Right';
-    %itemList{7} = 'Stairs Down Left';
+    itemList{4} = 'Stairs Up Right';
+    itemList{5} = 'Stairs Up Left';
+    itemList{6} = 'Stairs Down Right';
+    itemList{7} = 'Stairs Down Left';
     %itemList{8} = 'Rough Terrain';
 
     %Open dialog box for gait type selection
@@ -656,20 +656,20 @@ switch choice
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'sitDownKnee', 'sitDownHip', gait);
      
         %stairsUpRight   
-%       elseif s==4 && v==1
-%        write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpRightKnee', 'stairsUpRightHip', gait);
+       elseif s==4 && v==1
+        write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpRightKnee', 'stairsUpRightHip', gait);
 
         %stairsUpLeft
-%       elseif s==5 && v==1
-%           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpLeftKnee', 'stairsUpLeftHip', gait);
+       elseif s==5 && v==1
+          write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpLeftKnee', 'stairsUpLeftHip', gait);
 
         %stairsDownRight
-%       elseif s==6 && v==1
-%           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownRightKnee', 'stairsDownRightHip', gait);
+       elseif s==6 && v==1
+           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownRightKnee', 'stairsDownRightHip', gait);
 
         %stairsDownLeft
-%       elseif s==7 && v==1
-%           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownLeftKnee', 'stairsDownLeftHip', gait);
+      elseif s==7 && v==1
+          write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownLeftKnee', 'stairsDownLeftHip', gait);
         
         %roughTerrain
 %       elseif s==8 && v==1

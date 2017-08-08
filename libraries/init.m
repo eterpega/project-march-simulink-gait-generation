@@ -37,7 +37,7 @@ accelerationMaximumKnee = torqueJoint/inertiaLowerLeg; %[rad/s^2]
 gaitType='Continuous';
 
 %% Load keyEventData from .mat file at startup [rad, meters]
-filename='KeyEventData.mat';
+filename=strcat('InitKeyEventData.mat');
 keyEventData  =	load(filename);
 %knee [rad]
 knee=keyEventData.knee;
