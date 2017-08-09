@@ -611,8 +611,8 @@ switch choice
                     'ListString',itemList,...
                     'SelectionMode','single',...
                     'ListSize',[300 300]);
-    
-     if strcmpi(gaitType,'Continuous') && ~(s~=1|s~=8)
+     
+     if strcmpi(gaitType,'Continuous') && or(s~=1,s~=8)
          msgbox('ERROR: You"re trying to save a non-continuous as a continuous one. This will result in an erroneous sample frequency!','Error: Save Gait','error')
          return
      elseif strcmpi(gaitType, 'Discontinuous') && s==1
@@ -680,6 +680,7 @@ switch choice
         elseif s==8
          vectorName=get(handles.keyEventFileName,'String');
          [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
+         [PATHNAME,FileName,'Knee']
          kneeVect=gait.splineKnee(:,2);
          hipVect=gait.splineHip(:,2);
          save([PATHNAME,FileName(1:end-4),'_Knee',FileName(end-3:end)],'kneeVect');
