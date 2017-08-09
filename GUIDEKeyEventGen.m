@@ -266,6 +266,7 @@ function LoadKeyEventsButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [filename, pathname] = uigetfile('*.mat','Load Key Event data');
+set(handles.keyEventFileName,'String',filename);
 keyEventData  =	load(strcat(pathname,filename));
 %knee [rad]
 knee=keyEventData.knee;
@@ -375,6 +376,7 @@ save(FileName,'y','-append');
 save(FileName,'selected','-append');
 save(FileName,'stepTime','-append');
 cd(currentDir);
+set(handles.keyEventFileName,'String',FileName);
 
 
 % --- Executes on button press in AnimationButton.
