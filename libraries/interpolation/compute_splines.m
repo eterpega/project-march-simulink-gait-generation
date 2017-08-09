@@ -54,8 +54,7 @@ key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
 [hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength, spline1Limit, spline2Limit] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
-%x.x
-%y.y
+
 %% Check gait
 gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
 

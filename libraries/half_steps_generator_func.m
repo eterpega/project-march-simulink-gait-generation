@@ -7,7 +7,7 @@ function [startStandHalfStepHip,startStandHalfStepKnee,...
 
 %% START HALF STEP
 %find index of stepStandLegKnee vector where angle==angle(standUpKnee(end))
-IndexHalfStepStartKneeStand=find(stepStandLegKnee >= standUpKnee(end))
+IndexHalfStepStartKneeStand=find(stepStandLegKnee >= standUpKnee(end));
 IndexHalfStepStartKneeSwing=find(stepSwingLegKnee >= standUpKnee(end));
 
 %find index of stepStandLegHip vector where angle==angle(standUpHip(end))
