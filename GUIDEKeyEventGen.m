@@ -286,7 +286,7 @@ if isfield(keyEventData,'gaitType')
     gaitType=keyEventData.gaitType;
 else
     gaitType='Discontinuous';
-    warndlg('gaitType not defined in the KeyEventData file you just loaded. Please save the file again to append the gaitType')
+    warndlg('gaitType not yet defined in the KeyEventData file you just loaded. Please save the file again to append the gaitType')
 end
 
 
@@ -830,22 +830,29 @@ kneeStandEntryObj   = getEntry(sectionObj,'stepStandLegKnee'); %get entryObj for
 hipStandEntryObj    = getEntry(sectionObj,'stepStandLegHip');   %get entryObj for hip walk
 kneeStandUpEntryObj = getEntry(sectionObj,'standUpKnee');    %get entryObj for knee stand up
 hipStandUpEntryObj  = getEntry(sectionObj,'standUpHip');      %get entryObj for hip stand up
+kneeSitDownEntryObj = getEntry(sectionObj,'sitDownKnee');    %get entryObj for knee sit down
+hipSitDownEntryObj  = getEntry(sectionObj,'sitDownHip');      %get entryObj for hip sit down
 
      if ~isempty(kneeSwingEntryObj) && ~isempty(hipSwingEntryObj)...
-             && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)
+             && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)...
+             && ~isempty(kneeStandUpEntryObj) && ~isempty(hipStandUpEntryObj)...
+             && ~isempty(kneeSitDownEntryObj) && ~isempty(hipSitDownEntryObj)
 
          %Get Values from model dictionnary
         stepSwingLegHip     = getValue(hipSwingEntryObj);     
         stepSwingLegKnee    = getValue(kneeSwingEntryObj);   
         stepStandLegHip     = getValue(hipStandEntryObj); 
         stepStandLegKnee    = getValue(kneeStandEntryObj);
-        standUpKnee         = getValue(kneeStandEntryObj);
-        standUpHip          = getValue(kneeStandEntryObj);
+        standUpKnee         = getValue(kneeStandUpEntryObj);
+        standUpHip          = getValue(hipStandUpEntryObj);
+        sitDownKnee         = getValue(kneeSitDownEntryObj);
+        sitDownHip          = getValue(hipSitDownEntryObj);
 
      %give error if entryObjs are empty   
      elseif isempty(kneeSwingEntryObj) || isempty(hipSwingEntryObj)...
-             || isempty(kneeStandEntryObj) || isempty(hipStandEntryObj) 
-        msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
+             || isempty(kneeStandEntryObj) || isempty(hipStandEntryObj)...
+             || isempty(kneeSitDownEntryObj) || isempty(hipSitDownEntryObj)
+        msgbox('ERROR: entries found in Model Dictionary are not valid','Error: Model Dictionary entries','error')
         return
      end
      
@@ -855,7 +862,7 @@ hipStandUpEntryObj  = getEntry(sectionObj,'standUpHip');      %get entryObj for 
     stopHalfStepFromSwingKnee,stopHalfStepFromSwingHip,...
     stopHalfStepFromStandKnee,stopHalfStepFromStandHip]...
     = half_steps_generator_func(stepSwingLegHip, stepSwingLegKnee,...
-    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip);
+    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip, sitDownKnee, sitDownHip);
 
 %% USER CHECK IF VECTORS ARE CONTINUOUS
 questionStr=['Are all the gait vectors continuous?'];

@@ -3,7 +3,7 @@ function [startStandHalfStepHip,startStandHalfStepKnee,...
     stopHalfStepFromSwingKnee,stopHalfStepFromSwingHip,...
     stopHalfStepFromStandKnee,stopHalfStepFromStandHip]...
     = half_steps_generator_func(stepSwingLegHip, stepSwingLegKnee,...
-    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip)
+    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip, sitDownKnee, sitDownHip)
 
 %% START HALF STEP
 %find index of stepStandLegKnee vector where angle==angle(standUpKnee(end))
@@ -115,30 +115,30 @@ stopHalfStepFromStandKnee=stepStandLegKnee;
 %% PLOT DATA
 
 %plot half step stop from swing
-fullSwingVectKnee    =[standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee];
-fullSwingVectHip     =[standUpHip; startSwingHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip];
+fullSwingVectKnee    =[standUpKnee; startSwingHalfStepKnee; stepStandLegKnee; stepSwingLegKnee; stopHalfStepFromSwingKnee; sitDownKnee];
+fullSwingVectHip     =[standUpHip; startSwingHalfStepHip; stepStandLegHip; stepSwingLegHip; stopHalfStepFromSwingHip; sitDownHip];
 
 if length(fullSwingVectKnee)~=length(fullSwingVectHip)
     error('Error: Vectors of the 1st plot are not the same lenght')
 end
 
 %plot half step stop from stand
-fullStandVectKnee=[standUpKnee; startStandHalfStepKnee; stepSwingLegKnee; stepStandLegKnee; stopHalfStepFromStandKnee];
-fullStandVectHip=[standUpHip; startStandHalfStepHip; stepSwingLegHip; stepStandLegHip; stopHalfStepFromStandHip];
+fullStandVectKnee=[standUpKnee; startStandHalfStepKnee; stepSwingLegKnee; stepStandLegKnee; stopHalfStepFromStandKnee; sitDownKnee];
+fullStandVectHip=[standUpHip; startStandHalfStepHip; stepSwingLegHip; stepStandLegHip; stopHalfStepFromStandHip; sitDownHip];
 
 if length(fullStandVectKnee)~=length(fullStandVectHip)
     error('Error: Vectors of the 2nd plot are not the same lenght')
 end
 
-fullStartStopStandVectKnee=[standUpKnee; startStandHalfStepKnee; stopHalfStepFromStandKnee];
-fullStartStopStandVectHip=[standUpHip; startStandHalfStepHip; stopHalfStepFromStandHip];
+fullStartStopStandVectKnee=[standUpKnee; startStandHalfStepKnee; stopHalfStepFromStandKnee; sitDownKnee];
+fullStartStopStandVectHip=[standUpHip; startStandHalfStepHip; stopHalfStepFromStandHip; sitDownHip];
 
 if length(fullStartStopStandVectKnee)~=length(fullStartStopStandVectHip)
     error('Error: Vectors of the 3rd plot are not the same lenght')
 end
 
-fullStartStopSwingVectKnee=[standUpKnee; startSwingHalfStepKnee; stopHalfStepFromSwingKnee];
-fullStartStopSwingVectHip=[standUpHip; startSwingHalfStepHip; stopHalfStepFromSwingHip];
+fullStartStopSwingVectKnee=[standUpKnee; startSwingHalfStepKnee; stopHalfStepFromSwingKnee; sitDownKnee];
+fullStartStopSwingVectHip=[standUpHip; startSwingHalfStepHip; stopHalfStepFromSwingHip; sitDownHip];
 
 if length(fullStartStopSwingVectKnee)~=length(fullStartStopSwingVectHip)
     error('Error: Vectors of the 4th plot are not the same lenght')

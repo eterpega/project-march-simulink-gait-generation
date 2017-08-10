@@ -32,15 +32,16 @@ global gaitType sampleFrequency stepTime stepLength stepVel
 if strcmpi(gaitType,'Continuous')
     keyEvent1 = add_last_key_event(keyEvent1);
     keyEvent2 = add_last_key_event(keyEvent2);
-    strideTime = stepTime*2; %[s]
+    strideTime = stepTime*2 %[s]
 elseif strcmpi(gaitType, 'Discontinuous')
-    strideTime = stepTime; %[s]
+    strideTime = stepTime %[s]
 else
     msgbox('ERROR: Gait type selection is invalid','Error in compute_splines')
 end
 
 % Create phase vector.
-samplePointAmount = strideTime*sampleFrequency; %this will determine the speed
+sampleFrequency
+samplePointAmount = strideTime*sampleFrequency %this will determine the speed
 tInterval = strideTime/samplePointAmount; %[s] The difference in time between each interval
 
 phase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
