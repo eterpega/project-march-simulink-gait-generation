@@ -3,7 +3,7 @@
 In this branch our gait generation is developed
 
 
-Autheurs:
+Authors:
 Luca de Laat
 Taeke de Haan
 
@@ -15,9 +15,15 @@ Windows 7
 Mac OS
 (not tested on others)
 
-Warnings:
+
+To allow the GUI to add the vectors directly to the model dictionary the 
+"simulink-models" (https://github.com/project-march/simulink-models.git)
+repository has to be in the same parent folder as the 
+"simulink-gait-generation" repo.
+
+Warnings:
 
 
 
 
-Dont rename GUIDEKeyEventGen.m you will mess up everything.
+Don not rename GUIDEKeyEventGen.m you will mess up everything.

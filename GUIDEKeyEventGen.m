@@ -621,7 +621,7 @@ switch choice
      end        
                 
      %give error if no selection made (v==0)
-     if v==0
+     if v==0git 
           msgbox('ERROR: No valid gait type selected','Error: Save Gait','error')
           
      elseif s==1 && v==1
@@ -836,9 +836,21 @@ hipStandUpEntryObj  = getEntry(sectionObj,'standUpHip');      %get entryObj for 
 %% USER CHECK IF VECTORS ARE CONTINUOUS
 questionStr=['Are all the gait vectors continuous?'];
     titleStr='Check if the gait vectors are continuous';
-    choice1=questdlg(questionStr,titleStr,'Yes','No','No');
+    choice1=questdlg(questionStr,titleStr,'Yes','No','Manual Saving','No');
         
 switch choice1
+    case 'Manual Saving'
+        [FileName, PATHNAME] = uiputfile('HalfSteps','Save Half Steps Vectors Manually');
+        fileLoc=[PATHNAME,FileName];
+        save(fileLoc,'startStandHalfStepHip');
+        save(fileLoc,'startStandHalfStepKnee','-append');
+        save(fileLoc,'startSwingHalfStepHip','-append');
+        save(fileLoc,'startSwingHalfStepKnee','-append');
+        save(fileLoc,'stopHalfStepFromSwingKnee','-append');
+        save(fileLoc,'stopHalfStepFromSwingHip','-append');
+        save(fileLoc,'stopHalfStepFromStandKnee','-append');
+        save(fileLoc,'stopHalfStepFromStandHip','-append');
+        
     case 'No'
         return
         
@@ -910,6 +922,6 @@ varNameStopStepFromStandHip     = 'halfStepStopFromStandHip';
                 stopStepFromStandHipEntryObj    = addEntry(sectionObj,varNameStopStepFromStandHip, stopHalfStepFromStandHip);
 
                 saveChanges(myDictionaryObj);
-        end
+        end     
      end
 end
