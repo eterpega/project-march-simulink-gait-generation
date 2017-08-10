@@ -279,8 +279,16 @@ y=keyEventData.y;
 %Selected vector
 selected=keyEventData.selected;
 %Step frequency
-global stepTime
+global stepTime gaitType
 stepTime=keyEventData.stepTime;
+
+if isfield(keyEventData,'gaitType')
+    gaitType=keyEventData.gaitType;
+else
+    gaitType='Discontinuous';
+    warndlg('gaitType not defined in the KeyEventData file you just loaded. Please save the file again to append the gaitType')
+end
+
 
 %Clear all plots
 cla(handles.graphQHip);
@@ -313,8 +321,23 @@ set_gui_string(handles.graphX,'dy',handles.keyEventdYX,'String',dyformat, 1);
 set_gui_string(handles.graphY,'phase',handles.keyEventPhaseY,'String', format, 1);
 set_gui_string(handles.graphY,'y',handles.keyEventY,'String', format, 1);
 set_gui_string(handles.graphY,'dy',handles.keyEventdYY,'String',dyformat, 1);
-%stepTime
+
+%Set stepTime in GUI
 set(handles.stepTime,'String',num2str(stepTime));
+
+%Set gaitType in GUI
+contents = cellstr(get(handles.GaitTypeList,'String'));
+gaitTypeIndex=find(~cellfun(@isempty,strfind(contents,gaitType)));
+set(handles.GaitTypeList,'Value',gaitTypeIndex);
+
+%Set parameterSelection in GUI
+if selected==[0,1,1,0]
+    set(handles.SelectionList,'Value',1)
+elseif selected==[1,1,0,0]
+    set(handles.SelectionList,'Value',2)
+elseif selected==[0,0,1,1]
+    set(handles.SelectionList,'Value',3)
+end
 
 %Determine selected parameters from selection list in GUI
 setappdata(handles.SelectionList,'selected',selected);
@@ -336,7 +359,7 @@ function SaveKeyEventsButton_Callback(hObject, eventdata, handles)
 % hObject    handle to SaveKeyEventsButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global stepTime
+global stepTime gaitType
 
 %Get gait data
 kneemat = get_gait_data(handles,'knee');
@@ -375,6 +398,7 @@ save(FileName,'x','-append');
 save(FileName,'y','-append');
 save(FileName,'selected','-append');
 save(FileName,'stepTime','-append');
+save(FileName,'gaitType','-append');
 cd(currentDir);
 set(handles.keyEventFileName,'String',FileName);
 
