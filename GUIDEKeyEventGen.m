@@ -55,7 +55,6 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to GUIDEKeyEventGen (see VARARGIN)
 
 % Choose default command line output for GUIDEKeyEventGen
-cd 
 %set pwd to dir of this script and then add pwd to path
 [PATHSTR,~,~] = fileparts(mfilename('fullpath'));
 cd(PATHSTR);
