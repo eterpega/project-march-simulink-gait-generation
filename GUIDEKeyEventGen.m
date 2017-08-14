@@ -267,7 +267,7 @@ function LoadKeyEventsButton_Callback(hObject, eventdata, handles)
 % hObject    handle to LoadKeyEventsButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[filename, pathname] = uigetfile('*.mat','Load Key Event data');
+[filename, pathname] = uigetfile('gait-data/KeyEventData/*.mat','Load Key Event data');
 set(handles.keyEventFileName,'String',filename);
 keyEventData  =	load(strcat(pathname,filename));
 %knee [rad]
@@ -391,7 +391,7 @@ selected=getappdata(handles.SelectionList,'selected');
 
 %Define filename
 currentDir=pwd;
-[FileName, PATHNAME] = uiputfile('KeyEventData.mat','Save Key Event data');
+[FileName, PATHNAME] = uiputfile('gait-data/KeyEventData/KeyEventData.mat','Save Key Event data');
 cd(PATHNAME);
 %Save and append struct to .mat file
 save(FileName,'hip');
