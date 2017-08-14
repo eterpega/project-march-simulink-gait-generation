@@ -815,6 +815,9 @@ function halfStepsGen_Callback(hObject, eventdata, handles)
 %dictionary in the INITIALIZE section
 
 %% INITIALIZE
+
+[PATHSTR,~,~] = fileparts(mfilename('fullpath'));
+cd(PATHSTR);
 %SET datadictionary parent directory path
 dictionaryPath=strcat('..',filesep,'simulink-models',filesep,'Library');
 %set datadictionary name
@@ -834,11 +837,17 @@ kneeStandUpEntryObj = getEntry(sectionObj,'standUpKnee');    %get entryObj for k
 hipStandUpEntryObj  = getEntry(sectionObj,'standUpHip');      %get entryObj for hip stand up
 kneeSitDownEntryObj = getEntry(sectionObj,'sitDownKnee');    %get entryObj for knee sit down
 hipSitDownEntryObj  = getEntry(sectionObj,'sitDownHip');      %get entryObj for hip sit down
+kneeInitSitDownEntryObj  = getEntry(sectionObj,'initializeSitDownKnee');      %get entryObj for knee init sit down
+hipInitSitDownEntryObj  = getEntry(sectionObj,'initializeSitDownHip');      %get entryObj for hip init sit down
+kneeInitStandUpEntryObj  = getEntry(sectionObj,'initializeStandUpKnee');      %get entryObj for knee init sit down
+hipInitStandUpEntryObj  = getEntry(sectionObj,'initializeStandUpHip');      %get entryObj for hip init sit down
 
      if ~isempty(kneeSwingEntryObj) && ~isempty(hipSwingEntryObj)...
              && ~isempty(kneeStandEntryObj) && ~isempty(hipStandEntryObj)...
              && ~isempty(kneeStandUpEntryObj) && ~isempty(hipStandUpEntryObj)...
-             && ~isempty(kneeSitDownEntryObj) && ~isempty(hipSitDownEntryObj)
+             && ~isempty(kneeSitDownEntryObj) && ~isempty(hipSitDownEntryObj)...
+             && ~isempty(kneeInitSitDownEntryObj) && ~isempty(hipInitSitDownEntryObj)...
+             && ~isempty(kneeInitStandUpEntryObj) && ~isempty(hipInitStandUpEntryObj)
 
          %Get Values from model dictionnary
         stepSwingLegHip     = getValue(hipSwingEntryObj);     
@@ -849,11 +858,17 @@ hipSitDownEntryObj  = getEntry(sectionObj,'sitDownHip');      %get entryObj for 
         standUpHip          = getValue(hipStandUpEntryObj);
         sitDownKnee         = getValue(kneeSitDownEntryObj);
         sitDownHip          = getValue(hipSitDownEntryObj);
+        initializeSitDownKnee          = getValue(kneeInitSitDownEntryObj);
+        initializeSitDownHip          = getValue(hipInitSitDownEntryObj);
+        initializeStandUpKnee          = getValue(kneeInitStandUpEntryObj);
+        initializeStandUpHip          = getValue(hipInitStandUpEntryObj);
 
      %give error if entryObjs are empty   
      elseif isempty(kneeSwingEntryObj) || isempty(hipSwingEntryObj)...
              || isempty(kneeStandEntryObj) || isempty(hipStandEntryObj)...
-             || isempty(kneeSitDownEntryObj) || isempty(hipSitDownEntryObj)
+             || isempty(kneeSitDownEntryObj) || isempty(hipSitDownEntryObj)...
+             || isempty(kneeInitSitDownEntryObj) || isempty(hipInitSitDownEntryObj)...
+             || isempty(kneeInitStandUpEntryObj) || isempty(hipInitStandUpEntryObj)
         msgbox('ERROR: entries found in Model Dictionary are not valid','Error: Model Dictionary entries','error')
         return
      end
@@ -864,7 +879,9 @@ hipSitDownEntryObj  = getEntry(sectionObj,'sitDownHip');      %get entryObj for 
     stopHalfStepFromSwingKnee,stopHalfStepFromSwingHip,...
     stopHalfStepFromStandKnee,stopHalfStepFromStandHip]...
     = half_steps_generator_func(stepSwingLegHip, stepSwingLegKnee,...
-    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip, sitDownKnee, sitDownHip);
+    stepStandLegHip,stepStandLegKnee, standUpKnee, standUpHip, sitDownKnee,...
+    sitDownHip,initializeSitDownKnee, initializeSitDownHip,...
+    initializeStandUpKnee, initializeStandUpHip);
 
 %% USER CHECK IF VECTORS ARE CONTINUOUS
 questionStr=['Are all the gait vectors continuous?'];
