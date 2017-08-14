@@ -1,6 +1,5 @@
 %This is the GUI is used for designing gaits of bipedal axoskeleton with 4
 %DOGs namely, LKFE,RKFE,LHFE,RHFE.
-
 function varargout = GUIDEKeyEventGen(varargin)
 % GUIDEKEYEVENTGEN MATLAB code for GUIDEKeyEventGen.fig
 %      GUIDEKEYEVENTGEN, by itself, creates a new GUIDEKEYEVENTGEN or raises the existing
