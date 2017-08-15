@@ -1,3 +1,5 @@
+%Draws points on graph defined by string 'type'
+
 function [position] = draw_points(type, eventdata, handles)
 
 %Define Graph type
@@ -42,7 +44,6 @@ dY=data(3,:).*convFact;
 
 %Check same that x and y have same length
 if length(X)~=length(Y) || length(X)~=length(dY) || length(Y)~=length(dY)
-    msgbox('ERROR: Initializing Key Event input vectors do not have same length','Initial Key Event input error')
     return
 else
     %Set draggable points on figure and limit them to axis of figure

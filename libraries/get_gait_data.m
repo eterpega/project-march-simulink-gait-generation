@@ -1,3 +1,5 @@
+%gets the gaitData data from the graph defined by the string 'type'
+
 function [phaseEvent] = get_gait_data(handles,type)
 
 if strcmpi(type,'knee')
@@ -29,7 +31,7 @@ else
 end
 
 if length(phase)~=length(y) || length(phase)~=length(dy) || length(y)~=length(dy)
-     msgbox(strcat('ERROR: Key Event input vectors of [',type,'] do not have same length'),'Key Event input error','warn','replace')
+     %msgbox(strcat('ERROR: Key Event input vectors of [',type,'] do not have same length'),'Key Event input error','warn','replace')
      return
 end
      

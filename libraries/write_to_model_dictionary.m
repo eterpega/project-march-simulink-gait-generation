@@ -1,17 +1,22 @@
+%Writes gait vectors for knee and hip to Model dictonary (MD) defined by
+%'myDictionaryObj' in section 'sectionObj'.
+%The variables are saved under the name 'varNameKnee' and 'varNameHip'
+%data is taken from the gait struct
+
 function write_to_model_dictionary(myDictionaryObj, sectionObj, varNameKnee, varNameHip, gait)
          
+         %checks if variables already exist in the section of the MD
          if exist(sectionObj, varNameKnee) && exist(sectionObj, varNameHip)
             
+             %get Entryobject of the specified variable
             kneeEntryObj=getEntry(sectionObj, varNameKnee);
             hipEntryObj=getEntry(sectionObj, varNameHip);
              
+            %set value of the specified variable
             setValue(kneeEntryObj, gait.splineKnee(:,2));
             setValue(hipEntryObj, gait.splineHip(:,2));
             
             saveChanges(myDictionaryObj);
-            
-            showChanges(kneeEntryObj)
-            showChanges(hipEntryObj)
             
           elseif ~exist(sectionObj,varNameKnee) || ~exist(sectionObj,varNameHip)
               
@@ -30,8 +35,5 @@ function write_to_model_dictionary(myDictionaryObj, sectionObj, varNameKnee, var
                     hipEntryObj = addEntry(sectionObj, varNameHip, gait.splineHip(:,2));
                     
                     saveChanges(myDictionaryObj);
-                    
-                    showChanges(kneeEntryObj)
-                    showChanges(hipEntryObj)
             end
          end

@@ -1,3 +1,6 @@
+%This is the first function that is called when lauching the GUI. Here
+%numerous constants are defined and all relevant graphics objects are set
+%to a initial value.
 function init(hObject, eventdata, handles, varargin)
 
 handles.output = hObject;
@@ -17,7 +20,8 @@ LDistal = 0.565; %[m]  Length of lower leg, still has to be set correctly!
 
 sampleFrequency = 500; %[Hz] sample frequency of SLRT model
 
-% angle maximum (end stops)
+% angle maximum (end stops). Also used to define the Y axis limits of the
+% Hip and knee plots
 angleKneeEndStopMinimum = deg2rad(-5);
 angleKneeEndStopMaximum = deg2rad(115);
 angleHipEndStopMinimum = deg2rad(-20);
@@ -34,9 +38,11 @@ torqueJoint = 200; %[Nm]
 accelerationMaximumHip = torqueJoint/inertiaLeg; %[rad/s^2]
 accelerationMaximumKnee = torqueJoint/inertiaLowerLeg; %[rad/s^2]
 
+%Set default gaitType to continuous
 gaitType='Continuous';
 
-%% Load keyEventData from .mat file at startup [rad, meters]
+%% Load keyEventData from .mat file at startup 
+% Units are in [rad, meters]
 filename=strcat('InitKeyEventData.mat');
 keyEventData  =	load(filename);
 %knee [rad]
@@ -52,10 +58,8 @@ selected=keyEventData.selected;
 %Step frequency
 stepTime=keyEventData.stepTime; %[s] Time it takes for 1 step
 
-
-
 %Define graph limit values GUI
-kneeXLim=[0 100 ];
+kneeXLim=[0 100 ]; %0 to 100%
 kneeYLim=[(rad2deg(angleKneeEndStopMinimum)-5) (rad2deg(angleKneeEndStopMaximum)+5)];
 hipXLim=[0 100];
 hipYLim=[(rad2deg(angleHipEndStopMinimum)-5) (rad2deg(angleHipEndStopMaximum)+5)];
@@ -83,13 +87,14 @@ set(handles.graphY,'YLim',yYLim);
 %Set stepTime
 set(handles.stepTime,'String',num2str(stepTime));
 
-%Write data to UserData field of respective graph
+%Write data to UserData property field of respective graph object.
+%This is where are the key event data is stored during a session.
 setappdata(handles.graphQKnee,'gaitData',knee);
 setappdata(handles.graphQHip,'gaitData',hip);
 setappdata(handles.graphX,'gaitData',x);
 setappdata(handles.graphY,'gaitData',y);
 
-%Write converted init values to GUI
+%Write converted initialization values to GUI text fields (left of gui)
 format='%2.2f';
 dyformat='%2.4f';
 %Knee
@@ -110,12 +115,10 @@ set_gui_string(handles.graphY,'y',handles.keyEventY,'String', format, 1);
 set_gui_string(handles.graphY,'dy',handles.keyEventdYY,'String',dyformat, 1);
 
 %Determine selected parameters from selection list in GUI
-%selected=param_selection(handles);
 setappdata(handles.SelectionList,'selected',selected);
 [selected,type1,type2] = param_selection(handles);
 
-%Draw Graphs at initialization
-%DrawPoints(hObject, eventdata, handles);
+%Draw points at initialization
 init_points(type1, eventdata, handles);
 init_points(type2, eventdata, handles);
 

@@ -1,8 +1,12 @@
-function update_position_text(h,handles)
+%This function is called when an impoints position changes by dragging
+%It updates the position text in the text field left of the graph and
+%stores this data in the gaitData field of the respective graph object
 
-%Find graphHandle
+function update_position_text(h,handles)
+%Find handle of parent graph of impoint that is dragged
 graphHandle=get(h,'parent');
 
+%determine the handles of the text fields to edit based on the parent graph handle
 switch get(graphHandle,'Tag')
     case 'graphQKnee'
         phaseHandle=handles.keyEventPhaseKnee;
@@ -28,16 +32,19 @@ switch get(graphHandle,'Tag')
         msgbox('Error: Inputtype not allowed','Error: update_position_text')
 end
 
-%Find Children
+%Find Children if the graph
 childHandle=get(graphHandle,'children');
+%find handles of all impoints on that graph
+%(looks for objects that are not lines)
 impointHandles = findobj(childHandle,'-depth',1,'-not','Type','Line');
 
-%Get points position from graph
+%Get points position from impoints on graph
 for n=1:size(impointHandles,1)
     position(n,:)=getPosition(graphHandle.UserData.Points{n});
 end
 
-%Read dy data
+%Read dy data (this cannot be retrieved from the impoints position so it 
+%has to be read from the gaitData field
 dy=getappdata(graphHandle,'gaitData');
 position(:,3)=dy.dy;
 
@@ -47,7 +54,7 @@ position = sortrows(position,1);
 %Transpose matrix
 position = position';
 
-%Create data struct with position data
+%Create gaitData struct with position data
 data.phase = position(1,:);
 data.y = position(2,:).*convFact;
 data.dy = position(3,:);

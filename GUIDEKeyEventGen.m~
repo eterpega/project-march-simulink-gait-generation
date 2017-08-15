@@ -637,7 +637,7 @@ switch choice
           msgbox('ERROR: No valid gait type selected','Error: Save Gait','error')
        
           
-     elseif s==1 && v==1 %save continuous gait to MD
+     elseif s==1 && v==1 %Save continuous gait
 
          [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
             =split_gait_vector(gait.splineHip(:,2),gait.splineKnee(:,2));
@@ -667,33 +667,31 @@ switch choice
             msgbox('ERROR: entries found in DataDictionary are not valid','Error: DD entries','error')
          end
          
-     %save standUp vectors to MD
+     %standUp  
      elseif s==2 && v==1
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'standUpKnee', 'standUpHip', gait);
          
-     %save sitDown vectors to MD
+     %sitDown
      elseif s==3 && v==1
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'sitDownKnee', 'sitDownHip', gait);
      
-        %save stairsUpRight vectors to MD
+        %stairsUpRight   
        elseif s==4 && v==1
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpRightKnee', 'stairsUpRightHip', gait);
 
-        %save stairsUpLeft vectors to MD
+        %stairsUpLeft
        elseif s==5 && v==1
           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpLeftKnee', 'stairsUpLeftHip', gait);
 
-        %save stairsDownRight vectors to MD
+        %stairsDownRight
        elseif s==6 && v==1
            write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownRightKnee', 'stairsDownRightHip', gait);
 
-        %save stairsDownLeft vectors to MD
+        %stairsDownLeft
       elseif s==7 && v==1
           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownLeftKnee', 'stairsDownLeftHip', gait);
         
-         %save vectors manually to user defined location
-        elseif s==8 
-            %get vector name from original KeyEventData.mat file
+        elseif s==8
          vectorName=get(handles.keyEventFileName,'String');
          [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
          kneeVect=gait.splineKnee(:,2);
@@ -753,8 +751,6 @@ function detailplotbutton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 selected=getappdata(handles.SelectionList,'selected');
-
-%Draw detailed plots of gait
 [~, phase, angleHip_deg,angleKnee_deg, x, y,...
 angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time, samplePointAmount]...
 = compute_splines(handles, selected);
@@ -796,15 +792,15 @@ function halfStepsGen_Callback(hObject, eventdata, handles)
 %and Hip from the model dictionary. If the variables do not exist an error
 %is given.
 %Based on these vectors it constructs vectors for the start and stop half
-%steps by truncating the normal gait vectors
-%2 different vectors are needed depending on whether the leg is currently 
-%a stance or swing leg.
+%steps.
+%For the stop half steps, 2 different vectors are needed depending on
+%whether the leg is currently a stance or swing leg
 %Finally the half step vectors are added to the Model Dictionary.
 %If the variable do not exist yet they are added after confirmation has
-%been given by the user
+%been given for the user
 
 %To make this work the user needs to define the path to the model
-%dictionary in the INITIALIZE section (top section of the script)
+%dictionary in the INITIALIZE section
 
 %% INITIALIZE
 
@@ -850,10 +846,10 @@ hipInitStandUpEntryObj  = getEntry(sectionObj,'initializeStandUpHip');      %get
         standUpHip          = getValue(hipStandUpEntryObj);
         sitDownKnee         = getValue(kneeSitDownEntryObj);
         sitDownHip          = getValue(hipSitDownEntryObj);
-        initializeSitDownKnee   = getValue(kneeInitSitDownEntryObj);
-        initializeSitDownHip    = getValue(hipInitSitDownEntryObj);
-        initializeStandUpKnee   = getValue(kneeInitStandUpEntryObj);
-        initializeStandUpHip    = getValue(hipInitStandUpEntryObj);
+        initializeSitDownKnee          = getValue(kneeInitSitDownEntryObj);
+        initializeSitDownHip          = getValue(hipInitSitDownEntryObj);
+        initializeStandUpKnee          = getValue(kneeInitStandUpEntryObj);
+        initializeStandUpHip          = getValue(hipInitStandUpEntryObj);
 
      %give error if entryObjs are empty   
      elseif isempty(kneeSwingEntryObj) || isempty(hipSwingEntryObj)...
@@ -876,8 +872,6 @@ hipInitStandUpEntryObj  = getEntry(sectionObj,'initializeStandUpHip');      %get
     initializeStandUpKnee, initializeStandUpHip);
 
 %% USER CHECK IF VECTORS ARE CONTINUOUS
-
-%ask user confirmation if all gaits seem contiuous
 questionStr=['Are all the gait vectors continuous?'];
     titleStr='Check if the gait vectors are continuous';
     choice1=questdlg(questionStr,titleStr,'Yes','No','Manual Saving','No');

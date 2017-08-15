@@ -1,3 +1,5 @@
+%draws splines on graphs defined by the selected vectors
+
 function [] = draw_splines(handles,gait,selected)
 
 %assign struct values to vectors
@@ -60,7 +62,9 @@ limitPlot2Min=plot(graphHandle2, splineY(:,1), spline2MinLimit,'r');
 limitPlot2Max=plot(graphHandle2, splineY(:,1), spline2MaxLimit,'r');
 drawnow
 
-%Put spline at bottom of stack
+%Put spline at bottom of stack to the impoints can be dragged.
+%Not doing so cause the points to be hidden behind the line and making it
+%impossible to drag them
 uistack(hipPlot,'bottom');
 uistack(kneePlot,'bottom');
 uistack(xPlot,'bottom');

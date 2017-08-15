@@ -1,7 +1,9 @@
+%computes the splines
+
 function [gait, phase, angleHip_deg,angleKnee_deg, x, y,...
     angleHip_RPM, angleKnee_RPM, angleHip_rads2, angleKnee_rads2, time,...
     samplePointAmount, warningCount, messageWarning]=compute_splines(handles, selected)
-%% First give an input which design spline has bee slected
+%% First give an input to determine which spline has been selected
 %[hip, knee, x, y]
 
 %define the right key events to get based on the selection list. The
@@ -32,16 +34,15 @@ global gaitType sampleFrequency stepTime stepLength stepVel
 if strcmpi(gaitType,'Continuous')
     keyEvent1 = add_last_key_event(keyEvent1);
     keyEvent2 = add_last_key_event(keyEvent2);
-    strideTime = stepTime*2 %[s]
+    strideTime = stepTime*2; %[s]
 elseif strcmpi(gaitType, 'Discontinuous')
-    strideTime = stepTime %[s]
+    strideTime = stepTime; %[s]
 else
     msgbox('ERROR: Gait type selection is invalid','Error in compute_splines')
 end
 
 % Create phase vector.
-sampleFrequency
-samplePointAmount = strideTime*sampleFrequency %this will determine the speed
+samplePointAmount = strideTime*sampleFrequency; %this will determine the speed
 tInterval = strideTime/samplePointAmount; %[s] The difference in time between each interval
 
 phase = linspace(0,99.9,samplePointAmount); %[%] Phase goes from 0 to 99.9... %
@@ -54,12 +55,15 @@ key_event_checker(keyEvent1, phaseToTime, 1, selected);
 key_event_checker(keyEvent2, phaseToTime, 2, selected);
 
 %% Calculate Gait
-[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength, spline1Limit, spline2Limit] = gait_calculator(keyEvent1, keyEvent2, selected, phase, tInterval);
+[hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength,...
+    spline1Limit, spline2Limit] = gait_calculator(keyEvent1, keyEvent2,...
+    selected, phase, tInterval);
 
 %% Check gait
 gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
 
-[warningCount, messageWarning] = gait_checker(hip, knee, x, y, foot, stanceLegRight, stanceLegLeft, stepLength);
+[warningCount, messageWarning] = gait_checker(hip, knee, x, y, foot, ...
+    stanceLegRight, stanceLegLeft, stepLength);
 
 %Gait parameters for GUI
 stepVel=stepLength/stepTime;
@@ -86,5 +90,6 @@ gait.splineY=[phase', y.y];
 gait.spline1Limit=spline1Limit;
 gait.spline2Limit=spline2Limit;
 
+%Draw the splines on the graphs
 draw_splines(handles,gait,selected)
 end

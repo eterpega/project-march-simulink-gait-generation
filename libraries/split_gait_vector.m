@@ -1,3 +1,7 @@
+%splits the continuous gait vector in 2.
+%Is necessary because the gait Handler in HighLevelMARCH makes a difference 
+%between the stance and swing leg 
+
 function [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee]...
     =split_gait_vector(hipVector,kneeVector)
 
@@ -5,15 +9,10 @@ function [stepSwingLegHip, stepSwingLegKnee, stepStandLegHip, stepStandLegKnee].
 lengthKneeVect = length(kneeVector);
 lengthHipVect = length(hipVector);
 
-%First half
+%split first half
 stepSwingLegHip = hipVector(1:(lengthHipVect/2));
 stepSwingLegKnee = kneeVector(1:(lengthKneeVect/2));
 
-%Second half
+%split second half
 stepStandLegHip = hipVector((lengthHipVect/2+1):end);
 stepStandLegKnee = kneeVector((lengthKneeVect/2+1):end);
-
-length(stepStandLegHip)
-length(stepStandLegKnee)
-length(stepSwingLegHip)
-length(stepSwingLegKnee)

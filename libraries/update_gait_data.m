@@ -1,5 +1,8 @@
+%Update the gaitData field of the graph object defined by the string 'type'
+
 function []=update_gait_data(type, handles);
 
+%define the handles based on the input string 'type'
 if strcmpi(type,'hip')
         graphHandle=handles.graphQHip;
         phaseHandle=handles.keyEventPhaseHip;
@@ -39,6 +42,7 @@ if max(phase)>100 || min(phase)<0
     return
 end
 
+%find max and minimum values of Y data
 maxY=max(get(graphHandle,'YLim'));
 minY=min(get(graphHandle,'YLim'));
 
