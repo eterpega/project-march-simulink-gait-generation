@@ -1,3 +1,9 @@
+%% full gait_thief function
+%First ask location of video file to read (I recomment first trimming the
+%video in a video editing software to only the part you need as you will go
+%through it frame by frame i.e. every second saved is a lot of frames less
+%to analyse.
+
 clear all
 close all
 clc
@@ -11,7 +17,9 @@ vidFrame = readFrame(v);
 [H, W, B]=size(vidFrame);
 %define start time of video
 v.CurrentTime = 0;
-endTime=100;
+endTime=100; %Set to 100 to be sure it is not smalle than the length of the video selected.
+%can be used when u know exactly at what time you want to stop analyzing
+%the video (instead of trimming)
 %set impoint contraint to size of image
 fcn=makeConstrainToRectFcn('impoint',[0 W],[0 H]);
 startTime=v.CurrentTime;
@@ -20,11 +28,14 @@ data(1,:)=[W/2, H/1.5, W/2, H/2, W/2, H/3, W/2, H/4];
 n=2;
 currAxes = axes;
 while hasFrame(v) && v.CurrentTime<endTime
+    
     currFrame=round((v.CurrentTime-startTime)*v.FrameRate)
     vidFrame = readFrame(v);
     image(vidFrame, 'Parent', currAxes);
     axis image;
     currAxes.Visible = 'off';
+    %draw impoints on image (coordinates origin of images start from top left
+    %corner, NOT bottom left like on graphs)
     h1=impoint(currAxes,data((n-1),1),data((n-1),2));
     h2=impoint(currAxes,data((n-1),3),data((n-1),4));
     h3=impoint(currAxes,data((n-1),5),data((n-1),6));
@@ -55,7 +66,7 @@ while hasFrame(v) && v.CurrentTime<endTime
 end
 data=data(2:end,:);
 
-%convert data to origin in left lower corner
+%convert data to origin in lower left corner
 data(:,2)=abs(data(:,2)-H);
 data(:,4)=abs(data(:,4)-H);
 data(:,6)=abs(data(:,6)-H);
@@ -69,6 +80,7 @@ backPos(:,1:2)=     data(:,7:8);
 [hipAngleRad, kneeAngleRad, hipAngleDeg, kneeAngleDeg, ...
     lowerBack, upperLeg, lowerLeg] = process_gait_theft(data);
 
+%construct struct with all data
 S.lowerBack=lowerBack;
 S.upperLeg=upperLeg;
 S.lowerLeg=lowerLeg;
@@ -103,6 +115,8 @@ end
 
 smooth=0.995;    %smoothing parameter of the smoothpine interpolation...
                  %has to be in between [0 1]
+
+                 %fit a smoothing function on data
 f1 = fit(phase,plotKnee,'smoothingspline','Normalize', 'on', 'SmoothingParam', smooth);
 f2 = fit(phase,plotHip,'smoothingspline','Normalize', 'on','SmoothingParam', smooth);
 
@@ -110,6 +124,7 @@ figure;
 hold on;
 subplot(2,1,2)
 yLim=[-15 120];
+%draw vertical lines at each frame
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end
@@ -123,6 +138,7 @@ hold off;
 figure;
 hold on;
 subplot(2,1,1)
+%draw vertical lines at each frame
 for n=1:length(phase(:,1))
     line([phase(n),phase(n)],yLim,'Color','y','LineWidth',0.01);
 end

@@ -1,3 +1,6 @@
+%processes all the point coordinates defined by the user when dragging the
+%ankle, knee, hip & back points on the video frames to extract joint angles
+
 function [hipAngleRad, kneeAngleRad, hipAngleDeg, kneeAngleDeg, lowerBack, upperLeg, lowerLeg] = process_gait_theft(data)
 ankle=data(:,1:2);
 knee=data(:,3:4);

@@ -1,6 +1,15 @@
+%Plots data obtained by gait_thief
+%Can be used to check it gait_thief data is consitent
+%Due to the nature of the angle definition in gait_thief it might be
+%necessary to multiply the data by -1 to obtain meaningfull joint angles
+%Set this with the coeff variable
+
 clear all
 close all
 clc
+
+%%Set multiplication coefficient to 1 or -1
+coeff=1; %-1
 
 %%Get Video File
 [getFileName,PathName] = uigetfile('*.mat','Load gait theft data');
@@ -11,8 +20,8 @@ frameStart=1;
 frameEnd=length(S.kneeAngleDeg(:,1));
 
 %%Get right part
-plotKnee=-S.kneeAngleDeg(frameStart:frameEnd,:);
-plotHip=-S.hipAngleDeg(frameStart:frameEnd,:);
+plotKnee=coeff*S.kneeAngleDeg(frameStart:frameEnd,:);
+plotHip=coeff*S.hipAngleDeg(frameStart:frameEnd,:);
 dPhase=100/length(plotKnee(:,1));
 phase(:,1)=0;
 for n=2:length(plotKnee(:,1))

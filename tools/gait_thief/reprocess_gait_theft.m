@@ -1,3 +1,7 @@
+%can be used to reprocess data obtained from gait_thief when the data does
+%not make much sense. It only overwrites the vectors and anlges, not the
+%point coordinates.
+
 clear all
 close all
 clc
