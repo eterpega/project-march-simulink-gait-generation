@@ -698,8 +698,8 @@ switch choice
          [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
          kneeVect=gait.splineKnee(:,2);
          hipVect=gait.splineHip(:,2);
-         save([PATHNAME,FileName(1:end-4),'_Knee',FileName(end-3:end)],'kneeVect');
-         save([PATHNAME,FileName(1:end-4),'_Hip',FileName(end-3:end)],'hipVect');
+         save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'kneeVect');
+         save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'hipVect','-append');
          
         %roughTerrain
 %       elseif s==8 && v==1
