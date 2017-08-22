@@ -20,22 +20,21 @@ grid on
 
 %% Angular velocity
 subplot(4,2,3)
-time2=[time,repmat(time(end),1,length(time))+time];
-size(time2)
-velocityHip_RPM2=[velocityHip_RPM;velocityHip_RPM]';
-size(velocityHip_RPM2)
+time2=[time;repmat(time(end),1,length(time))+time]
+velocityHip_RPM2=[velocityHip_RPM;repmat(velocityHip_RPM(end),1,length(velocityHip_RPM))+velocityHip_RPM]
+
 plot(time2,velocityHip_RPM2,'Linewidth',2);
 hold on
-velocityKnee_RPM2=[velocityKnee_RPM;velocityKnee_RPM]'
+velocityKnee_RPM2=[velocityKnee_RPM;repmat(velocityKnee_RPM(end),1,length(velocityKnee_RPM))+velocityKnee_RPM]
 plot(time2,velocityKnee_RPM2,'Linewidth',2);
 title('Hip and Knee Angular Velocity')
 xlabel('Time [s]')
 ylabel('Velocity [RPM]')
 legend('angleHip','angleKnee')
 hold on
-plot(time,repmat(rads2RPM(velocityMaximumHip) ,length(time),1),'Linewidth',2,'Color','r')
+plot(time2,repmat(rads2RPM(velocityMaximumHip) ,length(time),1),'Linewidth',2,'Color','r')
 hold on
-plot(time,repmat(rads2RPM(-velocityMaximumHip),length(time),1),'Linewidth',2,'Color','r')
+plot(time2,repmat(rads2RPM(-velocityMaximumHip),length(time),1),'Linewidth',2,'Color','r')
 grid on
 
 %% Angular acceleration
