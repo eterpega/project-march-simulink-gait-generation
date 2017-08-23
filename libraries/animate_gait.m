@@ -42,7 +42,7 @@ while true  %if not stopped it will play back forever
         Right = plot(xRightActual, yRight(:,i),'Color','g');
         hold on
         Left = plot(xLeftActual, yLeft(:,i),'Color','r');
-        drawnow 
+        drawnow
         
         %wait some time, so the gait is played back at an accurate speed.
         while true
