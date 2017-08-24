@@ -1,6 +1,8 @@
 function [position] = init_points(type, eventdata, handles)
 
-%Define Graph type
+%Define Graph type and conversion factor
+%If the graph represents an angle, the angle has to be converted from
+%radians to degrees. That's what the convFact is for.
 switch type
     case 'knee'
         graphHandle=handles.graphQKnee;
