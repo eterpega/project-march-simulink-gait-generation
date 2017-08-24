@@ -5,7 +5,6 @@ clc
 [getFileName,PathName] = uigetfile('*.mat','Load gait theft data');
 load(strcat(PathName, getFileName));
 
-
 hip=S.hipPos;
 back=S.backPos;
 

@@ -53,8 +53,6 @@ function GUIDEKeyEventGen_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to GUIDEKeyEventGen (see VARARGIN)
 
-%Choose default command line output for GUIDEKeyEventGen
-
 %Set pwd to dir of this script and then add pwd to path
 %makes sure the pwd is always the one containing this script to avoid
 %errors with wrong paths
@@ -126,8 +124,6 @@ function graphQKnee_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 % Hint: place code in OpeningFcn to populate graphQKnee
-
-
 
 % --- Executes on mouse press over axes background.
 function graphQKnee_ButtonDownFcn(hObject, eventdata, handles)

@@ -52,7 +52,7 @@ while hasFrame(v) && v.CurrentTime<endTime
     setColor(h2,'w');
     setColor(h3,'w');
     setColor(h4,'w');
-    pause %waits for the user to press any key so he can set the points first before going to the next frame
+    pause %waits for the user to press any key so he can set the points first before g
     ankle=getPosition(h1);
     knee=getPosition(h2);
     hip=getPosition(h3);
@@ -113,7 +113,7 @@ for n=2:length(plotKnee(:,1))
     phase(n,1)=phase(n-1,1)+dPhase;
 end
 
-smooth=0.995;    %smoothing parameter of the smoothspline interpolation...
+smooth=0.995;    %smoothing parameter of the smoothpine interpolation...
                  %has to be in between [0 1]
 
                  %fit a smoothing function on data

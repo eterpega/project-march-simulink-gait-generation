@@ -9,6 +9,7 @@ close all
 clc
 
 %%Set multiplication coefficient to 1 or -1
+%Necessary when Flexion and Extension are inverted
 coeff=1; %-1
 
 %%Get Video File
