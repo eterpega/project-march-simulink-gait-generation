@@ -6,7 +6,7 @@ if ~dynamic
 end
 
 %%Create and intialize plot
-p = figure('Position', [200,200,500,400]); %create figure
+p = figure('Position', [400,150,1000,800]); %create figure
 axis([-0.55 0.55, 0 , 1.1])
 grid on
 axis square
@@ -39,9 +39,9 @@ while true  %if not stopped it will play back forever
         xRightActual = xRight(:,i)+stepAmount*stepLength;
         xLeftActual = xLeft(:,i)+stepAmount*stepLength;
         
-        Right = plot(xRightActual, yRight(:,i),'Color','g');
+        Right = plot(xRightActual, yRight(:,i),'Color','g','Linewidth',2);
         hold on
-        Left = plot(xLeftActual, yLeft(:,i),'Color','r');
+        Left = plot(xLeftActual, yLeft(:,i),'Color','r','Linewidth',2);
         drawnow
         
         %wait some time, so the gait is played back at an accurate speed.

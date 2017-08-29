@@ -52,14 +52,16 @@ hold(handles.graphX,'on');
 hold(handles.graphY,'on');
 
 %plot splines
-hipPlot=plot(handles.graphQHip, splineHip(:,1), splineHip(:,2),'b');
-kneePlot=plot(handles.graphQKnee, splineKnee(:,1), splineKnee(:,2),'b');
-xPlot=plot(handles.graphX, splineX(:,1), splineX(:,2),'b');
-yPlot=plot(handles.graphY, splineY(:,1), splineY(:,2),'b');
-limitPlot1Min=plot(graphHandle1, splineY(:,1), spline1MinLimit,'r');
-limitPlot1Max=plot(graphHandle1, splineY(:,1), spline1MaxLimit,'r');
-limitPlot2Min=plot(graphHandle2, splineY(:,1), spline2MinLimit,'r');
-limitPlot2Max=plot(graphHandle2, splineY(:,1), spline2MaxLimit,'r');
+lineWidth = 3;
+
+hipPlot=plot(handles.graphQHip, splineHip(:,1), splineHip(:,2),'b','LineWidth',lineWidth);
+kneePlot=plot(handles.graphQKnee, splineKnee(:,1), splineKnee(:,2),'b','LineWidth',lineWidth);
+xPlot=plot(handles.graphX, splineX(:,1), splineX(:,2),'b','LineWidth',lineWidth);
+yPlot=plot(handles.graphY, splineY(:,1), splineY(:,2),'b','LineWidth',lineWidth);
+limitPlot1Min=plot(graphHandle1, splineY(:,1), spline1MinLimit,'r','LineWidth',lineWidth);
+limitPlot1Max=plot(graphHandle1, splineY(:,1), spline1MaxLimit,'r','LineWidth',lineWidth);
+limitPlot2Min=plot(graphHandle2, splineY(:,1), spline2MinLimit,'r','LineWidth',lineWidth);
+limitPlot2Max=plot(graphHandle2, splineY(:,1), spline2MaxLimit,'r','LineWidth',lineWidth);
 drawnow
 
 %Put spline at bottom of stack to the impoints can be dragged.

@@ -83,9 +83,9 @@ function keyEventPhaseKnee_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 update_gait_data('knee', handles);
-draw_points('knee', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles, selected);
+draw_points('knee', eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventPhaseKnee_CreateFcn(hObject, eventdata, handles)
@@ -104,9 +104,9 @@ function keyEventQKnee_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 update_gait_data('knee', handles);
-draw_points('knee', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles,selected);
+draw_points('knee', eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventQKnee_CreateFcn(hObject, eventdata, handles)
@@ -144,9 +144,9 @@ function keyEventPhaseX_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 update_gait_data('x', handles);
-draw_points('x', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles,selected);
+draw_points('x', eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventPhaseX_CreateFcn(hObject, eventdata, handles)
@@ -164,9 +164,9 @@ function keyEventX_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 update_gait_data('x', handles);
-draw_points('x', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles,selected);
+draw_points('x', eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventX_CreateFcn(hObject, eventdata, handles)
@@ -185,9 +185,10 @@ function keyEventdYX_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 update_gait_data('x', handles);
-draw_points('x', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles,selected);
+draw_points('x', eventdata, handles);
+
 
 % --- Executes during object creation, after setting all properties.
 function keyEventdYX_CreateFcn(hObject, eventdata, handles)
@@ -205,9 +206,9 @@ function keyEventdQKnee_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 update_gait_data('knee', handles);
-draw_points('knee', eventdata, handles);
 selected=getappdata(handles.SelectionList,'selected');
 compute_splines(handles,selected);
+draw_points('knee', eventdata, handles);
 
 % --- Executes during object creation, after setting all properties.
 function keyEventdQKnee_CreateFcn(hObject, eventdata, handles)

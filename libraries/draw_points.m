@@ -55,6 +55,7 @@ else
         setPositionConstraintFcn(graphHandle.UserData.Points{n},fcn);
         %Write impoint handles and position to UserData field of Graph
         addNewPositionCallback(graphHandle.UserData.Points{n},@(varargin)update_position_text(graphHandle.UserData.Points{n},handles));
+        setColor(graphHandle.UserData.Points{n},'r');
         end  
 end
 
