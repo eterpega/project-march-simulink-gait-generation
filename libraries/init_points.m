@@ -49,6 +49,7 @@ else
         %when position is changed the function update_position_text is
         %called
         addNewPositionCallback(h(n),@(varargin)update_position_text(h(n),handles));
+        setColor(h(n),'r');
         end   
 end
         
