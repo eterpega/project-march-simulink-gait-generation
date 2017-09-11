@@ -135,7 +135,6 @@ xlabel('Phase %');
 ylabel('Angle (deg)');
 hold off;
 
-figure;
 hold on;
 subplot(2,1,1)
 %draw vertical lines at each frame
