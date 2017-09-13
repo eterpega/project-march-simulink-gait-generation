@@ -665,40 +665,37 @@ switch choice
          end
          
      %save standUp vectors to MD
-        elseif s==2 && v==1
+     elseif s==2 && v==1
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'standUpKnee', 'standUpHip', gait);
          
      %save sitDown vectors to MD
-        elseif s==3 && v==1
+     elseif s==3 && v==1
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'sitDownKnee', 'sitDownHip', gait);
      
         %save stairsUpRight vectors to MD
-        elseif s==4 && v==1
+       elseif s==4 && v==1
         write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpRightKnee', 'stairsUpRightHip', gait);
 
         %save stairsUpLeft vectors to MD
-        elseif s==5 && v==1
-        write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpLeftKnee', 'stairsUpLeftHip', gait);
+       elseif s==5 && v==1
+          write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsUpLeftKnee', 'stairsUpLeftHip', gait);
 
         %save stairsDownRight vectors to MD
-        elseif s==6 && v==1
-        write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownRightKnee', 'stairsDownRightHip', gait);
+       elseif s==6 && v==1
+           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownRightKnee', 'stairsDownRightHip', gait);
 
         %save stairsDownLeft vectors to MD
-        elseif s==7 && v==1
+      elseif s==7 && v==1
           write_to_model_dictionary(myDictionaryObj, sectionObj, 'stairsDownLeftKnee', 'stairsDownLeftHip', gait);
-        
-        %roughTerrainRight
-        elseif s==8 && v==1
-        write_to_model_dictionary(myDictionaryObj, sectionObj, 'roughTerrainStepRightKnee', 'roughTerrainStepRightHip', gait);
-        
-        %roughTerrainLeft
-        elseif s==9 && v==1
-      	write_to_model_dictionary(myDictionaryObj, sectionObj, 'roughTerrainStepLeftKnee', 'roughTerrainStepLeftHip', gait);
-        
-        %save vectors manually to user defined location
+      %roughTerrain
+      elseif s==8 && v==1
+           write_to_model_dictionary(myDictionaryObj, sectionObj, 'roughTerrainLeftKnee', 'roughTerrainLeftHip', gait);
+     %roughTerrain
+       elseif s==9 && v==1
+           write_to_model_dictionary(myDictionaryObj, sectionObj, 'roughTerrainLeftKnee', 'roughTerrainLeftHip', gait);
+         %save vectors manually to user defined location
         elseif s==10 
-         %get vector name from original KeyEventData.mat file
+            %get vector name from original KeyEventData.mat file
          vectorName=get(handles.keyEventFileName,'String');
          [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
          kneeVect=gait.splineKnee(:,2);
