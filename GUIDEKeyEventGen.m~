@@ -250,97 +250,96 @@ function LoadKeyEventsButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [filename, pathname] = uigetfile('gait-data/KeyEventData/*.mat','Load Key Event data');
-
 try
     set(handles.keyEventFileName,'String',filename);
-    keyEventData  =	load(strcat(pathname,filename));
-    %knee [rad]
-    knee=keyEventData.knee;
-    %hip [rad]
-    hip=keyEventData.hip;
-    %xFoot [meters]
-    x=keyEventData.x;
-    %yFoot [meters]
-    y=keyEventData.y;
-    %Selected vector
-    selected=keyEventData.selected;
-    %Step frequency
-    global stepTime gaitType
+keyEventData  =	load(strcat(pathname,filename));
+%knee [rad]
+knee=keyEventData.knee;
+%hip [rad]
+hip=keyEventData.hip;
+%xFoot [meters]
+x=keyEventData.x;
+%yFoot [meters]
+y=keyEventData.y;
+%Selected vector
+selected=keyEventData.selected;
+%Step frequency
+global stepTime gaitType
+stepTime=keyEventData.stepTime;
 
-    stepTime=keyEventData.stepTime;
+if isfield(keyEventData,'gaitType')
+    gaitType=keyEventData.gaitType;
+else
+    gaitType='Discontinuous';
+    warndlg('gaitType not yet defined in the KeyEventData file you just loaded. Please save the file again to append the gaitType')
+end
 
-    if isfield(keyEventData,'gaitType')
-        gaitType=keyEventData.gaitType;
-    else
-        gaitType='Discontinuous';
-        warndlg('gaitType not yet defined in the KeyEventData file you just loaded. Please save the file again to append the gaitType')
-    end
 
-    %Clear all plots
-    cla(handles.graphQHip);
-    cla(handles.graphQKnee);
-    cla(handles.graphX);
-    cla(handles.graphY);
+%Clear all plots
+cla(handles.graphQHip);
+cla(handles.graphQKnee);
+cla(handles.graphX);
+cla(handles.graphY);
 
-    %Write data to UserData field of respective graph
-    setappdata(handles.graphQKnee,'gaitData',knee);
-    setappdata(handles.graphQHip,'gaitData',hip);
-    setappdata(handles.graphX,'gaitData',x);
-    setappdata(handles.graphY,'gaitData',y);
+%Write data to UserData field of respective graph
+setappdata(handles.graphQKnee,'gaitData',knee);
+setappdata(handles.graphQHip,'gaitData',hip);
+setappdata(handles.graphX,'gaitData',x);
+setappdata(handles.graphY,'gaitData',y);
 
-    %Write converted init values to GUI
-    format='%2.2f';
-    dyformat='%2.4f';
-    %Knee
-    set_gui_string(handles.graphQKnee,'phase',handles.keyEventPhaseKnee,'String', format, 1);
-    set_gui_string(handles.graphQKnee,'y',handles.keyEventQKnee,'String', format, 180/pi);
-    set_gui_string(handles.graphQKnee,'dy',handles.keyEventdQKnee,'String', dyformat, 180/pi);
-    %Hip
-    set_gui_string(handles.graphQHip,'phase',handles.keyEventPhaseHip,'String', format, 1);
-    set_gui_string(handles.graphQHip,'y',handles.keyEventQHip,'String', format, 180/pi);
-    set_gui_string(handles.graphQHip,'dy',handles.keyEventdQHip,'String', dyformat, 180/pi);
-    %X
-    set_gui_string(handles.graphX,'phase',handles.keyEventPhaseX,'String', format, 1);
-    set_gui_string(handles.graphX,'y',handles.keyEventX,'String', format, 1);
-    set_gui_string(handles.graphX,'dy',handles.keyEventdYX,'String',dyformat, 1);
-    %Y
-    set_gui_string(handles.graphY,'phase',handles.keyEventPhaseY,'String', format, 1);
-    set_gui_string(handles.graphY,'y',handles.keyEventY,'String', format, 1);
-    set_gui_string(handles.graphY,'dy',handles.keyEventdYY,'String',dyformat, 1);
+%Write converted init values to GUI
+format='%2.2f';
+dyformat='%2.4f';
+%Knee
+set_gui_string(handles.graphQKnee,'phase',handles.keyEventPhaseKnee,'String', format, 1);
+set_gui_string(handles.graphQKnee,'y',handles.keyEventQKnee,'String', format, 180/pi);
+set_gui_string(handles.graphQKnee,'dy',handles.keyEventdQKnee,'String', dyformat, 180/pi);
+%Hip
+set_gui_string(handles.graphQHip,'phase',handles.keyEventPhaseHip,'String', format, 1);
+set_gui_string(handles.graphQHip,'y',handles.keyEventQHip,'String', format, 180/pi);
+set_gui_string(handles.graphQHip,'dy',handles.keyEventdQHip,'String', dyformat, 180/pi);
+%X
+set_gui_string(handles.graphX,'phase',handles.keyEventPhaseX,'String', format, 1);
+set_gui_string(handles.graphX,'y',handles.keyEventX,'String', format, 1);
+set_gui_string(handles.graphX,'dy',handles.keyEventdYX,'String',dyformat, 1);
+%Y
+set_gui_string(handles.graphY,'phase',handles.keyEventPhaseY,'String', format, 1);
+set_gui_string(handles.graphY,'y',handles.keyEventY,'String', format, 1);
+set_gui_string(handles.graphY,'dy',handles.keyEventdYY,'String',dyformat, 1);
 
-    %Set stepTime in GUI
-    set(handles.stepTime,'String',num2str(stepTime));
+%Set stepTime in GUI
+set(handles.stepTime,'String',num2str(stepTime));
 
-    %Set gaitType in GUI
-    contents = cellstr(get(handles.GaitTypeList,'String'));
-    gaitTypeIndex=find(~cellfun(@isempty,strfind(contents,gaitType)));
-    set(handles.GaitTypeList,'Value',gaitTypeIndex);
+%Set gaitType in GUI
+contents = cellstr(get(handles.GaitTypeList,'String'));
+gaitTypeIndex=find(~cellfun(@isempty,strfind(contents,gaitType)));
+set(handles.GaitTypeList,'Value',gaitTypeIndex);
 
-    %Set parameterSelection in GUI
-    if selected==[0,1,1,0]
-        set(handles.SelectionList,'Value',1)
-    elseif selected==[1,1,0,0]
-        set(handles.SelectionList,'Value',2)
-    elseif selected==[0,0,1,1]
-        set(handles.SelectionList,'Value',3)
-    end
+%Set parameterSelection in GUI
+if selected==[0,1,1,0]
+    set(handles.SelectionList,'Value',1)
+elseif selected==[1,1,0,0]
+    set(handles.SelectionList,'Value',2)
+elseif selected==[0,0,1,1]
+    set(handles.SelectionList,'Value',3)
+end
 
-    %Determine selected parameters from selection list in GUI
-    setappdata(handles.SelectionList,'selected',selected);
-    [selected,type1,type2] = param_selection(handles);
+%Determine selected parameters from selection list in GUI
+setappdata(handles.SelectionList,'selected',selected);
+[selected,type1,type2] = param_selection(handles);
 
-    %Draw Graphs at initialization
-    %DrawPoints(hObject, eventdata, handles);
-    init_points(type1, eventdata, handles);
-    init_points(type2, eventdata, handles);
+%Draw Graphs at initialization
+%DrawPoints(hObject, eventdata, handles);
+init_points(type1, eventdata, handles);
+init_points(type2, eventdata, handles);
 
-    %Draw the splines in the GUI
-    compute_splines(handles,selected);
+%Draw the splines in the GUI
+compute_splines(handles,selected);
 
-    % Update handles structure
-    guidata(hObject, handles);
+% Update handles structure
+guidata(hObject, handles);
 
-catch isempty(filename);
+catch isempty(filename)
     return
 end
 
@@ -350,62 +349,57 @@ function SaveKeyEventsButton_Callback(hObject, eventdata, handles)
 % hObject    handle to SaveKeyEventsButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global stepTime gaitType
+
+%Get gait data
+kneemat = get_gait_data(handles,'knee');
+hipmat  = get_gait_data(handles,'hip');
+xmat    = get_gait_data(handles,'x');
+ymat    = get_gait_data(handles,'y');
+
+%tranform from matrix to struct as these are easier to save with save
+%function 
+hip.phase=hipmat(1,:);
+hip.y=hipmat(2,:);
+hip.dy=hipmat(3,:);
+
+knee.phase=kneemat(1,:);
+knee.y=kneemat(2,:);
+knee.dy=kneemat(3,:);
+
+x.phase=xmat(1,:);
+x.y=xmat(2,:);
+x.dy=xmat(3,:);
+
+y.phase=ymat(1,:);
+y.y=ymat(2,:);
+y.dy=ymat(3,:);
+
+%get 'selected' vector
+selected=getappdata(handles.SelectionList,'selected');
+
+%Define filename
+currentDir=pwd;
 
 %find path of location where user wants to save file
 [FileName, PATHNAME] = uiputfile('gait-data/KeyEventData/KeyEventData.mat','Save Key Event data');
 
-try 
-    global stepTime gaitType
+%set pwd to location where user wants to save file
+cd(PATHNAME);
 
-    %Get gait data
-    kneemat = get_gait_data(handles,'knee');
-    hipmat  = get_gait_data(handles,'hip');
-    xmat    = get_gait_data(handles,'x');
-    ymat    = get_gait_data(handles,'y');
+%Save and append structs to .mat file
+save(FileName,'hip');
+save(FileName,'knee','-append');
+save(FileName,'x','-append');
+save(FileName,'y','-append');
+save(FileName,'selected','-append');
+save(FileName,'stepTime','-append');
+save(FileName,'gaitType','-append');
 
-    %tranform from matrix to struct as these are easier to save with save
-    %function 
-    hip.phase=hipmat(1,:);
-    hip.y=hipmat(2,:);
-    hip.dy=hipmat(3,:);
+%change back pwd to dir where this script is located
+cd(currentDir);
+set(handles.keyEventFileName,'String',FileName);
 
-    knee.phase=kneemat(1,:);
-    knee.y=kneemat(2,:);
-    knee.dy=kneemat(3,:);
-
-    x.phase=xmat(1,:);
-    x.y=xmat(2,:);
-    x.dy=xmat(3,:);
-
-    y.phase=ymat(1,:);
-    y.y=ymat(2,:);
-    y.dy=ymat(3,:);
-
-    %get 'selected' vector
-    selected=getappdata(handles.SelectionList,'selected');
-
-    %Define filename
-    currentDir=pwd;
-
-    %set pwd to location where user wants to save file
-    cd(PATHNAME);
-
-    %Save and append structs to .mat file
-    save(FileName,'hip');
-    save(FileName,'knee','-append');
-    save(FileName,'x','-append');
-    save(FileName,'y','-append');
-    save(FileName,'selected','-append');
-    save(FileName,'stepTime','-append');
-    save(FileName,'gaitType','-append');
-
-    %change back pwd to dir where this script is located
-    cd(currentDir);
-    set(handles.keyEventFileName,'String',FileName);
-   
-catch isempty(FileName);
-    return
-end
 
 % --- Executes on button press in AnimationButton.
 function AnimationButton_Callback(hObject, eventdata, handles)
