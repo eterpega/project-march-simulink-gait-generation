@@ -62,7 +62,7 @@ limitPlot2Min=plot(graphHandle2, splineY(:,1), spline2MinLimit,'r');
 limitPlot2Max=plot(graphHandle2, splineY(:,1), spline2MaxLimit,'r');
 drawnow
 
-%Put spline at bottom of stack to the impoints can be dragged.
+%Put spline at bottom of stack so the impoints can be dragged.
 %Not doing so cause the points to be hidden behind the line and making it
 %impossible to drag them
 uistack(hipPlot,'bottom');
