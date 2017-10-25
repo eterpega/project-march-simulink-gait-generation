@@ -599,14 +599,13 @@ str=['These are the vectors you will save to the Model Dictionary.\n',...
 
 questionStr=sprintf(str, warningCount);
 titleStr='Save gait data to Model DataDictionary';
-choice=questdlg(questionStr,titleStr,'Yes','No','Yes');
+choice=questdlg(questionStr,titleStr,'Yes','No','Save to file','Yes');
 
 %close figure with knee and hip angles
 close(fig)
 
 %save data to DataDictionary of simulink model
-switch choice
-    case 'Yes'
+if strcmpi('Yes',choice)
     dictionaryPath=strcat('..',filesep,'simulink-models',filesep,'Library'); %set datadictionary parent directory path
     dictionaryName='ModelDictionary.sldd'; %set datadictionary name
     fullDictionaryPath=[dictionaryPath filesep dictionaryName]; %construct full path name for data dictionary
@@ -642,7 +641,7 @@ switch choice
      end        
                 
      %give error if no selection made (v==0)
-     if v==0git 
+     if v==0
           msgbox('ERROR: No valid gait type selected','Error: Save Gait','error')
        
           
@@ -713,13 +712,24 @@ switch choice
          %get vector name from original KeyEventData.mat file
          vectorName=get(handles.keyEventFileName,'String');
          [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
-         kneeVect=gait.splineKnee(:,2);
-         hipVect=gait.splineHip(:,2);
-         save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'kneeVect');
-         save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'hipVect','-append');
-         
+         if(FileName ~= 0)
+             kneeVect=gait.splineKnee(:,2);
+             hipVect=gait.splineHip(:,2);
+             save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'kneeVect');
+             save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'hipVect','-append');
+         end
         end
-    case choice=='No'
+elseif strcmpi(choice,'No')
+        return;
+elseif strcmpi(choice,'Save to file')
+        vectorName=get(handles.keyEventFileName,'String');
+         [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
+         if(FileName ~= 0)
+             kneeVect=gait.splineKnee(:,2);
+             hipVect=gait.splineHip(:,2);
+             save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'kneeVect');
+             save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'hipVect','-append');
+         end
 end
 
 function stepTime_Callback(hObject, eventdata, handles)
