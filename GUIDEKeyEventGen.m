@@ -593,7 +593,7 @@ title('Hip Angles');
 ylim([rad2deg(angleHipEndStopMinimum) rad2deg(angleHipEndStopMaximum)]);
 
 %Open question box for confirmation
-str=['These are the vectors you will save to the Model Dictionary.\n',...
+str=['These are the vectors you will save to the         Dictionary.\n',...
      'There is/are %i warning(s). \n'...
     ,cell2str(messageWarning)];
 
@@ -722,14 +722,24 @@ if strcmpi('Yes',choice)
 elseif strcmpi(choice,'No')
         return;
 elseif strcmpi(choice,'Save to file')
+        dup_choice=questdlg('How are the 2 legs moving according to each other?','','Mirrored','90 deg phase shift','Mirrored');
         vectorName=get(handles.keyEventFileName,'String');
-         [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
-         if(FileName ~= 0)
-             kneeVect=gait.splineKnee(:,2);
-             hipVect=gait.splineHip(:,2);
-             save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'kneeVect');
-             save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'hipVect','-append');
-         end
+        [FileName, PATHNAME] = uiputfile(vectorName,'Save Gait Vector Manually');
+        if(FileName ~= 0)
+            kneeVectRight=gait.splineKnee(:,2);
+            hipVectRight=gait.splineHip(:,2);
+            if(strcmpi('90 deg phase shift',dup_choice))
+                kneeVectLeft=[kneeVectRight(ceil(length(kneeVectRight)/2):end);kneeVectRight(1:ceil(length(kneeVectRight)/2)-1)];
+                hipVectLeft=[hipVectRight(ceil(length(hipVectRight)/2):end);hipVectRight(1:ceil(length(hipVectRight)/2)-1)];
+            else
+                kneeVectLeft = kneeVectRight;
+                hipVectLeft = hipVectRight;
+            end
+        save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'kneeVectRight');
+        save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'hipVectRight','-append');
+        save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'kneeVectLeft','-append');
+        save([PATHNAME,FileName(1:end-4),'_ManualSave.mat'],'hipVectLeft','-append');
+end
 end
 
 function stepTime_Callback(hObject, eventdata, handles)
